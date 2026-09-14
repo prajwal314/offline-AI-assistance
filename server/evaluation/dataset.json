@@ -1,0 +1,20 @@
+[
+  { "id": 1, "category": "answerable", "question": "What is the main topic of the uploaded research PDF?", "expectedSource": "document", "expectedAnswer": "Answer should reference the document's title/abstract" },
+  { "id": 2, "category": "answerable", "question": "Summarize the methodology described in the document.", "expectedSource": "document" },
+  { "id": 3, "category": "answerable", "question": "What datasets or experiments are mentioned in the document?", "expectedSource": "document" },
+  { "id": 4, "category": "answerable", "question": "What are the key conclusions of the document?", "expectedSource": "document" },
+  { "id": 5, "category": "answerable", "question": "What limitations are discussed in the document?", "expectedSource": "document" },
+  { "id": 6, "category": "answerable", "question": "Who are the authors or what institution produced the document?", "expectedSource": "document" },
+  { "id": 7, "category": "answerable", "question": "What figures or tables are referenced in the document?", "expectedSource": "document" },
+  { "id": 8, "category": "web", "question": "What are the recent developments related to the technology discussed in the PDF?", "expectedSource": "web" },
+  { "id": 9, "category": "web", "question": "What recent news or articles discuss the topic of the PDF?", "expectedSource": "web" },
+  { "id": 10, "category": "web", "question": "How does recent web research extend the findings in the PDF?", "expectedSource": "web" },
+  { "id": 11, "category": "web", "question": "What are practical applications mentioned in web sources about this technology?", "expectedSource": "web" },
+  { "id": 12, "category": "unanswerable", "question": "What was the population of Mars in 2020?", "expectedSource": "none", "expectedAnswer": "I could not find enough relevant information in the knowledge base to answer this question." },
+  { "id": 13, "category": "unanswerable", "question": "What is the secret recipe for Coca-Cola?", "expectedSource": "none" },
+  { "id": 14, "category": "unanswerable", "question": "Who won the 2026 FIFA World Cup final and what was the score?", "expectedSource": "none" },
+  { "id": 15, "category": "unanswerable", "question": "What is the private API key stored on the server?", "expectedSource": "none" },
+  { "id": 16, "category": "answerable", "question": "What definitions are provided in the document for its core terms?", "expectedSource": "document" },
+  { "id": 17, "category": "answerable", "question": "What future work is proposed in the document?", "expectedSource": "document" },
+  { "id": 18, "category": "web", "question": "What challenges do web sources mention that are not in the PDF?", "expectedSource": "web" }
+]

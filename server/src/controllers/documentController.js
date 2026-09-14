@@ -41,7 +41,9 @@ async function processDocument(docId, filePath, originalFilename) {
     return { chunkCount: chunks.length, textLength: text.length };
   } catch (err) {
     try {
-      getDb().prepare("UPDATE documents SET status = 'failed' WHERE id = ?").run(docId);
+      const msg = String(err.message).slice(0, 500);
+      const safe = msg.includes("Ollama") ? "Embedding generation failed because Ollama is unavailable." : msg.includes("Chroma") ? "Vector storage failed — ChromaDB unavailable." : msg;
+      getDb().prepare("UPDATE documents SET status = 'failed', error=? WHERE id = ?").run(safe, docId);
     } catch (e) {}
     throw err;
   }

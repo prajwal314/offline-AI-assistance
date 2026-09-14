@@ -18,7 +18,8 @@ async function status(req, res, next) {
     const docs = db.prepare("SELECT COUNT(*) as c FROM documents").get().c;
     const webTotal = db.prepare("SELECT COUNT(*) as c FROM research_sources").get().c;
     const webCompleted = db.prepare("SELECT COUNT(*) as c FROM research_sources WHERE status='completed'").get().c;
-    res.json({ success: true, status: s.status, currentStep: s.current_step, totalSources: s.total_sources, processedSources: s.processed_sources, failedSources: s.failed_sources, chunksCreated: s.chunks_created, documents: docs, webSources: webCompleted, webTotal, totalChunks, updatedAt: s.updated_at });
+    const sources = db.prepare("SELECT id,title,topic,url,status,chunk_count,error FROM research_sources ORDER BY added_at DESC LIMIT 50").all();
+    res.json({ success: true, status: s.status, currentStep: s.current_step, totalSources: s.total_sources, processedSources: s.processed_sources, failedSources: s.failed_sources, chunksCreated: s.chunks_created, documents: docs, webSources: webCompleted, webTotal, totalChunks, updatedAt: s.updated_at, sources });
   } catch (e) { next(e); }
 }
 

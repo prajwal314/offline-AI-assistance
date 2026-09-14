@@ -31,12 +31,15 @@ async function addChunks(chunks) {
   });
 }
 
-async function search(queryEmbedding, topK = 5) {
+async function search(queryEmbedding, topK = 5, where = null) {
+  const k = Math.min(20, Math.max(1, parseInt(topK, 10) || 5));
   const col = await getCollection();
-  const result = await col.query({
+  const q = {
     queryEmbeddings: [queryEmbedding],
-    nResults: topK,
-  });
+    nResults: k,
+  };
+  if (where && typeof where === "object" && Object.keys(where).length > 0) q.where = where;
+  const result = await col.query(q);
   const ids = result.ids[0] || [];
   const documents = result.documents[0] || [];
   const metadatas = result.metadatas[0] || [];

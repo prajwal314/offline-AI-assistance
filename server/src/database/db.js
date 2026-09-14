@@ -14,7 +14,8 @@ db.exec(`
     file_size INTEGER NOT NULL,
     uploaded_at TEXT NOT NULL,
     extracted_text TEXT,
-    status TEXT NOT NULL DEFAULT 'uploaded' CHECK(status IN ('uploaded','processing','ready','failed'))
+    status TEXT NOT NULL DEFAULT 'uploaded' CHECK(status IN ('uploaded','processing','ready','failed')),
+    error TEXT
   );
   CREATE TABLE IF NOT EXISTS chat_history (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
