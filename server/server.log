@@ -1,0 +1,23 @@
+
+> server@0.1.0 dev
+> nodemon src/server.js
+
+[33m[nodemon] 3.1.14[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching path(s): *.*[39m
+[33m[nodemon] watching extensions: js,mjs,cjs,json[39m
+[32m[nodemon] starting `node src/server.js`[39m
+Server running on http://localhost:5000
+TypeError: fetch failed
+    at node:internal/deps/undici/undici:16416:13
+    at async generateAnswer (E:\Project\final tear\server\src\services\llmService.js:17:15)
+    at async chat (E:\Project\final tear\server\src\controllers\chatController.js:13:20) {
+  [cause]: HeadersTimeoutError: Headers Timeout Error
+      at FastTimer.onParserTimeout [as _onTimeout] (node:internal/deps/undici/undici:7505:32)
+      at Timeout.onTick [as _onTimeout] (node:internal/deps/undici/undici:689:17)
+      at listOnTimeout (node:internal/timers:605:17)
+      at process.processTimers (node:internal/timers:541:7) {
+    code: 'UND_ERR_HEADERS_TIMEOUT'
+  }
+}
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m
