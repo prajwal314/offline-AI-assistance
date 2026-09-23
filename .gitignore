@@ -12,3 +12,4 @@ build/
 .vscode/
 coverage/
 server/nul
+docs

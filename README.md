@@ -29,6 +29,8 @@ curl http://localhost:11434/api/tags
 chroma run --path ./server/chroma_data --port 8000
 # Windows binary example: C:/Users/diwna/AppData/Roaming/Python/Python313/Scripts/chroma.exe run --path ./server/chroma_data --port 8000
 curl http://localhost:8000/api/v1/heartbeat
+# run chroma locally
+chroma run --host localhost --port 8000 --path "E:\Project\final tear\chroma_data"
 ```
 
 ## 4) Env (optional)

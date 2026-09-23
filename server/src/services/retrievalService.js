@@ -26,11 +26,14 @@ function normalizeThreshold(value) {
 
 function buildWhere(filter) {
   if (!filter || typeof filter !== "object") return null;
-  const where = {};
-  if (filter.sourceType === "document" || filter.sourceType === "web") where.sourceType = filter.sourceType;
-  if (filter.documentId) where.documentId = String(filter.documentId);
-  if (filter.topic) where.topic = String(filter.topic);
-  return Object.keys(where).length > 0 ? where : null;
+  const conditions = [];
+  if (filter.sourceType === "document" || filter.sourceType === "web") {
+    conditions.push({ sourceType: { $eq: filter.sourceType } });
+  }
+  if (filter.documentId) conditions.push({ documentId: { $eq: String(filter.documentId) } });
+  if (filter.topic) conditions.push({ topic: { $eq: String(filter.topic) } });
+  if (conditions.length === 0) return null;
+  return conditions.length === 1 ? conditions[0] : { $and: conditions };
 }
 
 async function searchKnowledgeBase(query, topK = DEFAULT_TOP_K, opts = {}) {

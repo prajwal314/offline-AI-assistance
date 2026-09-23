@@ -19,7 +19,12 @@ function setStatus(fields) {
 async function buildKnowledgeBase() {
   const db = getDb();
   const curStatus = db.prepare("SELECT status FROM kb_build_status WHERE id=1").get();
-  if (curStatus.status === "processing") throw new Error("Build already in progress");
+  if (curStatus.status === "processing") {
+    const updatedAt = db.prepare("SELECT updated_at FROM kb_build_status WHERE id=1").get().updated_at;
+    const stale = !updatedAt || Date.now() - Date.parse(updatedAt) > 10 * 60 * 1000;
+    if (!stale) throw new Error("Build already in progress");
+    setStatus({ status: "failed", current_step: "Previous build timed out" });
+  }
   setStatus({ status: "processing", current_step: "Starting", total_sources: 0, processed_sources: 0, failed_sources: 0, chunks_created: 0 });
 
   (async () => {
@@ -74,8 +79,17 @@ async function buildKnowledgeBase() {
           setStatus({ current_step: `Chunking: ${src.title.slice(0,30)}` });
           const chunks = chunkText(cleaned);
           if (chunks.length === 0) throw new Error("No chunks");
-          setStatus({ current_step: `Embedding: ${src.title.slice(0,30)}` });
-          const embeddings = await generateEmbeddings(chunks);
+          const embeddings = [];
+          const embeddingBatchSize = 8;
+          for (let i = 0; i < chunks.length; i += embeddingBatchSize) {
+            const batch = chunks.slice(i, i + embeddingBatchSize);
+            setStatus({ current_step: `Embedding: ${src.title.slice(0,30)} (${Math.min(i + batch.length, chunks.length)}/${chunks.length})` });
+            const batchEmbeddings = await generateEmbeddings(batch);
+            if (batchEmbeddings.length !== batch.length) {
+              throw new Error(`Embedding count mismatch: expected ${batch.length}, received ${batchEmbeddings.length}`);
+            }
+            embeddings.push(...batchEmbeddings);
+          }
           const chromaChunks = chunks.map((text, i) => ({
             id: `web_${src.id}_${i}`,
             text,

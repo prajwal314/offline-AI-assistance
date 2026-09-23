@@ -47,6 +47,11 @@ db.exec(`
   INSERT OR IGNORE INTO kb_build_status (id,status,current_step,updated_at) VALUES (1,'idle','idle',datetime('now'));
 `);
 
+const documentColumns = db.prepare("PRAGMA table_info(documents)").all();
+if (!documentColumns.some((column) => column.name === "error")) {
+  db.exec("ALTER TABLE documents ADD COLUMN error TEXT");
+}
+
 function getDb() {
   return db;
 }

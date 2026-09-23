@@ -12,7 +12,7 @@ const SYSTEM_PROMPT = `You are a RAG assistant. Follow these rules strictly:
 
 function formatContext(chunks) {
   if (!chunks || chunks.length === 0) return "";
-  return chunks.map((c) => {
+  return chunks.map((c) => { 
     const m = c.metadata || {};
     if (m.sourceType === "web") {
       return `[WEB]\nTitle: ${m.title || "Web"}\nURL: ${m.url || ""}\nTopic: ${m.topic || ""}\nContent:\n${c.text}`;
