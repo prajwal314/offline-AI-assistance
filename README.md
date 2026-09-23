@@ -26,11 +26,9 @@ curl http://localhost:11434/api/tags
 
 ## 3) Chroma — run vector DB
 ```bash
-chroma run --path ./server/chroma_data --port 8000
-# Windows binary example: C:/Users/diwna/AppData/Roaming/Python/Python313/Scripts/chroma.exe run --path ./server/chroma_data --port 8000
-curl http://localhost:8000/api/v1/heartbeat
-# run chroma locally
-chroma run --host localhost --port 8000 --path "E:\Project\final tear\chroma_data"
+chroma run --path ./chroma_data --port 8000
+# Windows binary example: C:/Users/diwna/AppData/Roaming/Python/Python313/Scripts/chroma.exe run --path "E:\Project\final tear\chroma_data" --port 8000
+curl http://localhost:8000/api/v2/heartbeat
 ```
 
 ## 4) Env (optional)
@@ -46,16 +44,18 @@ CHROMA_COLLECTION=knowledge_base
 
 ## 5) Run
 ```bash
-npm --prefix server run dev   # http://localhost:5000  health: /api/health
+npm --prefix server run dev   # http://localhost:5000  health: /api/health/all
 npm --prefix client run dev   # http://localhost:5173
 # build: npm --prefix client run build
 ```
 
 Start order: Ollama (11434) → Chroma (8000) → Server (5000) → Client (5173).
 
-## 6) Verify (7 tests)
+## 6) Verify
 ```bash
-curl http://localhost:5000/api/health
+curl http://localhost:5000/api/health/all
+curl http://localhost:5000/api/health/chromadb
+curl http://localhost:5000/api/health/ollama
 curl http://localhost:5000/api/documents
 curl http://localhost:5000/api/chat/stats
 # upload
@@ -71,9 +71,11 @@ curl -X DELETE http://localhost:5000/api/documents/1
 - `POST /api/documents/upload` PDF 20MB max → extract→chunk 600/100→embed→Chroma→status ready/failed
 - `GET /api/documents` , `GET /api/documents/:id` , `DELETE /api/documents/:id` (deletes SQLite+file+Chroma)
 - `POST /api/chat` `{"question","topK":5}` → `{answer,sources}` + saves chat_history
-- `GET /api/chat/history` `GET /api/chat/stats` `GET /api/health`
+- `GET /api/chat/history` , `GET /api/chat/stats`
+- `POST /api/knowledge-base/build` , `GET /api/knowledge-base/status`
+- `GET /api/health/all` , `GET /api/health/chromadb` , `GET /api/health/ollama`
 
 ## Notes
 - better-sqlite3 must be >=13 for Node24.
 - No LangChain/Docker/Pinecone; Chroma server is only Python exception; keep offline.
-- Data: `server/data.db` (documents + chat_history), `server/chroma_data/`, `server/uploads/`.
+- Data: `server/data.db` (documents + chat_history), `chroma_data/`, `server/uploads/`.
