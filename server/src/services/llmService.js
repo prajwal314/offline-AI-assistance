@@ -43,4 +43,44 @@ async function generateAnswer(question, contextChunks) {
   return (data.response || "").trim();
 }
 
-module.exports = { generateAnswer, LLM_MODEL, OLLAMA_URL, buildPrompt, formatContext, SYSTEM_PROMPT };
+async function streamAnswer(question, contextChunks, onToken) {
+  const prompt = buildPrompt(contextChunks, question);
+  if (!prompt) return "";
+  const res = await fetch(`${OLLAMA_URL}/api/generate`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ model: LLM_MODEL, prompt, stream: true, think: false }),
+  });
+  if (!res.ok) {
+    const errText = await res.text();
+    throw new Error(`Ollama generate failed: ${res.status} ${errText}`);
+  }
+  if (!res.body) throw new Error("Ollama returned no response stream");
+
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+  let answer = "";
+
+  function processLine(line) {
+    if (!line.trim()) return;
+    const data = JSON.parse(line);
+    if (data.response) {
+      answer += data.response;
+      onToken(data.response);
+    }
+  }
+
+  while (true) {
+    const { value, done } = await reader.read();
+    buffer += decoder.decode(value || new Uint8Array(), { stream: !done });
+    const lines = buffer.split("\n");
+    buffer = lines.pop() || "";
+    for (const line of lines) processLine(line);
+    if (done) break;
+  }
+  processLine(buffer);
+  return answer.trim();
+}
+
+module.exports = { generateAnswer, streamAnswer, LLM_MODEL, OLLAMA_URL, buildPrompt, formatContext, SYSTEM_PROMPT };

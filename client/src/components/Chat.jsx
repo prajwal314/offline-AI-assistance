@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { sendChat, getHistory, listDocuments } from "../services/api";
+import { streamChat, getHistory, listDocuments } from "../services/api";
 
 export default function Chat() {
   const [question, setQuestion] = useState("");
@@ -30,15 +30,29 @@ export default function Chat() {
       if (sourceType !== "all") filter.sourceType = sourceType;
       if (documentId) filter.documentId = documentId;
       const thr = threshold === "" ? null : parseFloat(threshold);
-      const data = await sendChat(q, topK, { threshold: thr, filter });
-      if (data.success) { setAnswer(data.answer); setSources(data.sources || []); loadHistory(); }
-      else setErr(data.message || "Error");
+      await streamChat(q, topK, { threshold: thr, filter }, (event) => {
+        if (event.type === "meta") {
+          setSources(event.sources || []);
+          return;
+        }
+        if (event.type === "token") {
+          setAnswer((current) => (current || "") + event.token);
+          return;
+        }
+        if (event.type === "done") {
+          setAnswer(event.answer || "");
+          setSources(event.sources || []);
+          loadHistory();
+          return;
+        }
+        if (event.type === "error") setErr(event.message || "Error generating answer");
+      });
     } catch (ex) { setErr(ex.message); }
     setLoading(false);
   }
 
   return (
-    <section className="bg-white border border-gray-200 rounded-xl shadow-card overflow-hidden">
+    <section className="overflow-hidden bg-white border border-gray-200 rounded-xl shadow-card">
       <div className="px-5 pt-5 pb-3 border-b border-gray-100">
         <h2 className="text-sm font-semibold text-gray-900">AI Knowledge Assistant</h2>
         <p className="text-xs text-gray-500">Ask questions about your documents and researched knowledge — RAG answers with sources</p>
@@ -47,7 +61,7 @@ export default function Chat() {
       <div className="p-5 space-y-4">
         <form onSubmit={handleSend} className="space-y-3">
           <div className="flex gap-2">
-            <div className="flex-1 relative">
+            <div className="relative flex-1">
               <input
                 value={question}
                 onChange={(e) => setQuestion(e.target.value)}
@@ -56,12 +70,12 @@ export default function Chat() {
                 className="w-full border border-gray-300 rounded-xl pl-3.5 pr-3 py-2.5 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-white"
               />
             </div>
-            <button type="submit" disabled={loading || !question.trim()} className="shrink-0 w-11 h-11 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed text-white flex items-center justify-center transition shadow-sm">
+            <button type="submit" disabled={loading || !question.trim()} className="flex items-center justify-center text-white transition bg-indigo-600 shadow-sm shrink-0 w-11 h-11 rounded-xl hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed">
               <span className="text-base leading-none">↑</span>
             </button>
           </div>
 
-          <div className="rounded-xl border border-gray-200 bg-gray-50/60 p-3">
+          <div className="p-3 border border-gray-200 rounded-xl bg-gray-50/60">
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-semibold text-gray-700">Retrieval Settings</span>
               <span className="text-[11px] text-gray-500 hidden sm:inline">Controls how much context is retrieved before generating an answer</span>
@@ -100,33 +114,33 @@ export default function Chat() {
         {err && <div className="rounded-xl border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-700 flex items-start gap-2"><span className="mt-0.5">⚠</span><span>{err}</span></div>}
 
         {!answer && !loading && !err && (
-          <div className="rounded-xl border border-dashed border-gray-200 bg-gray-50/50 py-10 px-6 text-center">
-            <div className="w-10 h-10 mx-auto rounded-full bg-white border border-gray-200 flex items-center justify-center text-indigo-600">✦</div>
+          <div className="px-6 py-10 text-center border border-gray-200 border-dashed rounded-xl bg-gray-50/50">
+            <div className="flex items-center justify-center w-10 h-10 mx-auto text-indigo-600 bg-white border border-gray-200 rounded-full">✦</div>
             <div className="mt-3 text-sm font-semibold text-gray-900">Ask your knowledge base</div>
-            <div className="text-xs text-gray-500 mt-1 max-w-md mx-auto">Ask questions about your uploaded PDFs or researched web knowledge. Answers are generated offline via RAG — sources are cited below.</div>
+            <div className="max-w-md mx-auto mt-1 text-xs text-gray-500">Ask questions about your uploaded PDFs or researched web knowledge. Answers are generated offline via RAG — sources are cited below.</div>
             <div className="mt-3 inline-flex px-3 py-1.5 rounded-full bg-white border border-gray-200 text-xs text-gray-600">“What are the main points in this document?”</div>
           </div>
         )}
 
-        {loading && <div className="rounded-xl border border-indigo-100 bg-indigo-50 px-4 py-3 text-sm text-indigo-700 flex items-center gap-2"><span className="w-4 h-4 border-2 border-indigo-200 border-t-indigo-600 rounded-full animate-spin shrink-0" />Retrieving context and generating answer…</div>}
+        {loading && <div className="flex items-center gap-2 px-4 py-3 text-sm text-indigo-700 border border-indigo-100 rounded-xl bg-indigo-50"><span className="w-4 h-4 border-2 border-indigo-200 rounded-full border-t-indigo-600 animate-spin shrink-0" />Retrieving context and generating answer…</div>}
 
         {answer && (
           <div className="space-y-3">
             <div className="flex justify-end">
               <div className="max-w-[85%] bg-indigo-600 text-white rounded-2xl rounded-br-md px-4 py-2.5 text-sm shadow-sm">{asked}</div>
             </div>
-            <div className="rounded-xl border border-gray-200 bg-gray-50 px-4 py-4">
-              <div className="flex items-center gap-2 text-xs font-semibold text-gray-700"><span className="w-6 h-6 rounded-full bg-white border border-gray-200 flex items-center justify-center text-indigo-600">✦</span> Assistant</div>
+            <div className="px-4 py-4 border border-gray-200 rounded-xl bg-gray-50">
+              <div className="flex items-center gap-2 text-xs font-semibold text-gray-700"><span className="flex items-center justify-center w-6 h-6 text-indigo-600 bg-white border border-gray-200 rounded-full">✦</span> Assistant</div>
               <div className="mt-2 text-sm leading-relaxed text-gray-800 whitespace-pre-wrap">{answer}</div>
               {sources.length > 0 ? (
-                <div className="mt-4 pt-3 border-t border-gray-200">
-                  <div className="text-xs font-semibold text-gray-700 mb-2">Sources ({sources.length})</div>
-                  <ul className="grid sm:grid-cols-2 gap-2">
+                <div className="pt-3 mt-4 border-t border-gray-200">
+                  <div className="mb-2 text-xs font-semibold text-gray-700">Sources ({sources.length})</div>
+                  <ul className="grid gap-2 sm:grid-cols-2">
                     {sources.map((s, i) => (
                       <li key={s.id || i} className="bg-white border border-gray-200 rounded-xl px-3 py-2.5">
                         <div className="flex items-start gap-2">
                           <span className={`w-6 h-6 rounded-lg flex items-center justify-center text-[11px] shrink-0 border ${s.type === "web" ? "bg-amber-50 border-amber-200" : "bg-indigo-50 border-indigo-200"}`}>{s.type === "web" ? "🌐" : "📄"}</span>
-                          <div className="min-w-0 flex-1">
+                          <div className="flex-1 min-w-0">
                             <div className="text-xs font-medium text-gray-900 truncate">{s.type === "web" ? s.title : s.filename}</div>
                             <div className="text-[11px] text-gray-500 truncate">{s.type === "web" ? (s.url || "").slice(0, 48) : `Page ${s.page ?? "?"} · chunk ${s.chunkIndex ?? "?"}`}</div>
                           </div>
@@ -141,13 +155,13 @@ export default function Chat() {
           </div>
         )}
 
-        <div className="border-t border-gray-100 pt-4">
+        <div className="pt-4 border-t border-gray-100">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-semibold text-gray-700">Recent Questions</span>
             <span className="text-[11px] text-gray-500">{history.length} total</span>
           </div>
           {history.length === 0 ? (
-            <div className="text-xs text-gray-400 py-2">No questions yet — your chat history will appear here.</div>
+            <div className="py-2 text-xs text-gray-400">No questions yet — your chat history will appear here.</div>
           ) : (
             <ul className="divide-y divide-gray-100 border border-gray-200 rounded-xl overflow-hidden max-h-[280px] overflow-auto bg-white">
               {history.map((h) => (

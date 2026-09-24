@@ -1,6 +1,6 @@
 const { getDb } = require("../database/db");
 const { searchKnowledgeBase, normalizeTopK, normalizeThreshold } = require("../services/retrievalService");
-const { generateAnswer } = require("../services/llmService");
+const { streamAnswer } = require("../services/llmService");
 
 const INSUFFICIENT_MSG = "I could not find enough relevant information in the knowledge base to answer this question.";
 
@@ -30,33 +30,45 @@ async function chat(req, res, next) {
 
     const { results, filteredCount, where, topK: effectiveK } = await searchKnowledgeBase(question, k, { threshold: thr, filter: parsedFilter });
 
+    res.status(200);
+    res.setHeader("Content-Type", "application/x-ndjson; charset=utf-8");
+    res.setHeader("Cache-Control", "no-cache");
+    res.setHeader("Connection", "keep-alive");
+    res.flushHeaders();
+
+    const sendEvent = (event) => res.write(`${JSON.stringify(event)}\n`);
+
     if (results.length === 0) {
       const db = getDb();
       db.prepare("INSERT INTO chat_history (question, answer, sources, created_at) VALUES (?,?,?,?)").run(question, INSUFFICIENT_MSG, JSON.stringify([]), new Date().toISOString());
-      return res.json({ success: true, answer: INSUFFICIENT_MSG, sources: [], topK: effectiveK, threshold: thr, where, filteredCount, insufficient: true });
+      sendEvent({ type: "done", success: true, answer: INSUFFICIENT_MSG, sources: [], topK: effectiveK, threshold: thr, where, filteredCount, insufficient: true });
+      return res.end();
     }
 
-    let answer;
+    const sources = formatSourcesForApi(results);
+    sendEvent({ type: "meta", sources, topK: effectiveK, threshold: thr, where, filteredCount });
+
+    let answer = "";
     try {
-      answer = await generateAnswer(question, results);
+      answer = await streamAnswer(question, results, (token) => sendEvent({ type: "token", token }));
     } catch (e) {
-      if (String(e.message).includes("Ollama")) return res.status(502).json({ success: false, message: "Ollama unavailable: " + e.message });
+      if (String(e.message).includes("Ollama")) {
+        sendEvent({ type: "error", success: false, message: "Ollama unavailable: " + e.message });
+        return res.end();
+      }
       throw e;
     }
     if (!answer) answer = INSUFFICIENT_MSG;
 
     const db = getDb();
     db.prepare("INSERT INTO chat_history (question, answer, sources, created_at) VALUES (?,?,?,?)").run(question, answer, JSON.stringify(results), new Date().toISOString());
-
-    const sources = formatSourcesForApi(results);
-    const displaySources = results.map((s) => {
-      const m = s.metadata || {};
-      if (m.sourceType === "web") return { ...s, display: `🌐 ${m.title || "Web"} — ${m.url}`, kind: "web" };
-      return { ...s, display: `📄 ${m.filename || "document"} — Page ${m.pageNumber ?? "?" } chunk ${m.chunkIndex ?? ""}`, kind: "document" };
-    });
-    res.json({ success: true, answer, sources, displaySources, topK: effectiveK, threshold: thr, where, filteredCount });
+    sendEvent({ type: "done", success: true, answer, sources, topK: effectiveK, threshold: thr, where, filteredCount });
+    res.end();
   } catch (err) {
-    next(err);
+    if (res.headersSent) {
+      res.write(`${JSON.stringify({ type: "error", success: false, message: err.message })}\n`);
+      res.end();
+    } else next(err);
   }
 }
 
