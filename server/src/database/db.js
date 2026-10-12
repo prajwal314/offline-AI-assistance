@@ -24,6 +24,12 @@ db.exec(`
     sources TEXT,
     created_at TEXT NOT NULL
   );
+  CREATE TABLE IF NOT EXISTS chat_sessions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL DEFAULT 'New chat',
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+  );
   CREATE TABLE IF NOT EXISTS research_sources (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     url TEXT NOT NULL UNIQUE,
@@ -51,6 +57,49 @@ const documentColumns = db.prepare("PRAGMA table_info(documents)").all();
 if (!documentColumns.some((column) => column.name === "error")) {
   db.exec("ALTER TABLE documents ADD COLUMN error TEXT");
 }
+
+// --- Chat sessions migration ---
+const historyColumns = db.prepare("PRAGMA table_info(chat_history)").all();
+if (!historyColumns.some((c) => c.name === "session_id")) {
+  db.exec("ALTER TABLE chat_history ADD COLUMN session_id INTEGER REFERENCES chat_sessions(id) ON DELETE CASCADE");
+}
+if (!db.prepare("PRAGMA table_info(chat_history)").all().some((c) => c.name === "thinking")) {
+  db.exec("ALTER TABLE chat_history ADD COLUMN thinking TEXT");
+}
+try { db.exec("CREATE INDEX IF NOT EXISTS idx_chat_history_session ON chat_history(session_id, id)"); } catch {}
+try { db.exec("CREATE INDEX IF NOT EXISTS idx_chat_sessions_updated ON chat_sessions(updated_at DESC)"); } catch {}
+
+// Backfill: existing messages without a session go into per-day legacy sessions
+// (or a single "Previous chats" session) so old history is not lost.
+try {
+  const orphanCount = db.prepare("SELECT COUNT(*) as c FROM chat_history WHERE session_id IS NULL").get().c;
+  if (orphanCount > 0) {
+    const now = new Date().toISOString();
+    const insertSession = db.prepare("INSERT INTO chat_sessions (title, created_at, updated_at) VALUES (?,?,?)");
+    const createdIds = [];
+    // Group orphans by date so they stay browsable
+    const days = db.prepare("SELECT substr(created_at,1,10) as day, MIN(created_at) as min_t, MAX(created_at) as max_t FROM chat_history WHERE session_id IS NULL GROUP BY day ORDER BY day ASC").all();
+    if (days.length <= 1) {
+      const info = insertSession.run("Previous chats", now, now);
+      createdIds.push(info.lastInsertRowid);
+      db.prepare("UPDATE chat_history SET session_id = ? WHERE session_id IS NULL").run(info.lastInsertRowid);
+    } else {
+      for (const d of days) {
+        const info = insertSession.run(`Previous chats · ${d.day}`, d.min_t || now, d.max_t || now);
+        createdIds.push(info.lastInsertRowid);
+        db.prepare("UPDATE chat_history SET session_id = ? WHERE session_id IS NULL AND substr(created_at,1,10) = ?").run(info.lastInsertRowid, d.day);
+      }
+    }
+    // Auto-title the newly created legacy sessions from their first question
+    for (const sid of createdIds) {
+      const first = db.prepare("SELECT question FROM chat_history WHERE session_id = ? ORDER BY id ASC LIMIT 1").get(sid);
+      if (first && first.question) {
+        const title = String(first.question).trim().slice(0, 60) || "Previous chats";
+        db.prepare("UPDATE chat_sessions SET title = ? WHERE id = ?").run(title, sid);
+      }
+    }
+  }
+} catch (e) { console.error("chat sessions backfill failed:", e.message); }
 
 function getDb() {
   return db;

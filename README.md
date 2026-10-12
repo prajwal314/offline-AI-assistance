@@ -223,3 +223,8 @@ ollama list
 - The app is intentionally local-first and privacy-minded.
 - Web research is optional and should not block the primary offline Q&A experience.
 - The project is designed to work without a cloud AI service or external database.
+
+
+
+
+chroma run --path "E:\Project\final tear\chroma_data" --port 8000
