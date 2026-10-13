@@ -32,6 +32,9 @@ function buildWhere(filter) {
   }
   if (filter.documentId) conditions.push({ documentId: { $eq: String(filter.documentId) } });
   if (filter.topic) conditions.push({ topic: { $eq: String(filter.topic) } });
+  if (filter.sessionId !== null && filter.sessionId !== undefined && filter.sessionId !== "") {
+    conditions.push({ sessionId: { $eq: String(filter.sessionId) } });
+  }
   if (conditions.length === 0) return null;
   return conditions.length === 1 ? conditions[0] : { $and: conditions };
 }

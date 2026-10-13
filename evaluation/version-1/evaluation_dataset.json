@@ -1,0 +1,275 @@
+{
+  "dataset_status": "frozen provisional ground truth; pages refer to PDF pages",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "What is the main purpose of the NIST AI Risk Management Framework?",
+      "label": "answerable",
+      "reference_answer": "It helps organizations manage AI risks and promote trustworthy, responsible AI development and use.",
+      "supporting_passage": "the goal of the AI RMF is to offer a resource ... to help manage the many risks of AI and promote trustworthy and responsible development and use",
+      "pdf_page": 6,
+      "printed_page": 2
+    },
+    {
+      "id": "Q02",
+      "question": "What are the four core functions of the AI RMF?",
+      "label": "answerable",
+      "reference_answer": "Govern, Map, Measure, and Manage.",
+      "supporting_passage": "These functions - GOVERN, MAP, MEASURE, and MANAGE - are broken down further into categories and subcategories.",
+      "pdf_page": 7,
+      "printed_page": 3
+    },
+    {
+      "id": "Q03",
+      "question": "What is the purpose of the Govern function?",
+      "label": "answerable",
+      "reference_answer": "Govern cultivates a culture of risk management and establishes policies, processes, responsibilities, and oversight across the AI lifecycle.",
+      "supporting_passage": "GOVERN is designed to be a cross-cutting function to inform and be infused throughout the other three functions.",
+      "pdf_page": 25,
+      "printed_page": 21
+    },
+    {
+      "id": "Q04",
+      "question": "What is the purpose of the Map function?",
+      "label": "answerable",
+      "reference_answer": "Map establishes AI-system context and identifies intended use, stakeholders, impacts, and risks.",
+      "supporting_passage": "The MAP function establishes the context to frame risks related to an AI system.",
+      "pdf_page": 28,
+      "printed_page": 24
+    },
+    {
+      "id": "Q05",
+      "question": "What is the purpose of the Measure function?",
+      "label": "answerable",
+      "reference_answer": "Measure assesses, analyzes, benchmarks, and monitors AI risks and impacts using appropriate methods.",
+      "supporting_passage": "The MEASURE function employs quantitative, qualitative, or mixed-method tools, techniques, and methodologies.",
+      "pdf_page": 32,
+      "printed_page": 28
+    },
+    {
+      "id": "Q06",
+      "question": "What is the purpose of the Manage function?",
+      "label": "answerable",
+      "reference_answer": "Manage prioritizes risks and takes actions to respond to, mitigate, or manage them.",
+      "supporting_passage": "The MANAGE function entails allocating resources to the risks mapped and measured and regularly prioritizing them.",
+      "pdf_page": 35,
+      "printed_page": 31
+    },
+    {
+      "id": "Q07",
+      "question": "Is the NIST AI RMF mandatory for every organization?",
+      "label": "answerable",
+      "reference_answer": "No. It is voluntary.",
+      "supporting_passage": "The Framework is intended to be voluntary, rights-preserving, non-sector-specific, and use-case agnostic.",
+      "pdf_page": 6,
+      "printed_page": 2
+    },
+    {
+      "id": "Q08",
+      "question": "Is the AI RMF designed for only one industry?",
+      "label": "answerable",
+      "reference_answer": "No. It is non-sector-specific and adaptable across sectors and contexts.",
+      "supporting_passage": "The Framework is intended to be ... non-sector-specific, and use-case agnostic.",
+      "pdf_page": 6,
+      "printed_page": 2
+    },
+    {
+      "id": "Q09",
+      "question": "When was AI RMF 1.0 published?",
+      "label": "answerable",
+      "reference_answer": "January 2023.",
+      "supporting_passage": "January 2023",
+      "pdf_page": 2,
+      "printed_page": null
+    },
+    {
+      "id": "Q10",
+      "question": "Who is credited as the author of the AI RMF 1.0 publication?",
+      "label": "answerable",
+      "reference_answer": "Elham Tabassi.",
+      "supporting_passage": "Elham Tabassi",
+      "pdf_page": 1,
+      "printed_page": null
+    },
+    {
+      "id": "Q11",
+      "question": "What does the framework mean by trustworthy AI characteristics?",
+      "label": "answerable",
+      "reference_answer": "They are characteristics used to describe and assess AI-system trustworthiness.",
+      "supporting_passage": "characteristics of trustworthy AI systems include valid and reliable, safe, secure and resilient ...",
+      "pdf_page": 7,
+      "printed_page": 3
+    },
+    {
+      "id": "Q12",
+      "question": "Name the trustworthy AI characteristics discussed in the framework.",
+      "label": "answerable",
+      "reference_answer": "Valid and reliable; safe; secure and resilient; accountable and transparent; explainable and interpretable; privacy-enhanced; and fair with harmful bias managed.",
+      "supporting_passage": "valid and reliable, safe, secure and resilient, accountable and transparent, explainable and interpretable, privacy enhanced, and fair with harmful biases managed",
+      "pdf_page": 7,
+      "printed_page": 3
+    },
+    {
+      "id": "Q13",
+      "question": "Does AI risk management apply only before deployment?",
+      "label": "answerable",
+      "reference_answer": "No. It applies throughout the AI lifecycle, including development, deployment, operation, and monitoring.",
+      "supporting_passage": "Test, Evaluation, Verification, and Validation tasks are performed throughout the AI lifecycle.",
+      "pdf_page": 40,
+      "printed_page": 36
+    },
+    {
+      "id": "Q14",
+      "question": "What types of methods can be used to measure AI risks?",
+      "label": "answerable",
+      "reference_answer": "Quantitative, qualitative, and mixed methods.",
+      "supporting_passage": "The MEASURE function employs quantitative, qualitative, or mixed-method tools, techniques, and methodologies.",
+      "pdf_page": 32,
+      "printed_page": 28
+    },
+    {
+      "id": "Q15",
+      "question": "Why is testing important when assessing AI systems?",
+      "label": "answerable",
+      "reference_answer": "Testing, evaluation, verification, and validation assess system performance and trustworthiness throughout the lifecycle.",
+      "supporting_passage": "TEVV tasks ... examine the AI system or its components, or detect and remediate problems.",
+      "pdf_page": 40,
+      "printed_page": 36
+    },
+    {
+      "id": "Q16",
+      "question": "Why should AI risk measurement methods, metrics, and results be documented?",
+      "label": "answerable",
+      "reference_answer": "Documentation supports transparency, accountability, communication, and review of risk assessments and decisions.",
+      "supporting_passage": "Documentation of measurement methods, results, and related decisions supports transparency and accountability.",
+      "pdf_page": 32,
+      "printed_page": 28
+    },
+    {
+      "id": "Q17",
+      "question": "Is Govern relevant only at the beginning of the AI lifecycle?",
+      "label": "answerable",
+      "reference_answer": "No. Govern is cross-cutting and informs the other functions throughout AI risk management.",
+      "supporting_passage": "GOVERN applies to all stages of organizations\u2019 AI risk management processes and procedures.",
+      "pdf_page": 7,
+      "printed_page": 3
+    },
+    {
+      "id": "Q18",
+      "question": "Why can involving different perspectives improve AI risk identification?",
+      "label": "answerable",
+      "reference_answer": "Diverse stakeholders can identify assumptions, impacts, risks, and affected groups that a narrow team may miss.",
+      "supporting_passage": "The GOVERN and MAP functions describe the importance of interdisciplinarity and demographically diverse teams.",
+      "pdf_page": 45,
+      "printed_page": 41
+    },
+    {
+      "id": "Q19",
+      "question": "What actions can an organization take when an identified AI risk is unacceptable?",
+      "label": "answerable",
+      "reference_answer": "It can prioritize and mitigate the risk, reassess or change the system or its use, or decide not to deploy or continue use.",
+      "supporting_passage": "MANAGE function activities include responding to, recovering from, and communicating about incidents and errors.",
+      "pdf_page": 35,
+      "printed_page": 31
+    },
+    {
+      "id": "Q20",
+      "question": "How do Govern, Map, Measure, and Manage work together?",
+      "label": "answerable",
+      "reference_answer": "Govern provides cross-cutting oversight; Map establishes context; Measure assesses risks; Manage prioritizes and responds.",
+      "supporting_passage": "Functions organize AI risk management activities ... govern, map, measure, and manage AI risks.",
+      "pdf_page": 24,
+      "printed_page": 20
+    },
+    {
+      "id": "Q21",
+      "question": "What is the current population of Pune?",
+      "label": "insufficient_evidence",
+      "reference_answer": "Not available in the indexed document; the system should abstain.",
+      "supporting_passage": null,
+      "pdf_page": null,
+      "printed_page": null
+    },
+    {
+      "id": "Q22",
+      "question": "What was Apple's total revenue for its 2025 fiscal year?",
+      "label": "insufficient_evidence",
+      "reference_answer": "Not available in the indexed document; the system should abstain.",
+      "supporting_passage": null,
+      "pdf_page": null,
+      "printed_page": null
+    },
+    {
+      "id": "Q23",
+      "question": "Which team won the FIFA World Cup in 2022?",
+      "label": "insufficient_evidence",
+      "reference_answer": "Not available in the indexed document; the system should abstain.",
+      "supporting_passage": null,
+      "pdf_page": null,
+      "printed_page": null
+    },
+    {
+      "id": "Q24",
+      "question": "What will the weather be in Pune tomorrow?",
+      "label": "insufficient_evidence",
+      "reference_answer": "Not available in the indexed document; the system should abstain.",
+      "supporting_passage": null,
+      "pdf_page": null,
+      "printed_page": null
+    },
+    {
+      "id": "Q25",
+      "question": "What is the current RAM usage of the computer running this application?",
+      "label": "insufficient_evidence",
+      "reference_answer": "Not available in the indexed document; the system should abstain.",
+      "supporting_passage": null,
+      "pdf_page": null,
+      "printed_page": null
+    },
+    {
+      "id": "Q26",
+      "question": "What is the current price of a specific laptop?",
+      "label": "insufficient_evidence",
+      "reference_answer": "Not available in the indexed document; the system should abstain.",
+      "supporting_passage": null,
+      "pdf_page": null,
+      "printed_page": null
+    },
+    {
+      "id": "Q27",
+      "question": "What AI regulation was announced in India this week?",
+      "label": "insufficient_evidence",
+      "reference_answer": "Not available in the indexed document; the system should abstain.",
+      "supporting_passage": null,
+      "pdf_page": null,
+      "printed_page": null
+    },
+    {
+      "id": "Q28",
+      "question": "What is NVIDIA's current share price?",
+      "label": "insufficient_evidence",
+      "reference_answer": "Not available in the indexed document; the system should abstain.",
+      "supporting_passage": null,
+      "pdf_page": null,
+      "printed_page": null
+    },
+    {
+      "id": "Q29",
+      "question": "Who is the principal of my college?",
+      "label": "insufficient_evidence",
+      "reference_answer": "Not available in the indexed document; the system should abstain.",
+      "supporting_passage": null,
+      "pdf_page": null,
+      "printed_page": null
+    },
+    {
+      "id": "Q30",
+      "question": "What exact score will my project evaluator award me?",
+      "label": "insufficient_evidence",
+      "reference_answer": "Not available in the indexed document; the system should abstain.",
+      "supporting_passage": null,
+      "pdf_page": null,
+      "printed_page": null
+    }
+  ]
+}

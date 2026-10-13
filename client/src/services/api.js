@@ -2,8 +2,20 @@ const BASE_URL = "http://localhost:5000/api";
 export async function checkHealth() { const res = await fetch(`${BASE_URL}/health/all`); return res.json(); }
 export async function checkOllama() { const res = await fetch(`${BASE_URL}/health/ollama`); return res.json(); }
 export async function checkChroma() { const res = await fetch(`${BASE_URL}/health/chromadb`); return res.json(); }
-export async function uploadDocument(file) { const fd = new FormData(); fd.append("file", file); const res = await fetch(`${BASE_URL}/documents/upload`, { method: "POST", body: fd }); return res.json(); }
-export async function listDocuments() { const res = await fetch(`${BASE_URL}/documents`); return res.json(); }
+export async function uploadDocument(file, sessionId = null) {
+  const fd = new FormData();
+  fd.append("file", file);
+  if (sessionId !== null && sessionId !== undefined && sessionId !== "") fd.append("sessionId", String(sessionId));
+  const res = await fetch(`${BASE_URL}/documents/upload`, { method: "POST", body: fd });
+  return res.json();
+}
+export async function listDocuments(sessionId = null) {
+  const url = (sessionId !== null && sessionId !== undefined && sessionId !== "")
+    ? `${BASE_URL}/documents?sessionId=${encodeURIComponent(sessionId)}`
+    : `${BASE_URL}/documents`;
+  const res = await fetch(url);
+  return res.json();
+}
 export async function deleteDocument(id) { const res = await fetch(`${BASE_URL}/documents/${id}`, { method: "DELETE" }); return res.json(); }
 export async function sendChat(question, topK = 5, opts = {}) {
   const body = { question, topK, threshold: opts.threshold ?? null, filter: opts.filter ?? {} };
@@ -49,6 +61,21 @@ export async function createSession(title) { const res = await fetch(`${BASE_URL
 export async function getSessionMessages(sessionId) { const res = await fetch(`${BASE_URL}/chat/sessions/${encodeURIComponent(sessionId)}/messages`); return res.json(); }
 export async function renameSession(sessionId, title) { const res = await fetch(`${BASE_URL}/chat/sessions/${encodeURIComponent(sessionId)}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ title }) }); return res.json(); }
 export async function deleteSession(sessionId) { const res = await fetch(`${BASE_URL}/chat/sessions/${encodeURIComponent(sessionId)}`, { method: "DELETE" }); return res.json(); }
-export async function getStats() { const res = await fetch(`${BASE_URL}/chat/stats`); return res.json(); }
-export async function buildKB() { const res = await fetch(`${BASE_URL}/knowledge-base/build`, { method: "POST" }); return res.json(); }
-export async function getKBStatus() { const res = await fetch(`${BASE_URL}/knowledge-base/status`); return res.json(); }
+export async function getStats(sessionId = null) {
+  const url = (sessionId !== null && sessionId !== undefined && sessionId !== "")
+    ? `${BASE_URL}/chat/stats?sessionId=${encodeURIComponent(sessionId)}`
+    : `${BASE_URL}/chat/stats`;
+  const res = await fetch(url);
+  return res.json();
+}
+export async function buildKB(sessionId = null) {
+  const res = await fetch(`${BASE_URL}/knowledge-base/build`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(sessionId ? { sessionId } : {}) });
+  return res.json();
+}
+export async function getKBStatus(sessionId = null) {
+  const url = (sessionId !== null && sessionId !== undefined && sessionId !== "")
+    ? `${BASE_URL}/knowledge-base/status?sessionId=${encodeURIComponent(sessionId)}`
+    : `${BASE_URL}/knowledge-base/status`;
+  const res = await fetch(url);
+  return res.json();
+}

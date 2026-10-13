@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { streamChat, listSessions, getSessionMessages, renameSession, deleteSession, listDocuments } from "../services/api";
+import { publishActiveSession, getActiveSessionId, SESSION_EVENT } from "../services/sessionBus";
 import { clamp } from "./Resizable";
 
 // Fallback splitter for any answer text that still carries
@@ -28,7 +29,19 @@ function splitThinking(text) {
 function normalizeMessage(m) {
   const fallback = splitThinking(m.answer || "");
   const thinking = [m.thinking || "", fallback.thinking].filter(Boolean).join("\n\n").trim();
-  return { ...m, answer: fallback.answer, thinking, sources: normalizeSources(m.sources) };
+  const durationMs = m.durationMs ?? m.duration_ms ?? null;
+  return { ...m, answer: fallback.answer, thinking, sources: normalizeSources(m.sources), durationMs };
+}
+
+function formatDuration(ms) {
+  if (ms == null || Number.isNaN(Number(ms))) return "";
+  const n = Number(ms);
+  if (n < 1000) return `${Math.round(n)}ms`;
+  const s = n / 1000;
+  if (s < 60) return `${s.toFixed(1)}s`;
+  const m = Math.floor(s / 60);
+  const rest = (s % 60).toFixed(0);
+  return `${m}m ${rest}s`;
 }
 
 function normalizeSources(rawSources) {
@@ -108,6 +121,7 @@ export default function Chat({ compact = false }) {
   const [streamingThinking, setStreamingThinking] = useState("");
   const [streamingSources, setStreamingSources] = useState([]);
   const [err, setErr] = useState("");
+  const [elapsedMs, setElapsedMs] = useState(0);
 
   const [topK, setTopK] = useState(5);
   const [threshold, setThreshold] = useState("");
@@ -150,9 +164,40 @@ export default function Chat({ compact = false }) {
   }
 
   const threadRef = useRef(null);
-  const firstLoad = useRef(true);
+  const timerRef = useRef(null);
 
-  async function loadDocs() { try { const d = await listDocuments(); if (d.success) setDocs(d.documents); } catch {} }
+  function startTimer() {
+    const start = Date.now();
+    setElapsedMs(0);
+    if (timerRef.current) clearInterval(timerRef.current);
+    timerRef.current = setInterval(() => setElapsedMs(Date.now() - start), 100);
+    return start;
+  }
+
+  function stopTimer() {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+  }
+
+  useEffect(() => () => stopTimer(), []);
+
+  async function loadDocs(sessionId = undefined) {
+    try {
+      const id = sessionId === undefined ? activeSessionId : sessionId;
+      const d = await listDocuments(id ?? null);
+      if (d.success) {
+        setDocs(d.documents);
+        // Drop the document filter if it belongs to another session
+        setDocumentId((prev) => {
+          if (!prev) return prev;
+          const stillThere = (d.documents || []).some((x) => String(x.id) === String(prev));
+          return stillThere ? prev : "";
+        });
+      }
+    } catch {}
+  }
 
   async function loadSessions(selectId = undefined) {
     try {
@@ -161,15 +206,9 @@ export default function Chat({ compact = false }) {
       setSessions(d.sessions || []);
       if (selectId !== undefined) {
         setActiveSessionId(selectId);
-        return;
       }
-      // On very first load, resume the most recent session so context is there
-      if (firstLoad.current && (d.sessions || []).length > 0 && activeSessionId == null) {
-        firstLoad.current = false;
-        setActiveSessionId(d.sessions[0].id);
-        return;
-      }
-      firstLoad.current = false;
+      // NOTE: no auto-resume — the app always opens in a fresh "New chat".
+      // The user explicitly picks a past session from the sidebar to continue it.
     } catch {}
   }
 
@@ -185,8 +224,27 @@ export default function Chat({ compact = false }) {
     setMessagesLoading(false);
   }
 
-  useEffect(() => { loadDocs(); loadSessions(); }, []);
-  useEffect(() => { loadMessages(activeSessionId); }, [activeSessionId]);
+  useEffect(() => { loadDocs(null); loadSessions(); setActiveSessionId(null); setMessages([]); }, []);
+  useEffect(() => { loadMessages(activeSessionId); loadDocs(activeSessionId); }, [activeSessionId]);
+
+  // Publish the active session so Documents / KB / Dashboard panels stay scoped
+  // to this chat's isolated knowledge base. Always start with a fresh New chat.
+  useEffect(() => { publishActiveSession(activeSessionId); }, [activeSessionId]);
+
+  // Adopt sessions auto-created by panels (e.g. PDF uploaded from "New chat").
+  useEffect(() => {
+    const onExternal = (e) => {
+      const id = e?.detail ?? getActiveSessionId();
+      if (id !== null && id !== undefined && id !== "" && id !== activeSessionId) {
+        setActiveSessionId(Number(id));
+        loadSessions(Number(id));
+      } else if ((id === null || id === "") && activeSessionId !== null) {
+        // no-op: panels never clear the selection, only Chat does
+      }
+    };
+    window.addEventListener(SESSION_EVENT, onExternal);
+    return () => window.removeEventListener(SESSION_EVENT, onExternal);
+  }, [activeSessionId]);
 
   // Auto-scroll thread to bottom on new content
   useEffect(() => {
@@ -196,6 +254,8 @@ export default function Chat({ compact = false }) {
 
   function handleNewChat() {
     if (loading) return;
+    stopTimer();
+    setElapsedMs(0);
     setActiveSessionId(null);
     setMessages([]);
     setPendingQuestion("");
@@ -210,6 +270,8 @@ export default function Chat({ compact = false }) {
 
   function handleSelectSession(id) {
     if (loading || id === activeSessionId) return;
+    stopTimer();
+    setElapsedMs(0);
     setErr("");
     setPendingQuestion("");
     setStreamingAnswer("");
@@ -262,6 +324,7 @@ export default function Chat({ compact = false }) {
     setStreamingThinking("");
     setStreamingSources([]);
     setQuestion("");
+    const sendStart = startTimer();
     try {
       const filter = {};
       if (sourceType !== "all") filter.sourceType = sourceType;
@@ -287,8 +350,11 @@ export default function Chat({ compact = false }) {
           const fallback = splitThinking(event.answer || "");
           const doneThinking = [event.thinking || "", fallback.thinking].filter(Boolean).join("\n\n").trim();
           const doneAnswer = fallback.answer;
+          const durationMs = event.durationMs ?? event.elapsedMs ?? (Date.now() - sendStart);
           if (event.sessionId) finalSessionId = event.sessionId;
-          setMessages((prev) => [...prev, { id: `tmp-${Date.now()}`, question: q, answer: doneAnswer, thinking: doneThinking, sources: doneSources, created_at: new Date().toISOString() }]);
+          setElapsedMs(durationMs);
+          stopTimer();
+          setMessages((prev) => [...prev, { id: `tmp-${Date.now()}`, question: q, answer: doneAnswer, thinking: doneThinking, sources: doneSources, created_at: new Date().toISOString(), durationMs }]);
           setPendingQuestion("");
           setStreamingAnswer("");
           setStreamingThinking("");
@@ -303,9 +369,13 @@ export default function Chat({ compact = false }) {
           }
           return;
         }
-        if (event.type === "error") setErr(event.message || "Error generating answer");
+        if (event.type === "error") {
+          stopTimer();
+          setErr(event.message || "Error generating answer");
+        }
       });
     } catch (ex) {
+      stopTimer();
       setErr(ex.message);
       // Restore the question so the user doesn't lose it
       setQuestion(q);
@@ -313,6 +383,7 @@ export default function Chat({ compact = false }) {
       setStreamingAnswer("");
       setStreamingThinking("");
     }
+    stopTimer();
     setLoading(false);
   }
 
@@ -492,8 +563,8 @@ export default function Chat({ compact = false }) {
                 </label>
                 <label className="space-y-1">
                   <span className="text-[11px] font-medium text-gray-600 dark:text-gray-300">Document</span>
-                  <select value={documentId} onChange={(e) => setDocumentId(e.target.value)} className="w-full border border-gray-300 dark:border-gray-700 rounded-lg px-2.5 py-2 text-xs bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-indigo-500 truncate">
-                    <option value="">All documents</option>
+                  <select value={documentId} onChange={(e) => setDocumentId(e.target.value)} className="w-full border border-gray-300 dark:border-gray-700 rounded-lg px-2.5 py-2 text-xs bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-indigo-500 truncate" title="Only this chat's PDFs are searchable — knowledge is isolated per session">
+                    <option value="">All documents (this chat)</option>
                     {docs.map((d) => <option key={d.id} value={d.id}>{d.original_filename}</option>)}
                   </select>
                 </label>
@@ -512,7 +583,7 @@ export default function Chat({ compact = false }) {
               <div className="px-6 py-10 text-center border border-gray-200 dark:border-gray-700 border-dashed rounded-xl bg-gray-50/50 dark:bg-gray-800/30">
                 <div className="flex items-center justify-center w-10 h-10 mx-auto text-indigo-600 dark:text-indigo-300 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full">✦</div>
                 <div className="mt-3 text-sm font-semibold text-gray-900 dark:text-gray-100">{activeSessionId ? "Continue this session" : "Start a new session"}</div>
-                <div className="max-w-md mx-auto mt-1 text-xs text-gray-500 dark:text-gray-400">Ask questions about your uploaded PDFs or researched web knowledge. Follow-ups stay in this session — the assistant remembers previous turns.</div>
+                <div className="max-w-md mx-auto mt-1 text-xs text-gray-500 dark:text-gray-400">Each chat has its own isolated knowledge base — upload PDFs to this chat, then ask. Answers never use chunks from other sessions.</div>
                 <div className="mt-3 inline-flex px-3 py-1.5 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-gray-600 dark:text-gray-300">“What are the main points in this document?”</div>
               </div>
             )}
@@ -524,7 +595,13 @@ export default function Chat({ compact = false }) {
                 </div>
                 <div className="px-4 py-4 border border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-800/60">
                   <div className="flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-2 text-xs font-semibold text-gray-700 dark:text-gray-300"><span className="flex items-center justify-center w-6 h-6 text-indigo-600 dark:text-indigo-300 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-full">✦</span> Assistant</div>
+                    <div className="flex items-center gap-2 text-xs font-semibold text-gray-700 dark:text-gray-300"><span className="flex items-center justify-center w-6 h-6 text-indigo-600 dark:text-indigo-300 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-full">✦</span> Assistant
+                      {m.durationMs != null && (
+                        <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300" title={`Model response time: ${formatDuration(m.durationMs)}`}>
+                          ⏱ {formatDuration(m.durationMs)}
+                        </span>
+                      )}
+                    </div>
                     {m.created_at && <div className="text-[10px] text-gray-400 dark:text-gray-500">{new Date(m.created_at).toLocaleString()}</div>}
                   </div>
                   <div className="mt-2"><AnswerWithThinking answer={m.answer} thinking={m.thinking} /></div>
@@ -541,7 +618,11 @@ export default function Chat({ compact = false }) {
                   </div>
                 )}
                 <div className="px-4 py-4 border border-indigo-100 dark:border-indigo-800 rounded-xl bg-indigo-50/50 dark:bg-indigo-900/20">
-                  <div className="flex items-center gap-2 text-xs font-semibold text-gray-700 dark:text-gray-300"><span className="w-4 h-4 border-2 border-indigo-200 dark:border-indigo-700 rounded-full border-t-indigo-600 animate-spin shrink-0" /> Assistant is answering…</div>
+                  <div className="flex items-center gap-2 text-xs font-semibold text-gray-700 dark:text-gray-300"><span className="w-4 h-4 border-2 border-indigo-200 dark:border-indigo-700 rounded-full border-t-indigo-600 animate-spin shrink-0" /> Assistant is answering…
+                    <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-white dark:bg-gray-800 border border-indigo-200 dark:border-indigo-700 text-indigo-700 dark:text-indigo-300 tabular-nums" title="Elapsed time since you asked">
+                      ⏱ {formatDuration(elapsedMs)}
+                    </span>
+                  </div>
                   <div className="mt-2"><AnswerWithThinking answer={streamingAnswer} thinking={streamingThinking} /></div>
                   {streamingSources.length > 0 && <Sources sources={streamingSources} />}
                 </div>

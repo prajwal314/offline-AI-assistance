@@ -16,8 +16,12 @@ function setStatus(fields) {
     .run(next.status, next.current_step, next.total_sources, next.processed_sources, next.failed_sources, next.chunks_created, next.updated_at);
 }
 
-async function buildKnowledgeBase() {
+async function buildKnowledgeBase(sessionId) {
   const db = getDb();
+  const sid = Number(sessionId);
+  if (!Number.isInteger(sid)) throw new Error("sessionId is required to build per-session knowledge");
+  const session = db.prepare("SELECT * FROM chat_sessions WHERE id = ?").get(sid);
+  if (!session) throw new Error("Session not found");
   const curStatus = db.prepare("SELECT status FROM kb_build_status WHERE id=1").get();
   if (curStatus.status === "processing") {
     const updatedAt = db.prepare("SELECT updated_at FROM kb_build_status WHERE id=1").get().updated_at;
@@ -29,8 +33,8 @@ async function buildKnowledgeBase() {
 
   (async () => {
     try {
-      const docs = db.prepare("SELECT * FROM documents WHERE status='ready'").all();
-      if (docs.length === 0) throw new Error("No ready documents — upload PDFs first");
+      const docs = db.prepare("SELECT * FROM documents WHERE status='ready' AND session_id = ?").all(sid);
+      if (docs.length === 0) throw new Error("No ready documents in this session — upload PDFs to this chat first");
 
       setStatus({ current_step: "Extracting topics" });
       const { topics } = await extractTopics(docs);
@@ -52,7 +56,8 @@ async function buildKnowledgeBase() {
         const url = r.url.trim();
         if (seen.has(url)) continue;
         seen.add(url);
-        const exists = db.prepare("SELECT id FROM research_sources WHERE url=?").get(url);
+        // Web sources are per-session: same URL in another session is a separate row.
+        const exists = db.prepare("SELECT id FROM research_sources WHERE url=? AND session_id=?").get(url, sid);
         if (exists) continue;
         unique.push(r);
       }
@@ -62,13 +67,16 @@ async function buildKnowledgeBase() {
         return;
       }
       for (const r of limited) {
-        db.prepare("INSERT OR IGNORE INTO research_sources (url,title,topic,status,added_at) VALUES (?,?,?,?,?)")
-          .run(r.url, r.title, r.topic, "pending", new Date().toISOString());
+        // URLs may repeat across sessions, so scope the uniqueness to (url, session).
+        const dup = db.prepare("SELECT id FROM research_sources WHERE url=? AND session_id=?").get(r.url, sid);
+        if (dup) continue;
+        db.prepare("INSERT INTO research_sources (url,title,topic,status,added_at,session_id) VALUES (?,?,?,?,?,?)")
+          .run(r.url, r.title, r.topic, "pending", new Date().toISOString(), sid);
       }
-      setStatus({ total_sources: limited.length, current_step: "Fetching pages" });
+      setStatus({ total_sources: limited.length, current_step: `Fetching pages (session ${sid})` });
 
       let processed = 0, failed = 0, chunksCreated = 0;
-      const pending = db.prepare("SELECT * FROM research_sources WHERE status='pending'").all();
+      const pending = db.prepare("SELECT * FROM research_sources WHERE status='pending' AND session_id = ?").all(sid);
       for (const src of pending) {
         try {
           db.prepare("UPDATE research_sources SET status='processing' WHERE id=?").run(src.id);
@@ -91,10 +99,10 @@ async function buildKnowledgeBase() {
             embeddings.push(...batchEmbeddings);
           }
           const chromaChunks = chunks.map((text, i) => ({
-            id: `web_${src.id}_${i}`,
+            id: `web_s${sid}_${src.id}_${i}`,
             text,
             embedding: embeddings[i],
-            metadata: { sourceType: "web", url: src.url, title: fetched.title || src.title, topic: src.topic, sourceId: String(src.id), chunkIndex: i },
+            metadata: { sourceType: "web", url: src.url, title: fetched.title || src.title, topic: src.topic, sourceId: String(src.id), chunkIndex: i, sessionId: String(sid) },
           }));
           await addChunks(chromaChunks);
           db.prepare("UPDATE research_sources SET status='completed', chunk_count=?, title=? WHERE id=?").run(chunks.length, fetched.title || src.title, src.id);
@@ -113,13 +121,19 @@ async function buildKnowledgeBase() {
   })();
 }
 
-function getStatus() {
+function getStatus(sessionId) {
   const db = getDb();
   const s = db.prepare("SELECT * FROM kb_build_status WHERE id=1").get();
-  const counts = db.prepare("SELECT COUNT(*) as total, SUM(CASE WHEN status='completed' THEN 1 ELSE 0 END) as completed FROM research_sources").get();
+  const sid = Number(sessionId);
+  const scoped = Number.isInteger(sid);
+  const counts = scoped
+    ? db.prepare("SELECT COUNT(*) as total, SUM(CASE WHEN status='completed' THEN 1 ELSE 0 END) as completed FROM research_sources WHERE session_id = ?").get(sid)
+    : db.prepare("SELECT COUNT(*) as total, SUM(CASE WHEN status='completed' THEN 1 ELSE 0 END) as completed FROM research_sources").get();
   const webSources = counts.completed || 0;
-  const docCount = db.prepare("SELECT COUNT(*) as c FROM documents WHERE status='ready'").get().c;
-  return { ...s, webSources, documents: docCount };
+  const docCount = scoped
+    ? db.prepare("SELECT COUNT(*) as c FROM documents WHERE status='ready' AND session_id = ?").get(sid).c
+    : db.prepare("SELECT COUNT(*) as c FROM documents WHERE status='ready'").get().c;
+  return { ...s, webSources, documents: docCount, sessionId: scoped ? sid : null };
 }
 
 module.exports = { buildKnowledgeBase, getStatus, setStatus };

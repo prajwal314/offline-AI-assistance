@@ -56,7 +56,7 @@ function chunkText(text, options = {}) {
   return chunks;
 }
 
-function chunkDocument({ text, documentId, filename, pageNumber = null }) {
+function chunkDocument({ text, documentId, filename, pageNumber = null, sessionId = null }) {
   const rawChunks = chunkText(text);
   return rawChunks.map((chunkText, index) => ({
     text: chunkText,
@@ -65,6 +65,7 @@ function chunkDocument({ text, documentId, filename, pageNumber = null }) {
       filename: filename || "unknown",
       chunkIndex: index,
       sourceType: "document",
+      ...(sessionId !== null && sessionId !== undefined && sessionId !== "" ? { sessionId: String(sessionId) } : {}),
       ...(pageNumber !== null ? { pageNumber } : {}),
     },
   }));

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { listDocuments, deleteDocument, uploadDocument } from "../services/api";
+import { getActiveSessionId, publishActiveSession, SESSION_EVENT } from "../services/sessionBus";
 
 function Badge({ status }) {
   const m = {
@@ -14,18 +15,42 @@ export default function DocumentList({ onUpdate, compact = false }) {
   const [docs, setDocs] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [msg, setMsg] = useState("");
-  async function load() { const data = await listDocuments(); if (data.success) setDocs(data.documents); if (onUpdate) onUpdate(); }
-  useEffect(() => { load(); }, []);
+  const [sessionId, setSessionId] = useState(() => getActiveSessionId());
+  async function load(sid = sessionId) {
+    const data = await listDocuments(sid ?? null);
+    if (data.success) setDocs(data.documents);
+    if (onUpdate) onUpdate();
+  }
+  useEffect(() => {
+    load(getActiveSessionId());
+    const onSession = (e) => {
+      const id = e?.detail ?? getActiveSessionId();
+      setSessionId(id ?? null);
+    };
+    window.addEventListener(SESSION_EVENT, onSession);
+    window.addEventListener("storage", onSession);
+    return () => {
+      window.removeEventListener(SESSION_EVENT, onSession);
+      window.removeEventListener("storage", onSession);
+    };
+  }, []);
+  useEffect(() => { load(sessionId); }, [sessionId]);
   async function handleUpload(e) {
     const file = e.target.files?.[0]; if (!file) return;
     if (!file.name.toLowerCase().endsWith(".pdf")) { setMsg("Only PDF files are allowed"); return; }
     if (file.size > 20 * 1024 * 1024) { setMsg("File too large. Max 20MB"); return; }
     setUploading(true); setMsg("");
     try {
-      const res = await uploadDocument(file);
-      setMsg(res.success ? `Uploaded: ${res.document.filename} (${res.document.chunkCount} chunks)` : (res.message || "Upload failed"));
+      // sessionId null → server auto-creates a session so the PDF is isolated to this chat
+      const res = await uploadDocument(file, sessionId ?? null);
+      setMsg(res.success ? `Uploaded: ${res.document.filename} (${res.document.chunkCount} chunks) — this chat only` : (res.message || "Upload failed"));
       if (res.document?.status === "failed") setMsg(res.message);
-      load();
+      if (res.success && res.sessionId && res.sessionId !== sessionId) {
+        // Adopt the auto-created session everywhere (Chat switches to it)
+        setSessionId(res.sessionId);
+        publishActiveSession(res.sessionId);
+      }
+      load(res.success && res.sessionId ? res.sessionId : sessionId);
     } catch (err) { setMsg(err.message); }
     setUploading(false); e.target.value = "";
   }
@@ -36,8 +61,8 @@ export default function DocumentList({ onUpdate, compact = false }) {
       <div className={`${compact ? "px-3 py-2.5" : "px-5 py-4"} flex items-center justify-between gap-2 border-b border-gray-100 dark:border-gray-800 shrink-0`}>
         <div className="min-w-0">
           <h2 className={`${compact ? "text-xs" : "text-sm"} font-semibold text-gray-900 dark:text-gray-100`}>Documents</h2>
-          {!compact && <p className="text-xs text-gray-500 dark:text-gray-400">Manage the PDFs used to build your knowledge base</p>}
-          {compact && <p className="text-[10px] text-gray-500 dark:text-gray-400 truncate">{docs.length} PDFs indexed</p>}
+          {!compact && <p className="text-xs text-gray-500 dark:text-gray-400">PDFs for this chat only — isolated per session</p>}
+          {compact && <p className="text-[10px] text-gray-500 dark:text-gray-400 truncate">{sessionId ? `${docs.length} PDFs in this chat` : "New chat — upload to start its KB"}</p>}
         </div>
         <label className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[11px] font-semibold cursor-pointer transition border shrink-0 ${uploading ? "bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500 border-gray-200 dark:border-gray-700 pointer-events-none" : "bg-indigo-600 text-white border-indigo-600 hover:bg-indigo-700"}`}>
           {uploading ? <span className="w-3 h-3 border-2 border-gray-300 border-t-white rounded-full animate-spin" /> : <span className="text-xs leading-none">+</span>}
@@ -49,11 +74,20 @@ export default function DocumentList({ onUpdate, compact = false }) {
       {msg && <div className={`mx-3 mt-2 text-[11px] px-2 py-1.5 rounded-lg border shrink-0 ${msg.includes("Uploaded") ? "bg-emerald-50 dark:bg-emerald-900/30 border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300" : "bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-800 text-red-700 dark:text-red-300"}`}>{msg}</div>}
 
       <div className={`${compact ? "p-2" : "p-3"} overflow-y-auto min-h-0 ${compact ? "max-h-[220px]" : ""}`}>
-        {docs.length === 0 ? (
+        {sessionId === null && docs.length === 0 ? (
           <div className="py-10 text-center border border-dashed border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50/50 dark:bg-gray-800/30">
             <div className="w-10 h-10 mx-auto rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-400 dark:text-gray-500">📄</div>
-            <div className="mt-3 text-sm font-medium text-gray-700 dark:text-gray-200">No documents yet</div>
-            <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">Upload a PDF to start building your knowledge base</div>
+            <div className="mt-3 text-sm font-medium text-gray-700 dark:text-gray-200">New chat — no PDFs yet</div>
+            <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">Upload a PDF and it will belong only to this chat</div>
+            <label className="mt-4 inline-flex items-center px-3 py-1.5 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs font-medium text-gray-700 dark:text-gray-200 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
+              Upload PDF <input type="file" accept=".pdf" className="hidden" onChange={handleUpload} />
+            </label>
+          </div>
+        ) : docs.length === 0 ? (
+          <div className="py-10 text-center border border-dashed border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50/50 dark:bg-gray-800/30">
+            <div className="w-10 h-10 mx-auto rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-400 dark:text-gray-500">📄</div>
+            <div className="mt-3 text-sm font-medium text-gray-700 dark:text-gray-200">No documents in this chat</div>
+            <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">Upload a PDF — it stays isolated to this session</div>
             <label className="mt-4 inline-flex items-center px-3 py-1.5 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs font-medium text-gray-700 dark:text-gray-200 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
               Upload PDF <input type="file" accept=".pdf" className="hidden" onChange={handleUpload} />
             </label>

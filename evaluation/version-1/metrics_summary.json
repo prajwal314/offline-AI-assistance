@@ -1,0 +1,40 @@
+{
+  "run_status": "incomplete - frozen snapshot after generation timeouts",
+  "attempts": 30,
+  "completed_responses": 19,
+  "technical_failures": 11,
+  "answer_correctness": {
+    "count": null,
+    "denominator": 20,
+    "percentage": null,
+    "note": "Not scored: incomplete run."
+  },
+  "unsupported_answer_rate": {
+    "count": null,
+    "denominator": 19,
+    "percentage": null
+  },
+  "abstention_accuracy": {
+    "count": null,
+    "denominator": 10,
+    "percentage": null
+  },
+  "retrieval_recall_at_5": {
+    "count": null,
+    "denominator": 20,
+    "percentage": null
+  },
+  "citation_accuracy": {
+    "supported": null,
+    "total": 0,
+    "percentage": null,
+    "missing_citations": 19
+  },
+  "performance": {
+    "mean_latency_ms": null,
+    "median_latency_ms": null,
+    "p95_latency_ms": null,
+    "failure_rate_percent": 36.7,
+    "memory_usage": "not measured reliably"
+  }
+}

@@ -37,4 +37,25 @@ app.use((err, req, res, next) => {
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
+  // One-time Chroma migration: legacy vectors without sessionId are assigned
+  // to the same session that received the legacy SQLite rows, so nothing leaks
+  // across sessions going forward. Runs in background; failures only log.
+  (async () => {
+    try {
+      const { getDb } = require("./database/db");
+      const db = getDb();
+      let target = null;
+      try {
+        // Prefer the session holding the most legacy documents; fall back to latest.
+        target = db.prepare("SELECT session_id as id, COUNT(*) as c FROM documents GROUP BY session_id ORDER BY c DESC LIMIT 1").get();
+        if (!target?.id) target = db.prepare("SELECT id FROM chat_sessions ORDER BY updated_at DESC LIMIT 1").get();
+      } catch {}
+      if (!target?.id) return;
+      const { migrateLegacyChunksToSession } = require("./services/chromaService");
+      const n = await migrateLegacyChunksToSession(target.id);
+      if (n > 0) console.log(`chroma migration: tagged ${n} legacy chunk(s) to session ${target.id}`);
+    } catch (e) {
+      console.error("chroma session migration skipped:", e.message);
+    }
+  })();
 });

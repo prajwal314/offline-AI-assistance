@@ -60,6 +60,45 @@ async function deleteByDocumentId(documentId) {
   });
 }
 
+async function deleteBySessionId(sessionId) {
+  const col = await getCollection();
+  await col.delete({
+    where: { sessionId: String(sessionId) },
+  });
+}
+
+// One-time migration: tag legacy vectors that have no sessionId so they
+// belong to exactly one session instead of leaking across all sessions.
+async function migrateLegacyChunksToSession(targetSessionId) {
+  const col = await getCollection();
+  const sid = String(targetSessionId);
+  let offset = 0;
+  const pageSize = 500;
+  let migrated = 0;
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    const page = await col.get({ limit: pageSize, offset });
+    const ids = (page.ids || []);
+    if (ids.length === 0) break;
+    const metadatas = page.metadatas || [];
+    const legacyIdx = [];
+    for (let i = 0; i < ids.length; i++) {
+      const m = metadatas[i] || {};
+      if (m.sessionId === undefined || m.sessionId === null || m.sessionId === "") legacyIdx.push(i);
+    }
+    if (legacyIdx.length > 0) {
+      const batchIds = legacyIdx.map((i) => ids[i]);
+      const batchMeta = legacyIdx.map((i) => ({ ...(metadatas[i] || {}), sessionId: sid }));
+      await col.update({ ids: batchIds, metadatas: batchMeta });
+      migrated += batchIds.length;
+    }
+    if (ids.length < pageSize) break;
+    offset += ids.length;
+    if (offset > 100000) break; // safety cap
+  }
+  return migrated;
+}
+
 async function getCount() {
   const col = await getCollection();
   const count = await col.count();
@@ -79,6 +118,8 @@ module.exports = {
   addChunks,
   search,
   deleteByDocumentId,
+  deleteBySessionId,
+  migrateLegacyChunksToSession,
   getCount,
   resetCollection,
   COLLECTION_NAME,

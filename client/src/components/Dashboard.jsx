@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getStats } from "../services/api";
+import { getActiveSessionId, SESSION_EVENT } from "../services/sessionBus";
 
 function Stat({ label, value, hint, compact }) {
   return (
@@ -13,8 +14,22 @@ function Stat({ label, value, hint, compact }) {
 
 export default function Dashboard({ compact = false }) {
   const [stats, setStats] = useState(null);
-  async function load() { try { const d = await getStats(); if (d.success) setStats(d.stats); } catch {} }
-  useEffect(() => { load(); }, []);
+  const [sessionId, setSessionId] = useState(() => getActiveSessionId());
+  async function load(sid = sessionId) { try { const d = await getStats(sid ?? null); if (d.success) setStats(d.stats); } catch {} }
+  useEffect(() => {
+    load(getActiveSessionId());
+    const onSession = (e) => {
+      const id = e?.detail ?? getActiveSessionId() ?? null;
+      setSessionId(id);
+    };
+    window.addEventListener(SESSION_EVENT, onSession);
+    window.addEventListener("storage", onSession);
+    return () => {
+      window.removeEventListener(SESSION_EVENT, onSession);
+      window.removeEventListener("storage", onSession);
+    };
+  }, []);
+  useEffect(() => { load(sessionId); }, [sessionId]);
   if (!stats) return <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6 text-sm text-gray-500 dark:text-gray-400 flex items-center gap-2"><span className="w-4 h-4 border-2 border-gray-300 dark:border-gray-600 border-t-indigo-600 rounded-full animate-spin" />Loading knowledge base…</div>;
 
   return (
@@ -22,7 +37,8 @@ export default function Dashboard({ compact = false }) {
       <div className={`flex items-center justify-between ${compact ? "mb-1.5" : "mb-3"}`}>
         <div>
           <h2 className={`${compact ? "text-xs" : "text-sm"} font-semibold text-gray-900 dark:text-gray-100`}>Knowledge Base</h2>
-          {!compact && <p className="text-xs text-gray-500 dark:text-gray-400">Overview of your indexed knowledge</p>}
+          {!compact && <p className="text-xs text-gray-500 dark:text-gray-400">This chat's isolated knowledge</p>}
+          {compact && <p className="text-[10px] text-gray-500 dark:text-gray-400 truncate">{sessionId ? "This chat only" : "New chat — empty KB"}</p>}
         </div>
         <button onClick={load} className="text-[11px] font-medium text-indigo-600 dark:text-indigo-300 hover:text-indigo-700 dark:hover:text-indigo-200 px-1.5 py-0.5 rounded-md hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition">Refresh</button>
       </div>

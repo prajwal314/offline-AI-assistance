@@ -28,7 +28,8 @@ function withThinking(row) {
   const storedThinking = (row.thinking || "").trim();
   const { thinking: tagThinking, answer: clean } = extractThinking(row.answer || "");
   const thinking = [storedThinking, tagThinking].filter(Boolean).join("\n\n").trim();
-  return { ...row, answer: clean, thinking, sources: parseSourcesField(row.sources) };
+  const durationMs = row.duration_ms ?? row.durationMs ?? null;
+  return { ...row, answer: clean, thinking, sources: parseSourcesField(row.sources), durationMs };
 }
 
 function makeTitle(question) {
@@ -80,6 +81,8 @@ function touchSession(db, sessionId, firstQuestionIfUntitled) {
 }
 
 async function chat(req, res, next) {
+  const startTime = Date.now();
+  const elapsedMs = () => Date.now() - startTime;
   try {
     const { question, topK, threshold, filter } = req.body;
     const sessionIdRaw = req.body.sessionId ?? req.body.session_id ?? null;
@@ -103,6 +106,22 @@ async function chat(req, res, next) {
     }
     const conversationHistory = getSessionContext(db, session.id);
 
+    // --- Session isolation: retrieval is ALWAYS scoped to this session.
+    // Client filters can narrow further but can never widen to another session.
+    parsedFilter.sessionId = String(session.id);
+    if (parsedFilter.documentId) {
+      try {
+        const owner = db.prepare("SELECT session_id FROM documents WHERE id = ?").get(Number(parsedFilter.documentId));
+        if (!owner || String(owner.session_id) !== String(session.id)) {
+          // Document belongs to a different session (or doesn't exist) — drop it
+          // so no cross-session chunk can leak into this answer.
+          delete parsedFilter.documentId;
+        }
+      } catch {
+        delete parsedFilter.documentId;
+      }
+    }
+
     const { results, filteredCount, where, topK: effectiveK } = await searchKnowledgeBase(question, k, { threshold: thr, filter: parsedFilter });
 
     res.status(200);
@@ -115,16 +134,17 @@ async function chat(req, res, next) {
     const nowIso = new Date().toISOString();
 
     const saveMessage = (answerText, thinkingText, rawSources) => {
-      db.prepare("INSERT INTO chat_history (question, answer, thinking, sources, created_at, session_id) VALUES (?,?,?,?,?,?)")
-        .run(question, answerText, thinkingText || "", JSON.stringify(rawSources), nowIso, session.id);
+      const durationMs = elapsedMs();
+      const info = db.prepare("INSERT INTO chat_history (question, answer, thinking, sources, created_at, session_id, duration_ms) VALUES (?,?,?,?,?,?,?)")
+        .run(question, answerText, thinkingText || "", JSON.stringify(rawSources), nowIso, session.id, durationMs);
       const count = db.prepare("SELECT COUNT(*) as c FROM chat_history WHERE session_id = ?").get(session.id).c;
       touchSession(db, session.id, count <= 1 ? question : null);
-      return db.prepare("SELECT * FROM chat_sessions WHERE id = ?").get(session.id);
+      return { session: db.prepare("SELECT * FROM chat_sessions WHERE id = ?").get(session.id), durationMs, messageId: info.lastInsertRowid };
     };
 
     if (results.length === 0) {
-      const updatedSession = saveMessage(INSUFFICIENT_MSG, "", []);
-      sendEvent({ type: "done", success: true, answer: INSUFFICIENT_MSG, thinking: "", sources: [], topK: effectiveK, threshold: thr, where, filteredCount, insufficient: true, sessionId: session.id, session: updatedSession });
+      const { session: updatedSession, durationMs } = saveMessage(INSUFFICIENT_MSG, "", []);
+      sendEvent({ type: "done", success: true, answer: INSUFFICIENT_MSG, thinking: "", sources: [], topK: effectiveK, threshold: thr, where, filteredCount, insufficient: true, sessionId: session.id, session: updatedSession, durationMs, elapsedMs: durationMs });
       return res.end();
     }
 
@@ -158,8 +178,8 @@ async function chat(req, res, next) {
     }
     if (!answer) answer = INSUFFICIENT_MSG;
 
-    const updatedSession = saveMessage(answer, thinking, results);
-    sendEvent({ type: "done", success: true, answer, thinking, sources, topK: effectiveK, threshold: thr, where, filteredCount, sessionId: session.id, session: updatedSession });
+    const { session: updatedSession, durationMs } = saveMessage(answer, thinking, results);
+    sendEvent({ type: "done", success: true, answer, thinking, sources, topK: effectiveK, threshold: thr, where, filteredCount, sessionId: session.id, session: updatedSession, durationMs, elapsedMs: durationMs });
     res.end();
   } catch (err) {
     if (res.headersSent) {
@@ -233,26 +253,57 @@ function renameSession(req, res) {
   res.json({ success: true, session: db.prepare("SELECT * FROM chat_sessions WHERE id = ?").get(id) });
 }
 
-function deleteSession(req, res) {
-  const db = getDb();
-  const id = Number(req.params.id);
-  if (!Number.isInteger(id)) return res.status(400).json({ success: false, message: "Invalid session id" });
-  const session = db.prepare("SELECT * FROM chat_sessions WHERE id = ?").get(id);
-  if (!session) return res.status(404).json({ success: false, message: "Session not found" });
-  db.prepare("DELETE FROM chat_history WHERE session_id = ?").run(id);
-  db.prepare("DELETE FROM chat_sessions WHERE id = ?").run(id);
-  res.json({ success: true, deletedId: id });
+function deleteSession(req, res, next) {
+  (async () => {
+    const db = getDb();
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id)) return res.status(400).json({ success: false, message: "Invalid session id" });
+    const session = db.prepare("SELECT * FROM chat_sessions WHERE id = ?").get(id);
+    if (!session) return res.status(404).json({ success: false, message: "Session not found" });
+    // Cascade: remove this session's documents (files + vectors + rows) so its
+    // knowledge base disappears with it and can never leak into other sessions.
+    try {
+      const docs = db.prepare("SELECT * FROM documents WHERE session_id = ?").all(id);
+      const fs = require("fs");
+      const { deleteByDocumentId, deleteBySessionId } = require("../services/chromaService");
+      for (const d of docs) {
+        try { if (d.file_path && fs.existsSync(d.file_path)) fs.unlinkSync(d.file_path); } catch {}
+        try { await deleteByDocumentId(d.id); } catch (e) { console.error("Chroma doc delete failed", e.message); }
+      }
+      // Belt-and-braces: remove any vectors tagged with this session (covers web chunks too)
+      try { await deleteBySessionId(id); } catch (e) { console.error("Chroma session delete failed", e.message); }
+      db.prepare("DELETE FROM documents WHERE session_id = ?").run(id);
+      db.prepare("DELETE FROM research_sources WHERE session_id = ?").run(id);
+    } catch (e) {
+      console.error("session cascade delete failed:", e.message);
+    }
+    db.prepare("DELETE FROM chat_history WHERE session_id = ?").run(id);
+    db.prepare("DELETE FROM chat_sessions WHERE id = ?").run(id);
+    res.json({ success: true, deletedId: id });
+  })().catch(next);
 }
 
 async function getStats(req, res, next) {
   try {
     const db = getDb();
-    const total = db.prepare("SELECT COUNT(*) as c FROM documents").get().c;
-    const ready = db.prepare("SELECT COUNT(*) as c FROM documents WHERE status='ready'").get().c;
-    const failed = db.prepare("SELECT COUNT(*) as c FROM documents WHERE status='failed'").get().c;
-    const processing = db.prepare("SELECT COUNT(*) as c FROM documents WHERE status='processing'").get().c;
-    const webTotal = db.prepare("SELECT COUNT(*) as c FROM research_sources").get().c;
-    const webCompleted = db.prepare("SELECT COUNT(*) as c FROM research_sources WHERE status='completed'").get().c;
+    const sidRaw = req.query?.sessionId ?? req.query?.session_id ?? null;
+    const sid = Number(sidRaw);
+    const scoped = sidRaw !== null && sidRaw !== undefined && sidRaw !== "" && Number.isInteger(sid);
+    const docWhere = scoped ? "WHERE session_id = " + sid : "";
+    const total = db.prepare(`SELECT COUNT(*) as c FROM documents ${docWhere}`).get().c;
+    const ready = db.prepare(`SELECT COUNT(*) as c FROM documents ${docWhere ? docWhere + " AND" : "WHERE"} status='ready'`).get().c;
+    const failed = scoped
+      ? db.prepare("SELECT COUNT(*) as c FROM documents WHERE status='failed' AND session_id = ?").get(sid).c
+      : db.prepare("SELECT COUNT(*) as c FROM documents WHERE status='failed'").get().c;
+    const processing = scoped
+      ? db.prepare("SELECT COUNT(*) as c FROM documents WHERE status='processing' AND session_id = ?").get(sid).c
+      : db.prepare("SELECT COUNT(*) as c FROM documents WHERE status='processing'").get().c;
+    const webTotal = scoped
+      ? db.prepare("SELECT COUNT(*) as c FROM research_sources WHERE session_id = ?").get(sid).c
+      : db.prepare("SELECT COUNT(*) as c FROM research_sources").get().c;
+    const webCompleted = scoped
+      ? db.prepare("SELECT COUNT(*) as c FROM research_sources WHERE status='completed' AND session_id = ?").get(sid).c
+      : db.prepare("SELECT COUNT(*) as c FROM research_sources WHERE status='completed'").get().c;
     let sessionCount = 0;
     let messageCount = 0;
     try {
@@ -267,14 +318,18 @@ async function getStats(req, res, next) {
       const col = await getCollection();
       chunkCount = await col.count();
       try {
-        const docRes = await col.get({ where: { sourceType: "document" }, limit: 10000 });
+        const sessionWhere = (extra) => scoped
+          ? { $and: [{ sessionId: { $eq: String(sid) } }, extra] }
+          : extra;
+        const docRes = await col.get({ where: sessionWhere({ sourceType: "document" }), limit: 10000 });
         docChunks = docRes.ids ? docRes.ids.length : 0;
-        const webRes = await col.get({ where: { sourceType: "web" }, limit: 10000 });
+        const webRes = await col.get({ where: sessionWhere({ sourceType: "web" }), limit: 10000 });
         webChunks = webRes.ids ? webRes.ids.length : 0;
         if (chunkCount === 0) chunkCount = docChunks + webChunks;
+        if (scoped) chunkCount = docChunks + webChunks;
       } catch {}
     } catch { chunkCount = 0; }
-    res.json({ success: true, stats: { total, ready, failed, processing, chunkCount, docChunks, webChunks, webSources: webCompleted, webTotal, sessionCount, messageCount } });
+    res.json({ success: true, stats: { total, ready, failed, processing, chunkCount, docChunks, webChunks, webSources: webCompleted, webTotal, sessionCount, messageCount, sessionId: scoped ? sid : null } });
   } catch (err) { next(err); }
 }
 

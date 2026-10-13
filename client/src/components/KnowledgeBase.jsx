@@ -1,36 +1,73 @@
 import { useEffect, useState } from "react";
+import { createSession } from "../services/api";
+import { getActiveSessionId, publishActiveSession, SESSION_EVENT } from "../services/sessionBus";
 const BASE = "http://localhost:5000/api/knowledge-base";
 
+function useActiveSessionId() {
+  const [sid, setSid] = useState(() => getActiveSessionId());
+  useEffect(() => {
+    const onSession = (e) => setSid(e?.detail ?? getActiveSessionId() ?? null);
+    window.addEventListener(SESSION_EVENT, onSession);
+    window.addEventListener("storage", onSession);
+    return () => {
+      window.removeEventListener(SESSION_EVENT, onSession);
+      window.removeEventListener("storage", onSession);
+    };
+  }, []);
+  return sid;
+}
+
 function useKBStatus(pollMs = 3000) {
+  const sessionId = useActiveSessionId();
   const [s, setS] = useState(null);
-  async function load() {
+  async function load(sid = sessionId) {
     try {
-      const r = await fetch(`${BASE}/status`);
+      const url = (sid !== null && sid !== undefined && sid !== "")
+        ? `${BASE}/status?sessionId=${encodeURIComponent(sid)}`
+        : `${BASE}/status`;
+      const r = await fetch(url);
       const j = await r.json();
       if (j.success) setS(j);
     } catch {}
   }
-  useEffect(() => { load(); const id = setInterval(load, pollMs); return () => clearInterval(id); }, [pollMs]);
-  return [s, load];
+  useEffect(() => { load(sessionId); const id = setInterval(() => load(sessionId), pollMs); return () => clearInterval(id); }, [pollMs, sessionId]);
+  return [s, load, sessionId];
 }
 
 export function BuildKBButton() {
-  const [s, load] = useKBStatus();
+  const [s, load, sessionId] = useKBStatus();
   const [loading, setLoading] = useState(false);
   async function build() {
-    if (!confirm("Build your knowledge base from the web using research sources. This will add new web content and keep Q&A local.")) return;
+    if (!confirm("Build web knowledge into THIS CHAT ONLY? Internet is used once; Q&A stays local and isolated per session.")) return;
     setLoading(true);
-    try { await fetch(`${BASE}/build`, { method: "POST" }); await load(); } catch {}
+    try {
+      let sid = sessionId;
+      if (sid === null || sid === undefined || sid === "") {
+        // New chat with no session yet → provision one so research is isolated to it
+        const c = await createSession("New chat");
+        if (c.success) {
+          sid = c.session.id;
+          publishActiveSession(sid);
+        } else {
+          throw new Error("Could not create a chat session first");
+        }
+      }
+      await fetch(`${BASE}/build`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ sessionId: sid }) });
+      await load(sid);
+    } catch {}
     setLoading(false);
   }
   const isProcessing = s?.status === "processing";
   const busy = isProcessing || loading;
   return (
     <div>
-      <button onClick={build} disabled={busy} title="Internet is used only during knowledge building. Q&A stays local/offline." className="w-full inline-flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg font-semibold transition shadow-sm px-3 py-1.5 text-xs">
+      <button onClick={build} disabled={busy} title="Builds web knowledge into the current chat session only. Q&A stays local/offline and isolated." className="w-full inline-flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg font-semibold transition shadow-sm px-3 py-1.5 text-xs">
         {busy ? <span className="w-3 h-3 border-2 border-white/40 border-t-white rounded-full animate-spin" /> : null}
         {isProcessing ? "Building…" : "Search Internet & Build Knowledge Base"}
       </button>
+      {!sessionId && !isProcessing && (
+        <div className="mt-1 text-[10px] text-gray-400 dark:text-gray-500 text-center">Builds into the current chat once it exists</div>
+      )}
       {isProcessing && (
         <div className="mt-1.5 rounded-lg border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/30 px-2 py-1">
           <div className="flex items-center gap-1.5 text-[10px] font-medium text-amber-800 dark:text-amber-300"><span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />{s.currentStep}</div>
@@ -50,7 +87,7 @@ export function InternetResearch({ compact = false, fill = false }) {
         <div className={`flex items-center justify-center text-indigo-600 dark:text-indigo-300 border border-indigo-100 dark:border-indigo-800 rounded-lg bg-indigo-50 dark:bg-indigo-900/30 shrink-0 ${compact ? "w-7 h-7 text-sm" : "w-9 h-9"}`}>🌐</div>
         <div className="flex-1 min-w-0">
           <h2 className={`${compact ? "text-xs" : "text-sm"} font-semibold text-gray-900 dark:text-gray-100`}>Internet Research</h2>
-          {compact && <p className="text-[10px] text-gray-500 dark:text-gray-400 truncate">Web → local KB · Q&A stays offline</p>}
+          {compact && <p className="text-[10px] text-gray-500 dark:text-gray-400 truncate">Web → this chat only · Q&A stays offline</p>}
         </div>
       </div>
       <div className={`${compact ? "px-3 pt-2 pb-3" : "px-5 pt-4 pb-5"}`}>
@@ -90,7 +127,7 @@ export function ResearchSources({ compact = false, fill = false }) {
       <div className={`flex items-center justify-between border-b border-gray-100 dark:border-gray-800 shrink-0 ${compact ? "px-3 py-2" : "px-5 py-4"}`}>
         <div className="min-w-0">
           <h3 className={`${compact ? "text-xs" : "text-sm"} font-semibold text-gray-900 dark:text-gray-100`}>Research Sources</h3>
-          <p className="text-[10px] text-gray-500 dark:text-gray-400">{(s.sources || []).length} sources</p>
+          <p className="text-[10px] text-gray-500 dark:text-gray-400">{(s.sources || []).length} sources · this chat only</p>
         </div>
         <button onClick={load} className="px-1.5 py-0.5 text-[11px] font-medium text-indigo-600 dark:text-indigo-300 transition rounded-md hover:text-indigo-700 dark:hover:text-indigo-200 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 shrink-0">Refresh</button>
       </div>
