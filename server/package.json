@@ -5,7 +5,11 @@
   "type": "commonjs",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "test": "node --test tests/evidenceService.test.js tests/confidenceRag.test.js",
+    "test:integration": "node --test tests/integration.test.js",
+    "eval:v1": "node evaluation/runEvaluation.js",
+    "eval:v2": "node evaluation/runEvaluationV2.js"
   },
   "dependencies": {
     "better-sqlite3": "^13.0.3",

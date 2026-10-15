@@ -104,6 +104,10 @@ if (!db.prepare("PRAGMA table_info(chat_history)").all().some((c) => c.name === 
 if (!db.prepare("PRAGMA table_info(chat_history)").all().some((c) => c.name === "duration_ms")) {
   db.exec("ALTER TABLE chat_history ADD COLUMN duration_ms INTEGER");
 }
+// V2 Confidence-Aware RAG: per-answer evidence trace (decision, retry, signals).
+if (!db.prepare("PRAGMA table_info(chat_history)").all().some((c) => c.name === "evidence")) {
+  db.exec("ALTER TABLE chat_history ADD COLUMN evidence TEXT");
+}
 try { db.exec("CREATE INDEX IF NOT EXISTS idx_chat_history_session ON chat_history(session_id, id)"); } catch {}
 try { db.exec("CREATE INDEX IF NOT EXISTS idx_chat_sessions_updated ON chat_sessions(updated_at DESC)"); } catch {}
 try { db.exec("CREATE INDEX IF NOT EXISTS idx_documents_session ON documents(session_id)"); } catch {}

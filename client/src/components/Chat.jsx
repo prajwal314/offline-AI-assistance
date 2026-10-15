@@ -30,7 +30,18 @@ function normalizeMessage(m) {
   const fallback = splitThinking(m.answer || "");
   const thinking = [m.thinking || "", fallback.thinking].filter(Boolean).join("\n\n").trim();
   const durationMs = m.durationMs ?? m.duration_ms ?? null;
-  return { ...m, answer: fallback.answer, thinking, sources: normalizeSources(m.sources), durationMs };
+  const evidence = m.evidence && typeof m.evidence === "object" ? m.evidence : null;
+  return { ...m, answer: fallback.answer, thinking, sources: normalizeSources(m.sources), durationMs, evidence };
+}
+
+// Short human-readable V2 evidence summary for the answer header badge.
+function evidenceLabel(ev) {
+  if (!ev) return "";
+  if (ev.decision === "abstain") return "Insufficient evidence — abstained";
+  if (ev.retryOccurred && ev.recovered) return "Evidence checked · refined search recovered evidence";
+  if (ev.retryOccurred) return "Evidence checked · refined search tried";
+  if (ev.conflict) return "Evidence checked · sources disagree";
+  return "Evidence checked";
 }
 
 function formatDuration(ms) {
@@ -122,6 +133,7 @@ export default function Chat({ compact = false }) {
   const [streamingSources, setStreamingSources] = useState([]);
   const [err, setErr] = useState("");
   const [elapsedMs, setElapsedMs] = useState(0);
+  const [ragStatus, setRagStatus] = useState("");
 
   const [topK, setTopK] = useState(5);
   const [threshold, setThreshold] = useState("");
@@ -256,6 +268,7 @@ export default function Chat({ compact = false }) {
     if (loading) return;
     stopTimer();
     setElapsedMs(0);
+    setRagStatus("");
     setActiveSessionId(null);
     setMessages([]);
     setPendingQuestion("");
@@ -272,6 +285,7 @@ export default function Chat({ compact = false }) {
     if (loading || id === activeSessionId) return;
     stopTimer();
     setElapsedMs(0);
+    setRagStatus("");
     setErr("");
     setPendingQuestion("");
     setStreamingAnswer("");
@@ -323,6 +337,7 @@ export default function Chat({ compact = false }) {
     setStreamingAnswer("");
     setStreamingThinking("");
     setStreamingSources([]);
+    setRagStatus("Retrieving relevant information...");
     setQuestion("");
     const sendStart = startTimer();
     try {
@@ -332,6 +347,10 @@ export default function Chat({ compact = false }) {
       const thr = threshold === "" ? null : parseFloat(threshold);
       let finalSessionId = targetSessionId;
       await streamChat(q, topK, { threshold: thr, filter, sessionId: targetSessionId }, (event) => {
+        if (event.type === "status") {
+          setRagStatus(event.message || "");
+          return;
+        }
         if (event.type === "meta") {
           setStreamingSources(event.sources || []);
           if (event.sessionId) finalSessionId = event.sessionId;
@@ -354,7 +373,8 @@ export default function Chat({ compact = false }) {
           if (event.sessionId) finalSessionId = event.sessionId;
           setElapsedMs(durationMs);
           stopTimer();
-          setMessages((prev) => [...prev, { id: `tmp-${Date.now()}`, question: q, answer: doneAnswer, thinking: doneThinking, sources: doneSources, created_at: new Date().toISOString(), durationMs }]);
+          setRagStatus("");
+          setMessages((prev) => [...prev, { id: `tmp-${Date.now()}`, question: q, answer: doneAnswer, thinking: doneThinking, sources: doneSources, created_at: new Date().toISOString(), durationMs, evidence: event.evidence && typeof event.evidence === "object" ? event.evidence : null }]);
           setPendingQuestion("");
           setStreamingAnswer("");
           setStreamingThinking("");
@@ -371,11 +391,13 @@ export default function Chat({ compact = false }) {
         }
         if (event.type === "error") {
           stopTimer();
+          setRagStatus("");
           setErr(event.message || "Error generating answer");
         }
       });
     } catch (ex) {
       stopTimer();
+      setRagStatus("");
       setErr(ex.message);
       // Restore the question so the user doesn't lose it
       setQuestion(q);
@@ -601,6 +623,14 @@ export default function Chat({ compact = false }) {
                           ⏱ {formatDuration(m.durationMs)}
                         </span>
                       )}
+                      {m.evidence && (
+                        <span
+                          className={`text-[10px] font-medium px-1.5 py-0.5 rounded-full border ${m.evidence.decision === "abstain" ? "bg-amber-50 dark:bg-amber-900/30 border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-300" : "bg-emerald-50 dark:bg-emerald-900/30 border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300"}`}
+                          title={m.evidence.reason || evidenceLabel(m.evidence)}
+                        >
+                          {m.evidence.decision === "abstain" ? "⚠ " : "✓ "}{evidenceLabel(m.evidence)}
+                        </span>
+                      )}
                     </div>
                     {m.created_at && <div className="text-[10px] text-gray-400 dark:text-gray-500">{new Date(m.created_at).toLocaleString()}</div>}
                   </div>
@@ -618,7 +648,7 @@ export default function Chat({ compact = false }) {
                   </div>
                 )}
                 <div className="px-4 py-4 border border-indigo-100 dark:border-indigo-800 rounded-xl bg-indigo-50/50 dark:bg-indigo-900/20">
-                  <div className="flex items-center gap-2 text-xs font-semibold text-gray-700 dark:text-gray-300"><span className="w-4 h-4 border-2 border-indigo-200 dark:border-indigo-700 rounded-full border-t-indigo-600 animate-spin shrink-0" /> Assistant is answering…
+                  <div className="flex items-center gap-2 text-xs font-semibold text-gray-700 dark:text-gray-300"><span className="w-4 h-4 border-2 border-indigo-200 dark:border-indigo-700 rounded-full border-t-indigo-600 animate-spin shrink-0" /> {ragStatus || "Assistant is answering…"}
                     <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-white dark:bg-gray-800 border border-indigo-200 dark:border-indigo-700 text-indigo-700 dark:text-indigo-300 tabular-nums" title="Elapsed time since you asked">
                       ⏱ {formatDuration(elapsedMs)}
                     </span>

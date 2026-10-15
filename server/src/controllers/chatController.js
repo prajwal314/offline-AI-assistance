@@ -1,9 +1,56 @@
 const { getDb } = require("../database/db");
-const { searchKnowledgeBase, normalizeTopK, normalizeThreshold } = require("../services/retrievalService");
+const { normalizeTopK, normalizeThreshold } = require("../services/retrievalService");
+const { runConfidenceAwareRetrieval } = require("../services/confidenceRagService");
+const { ABSTAIN_MESSAGE } = require("../services/evidenceService");
 const { streamAnswer, extractThinking } = require("../services/llmService");
 
-const INSUFFICIENT_MSG = "I could not find enough relevant information in the knowledge base to answer this question.";
+const INSUFFICIENT_MSG = ABSTAIN_MESSAGE;
+const EMPTY_KB_MSG =
+  "This chat has no documents in its knowledge base yet, so I have nothing to answer from. Upload a PDF to this chat (Documents panel) and ask again — each chat keeps its own separate knowledge base.";
 const HISTORY_CONTEXT_TURNS = 8;
+
+// Trimmed, frontend-safe V2 evidence payload (backward-compatible addition).
+function evidenceForApi(trace) {
+  if (!trace) return null;
+  const ev = trace.finalEvidence || {};
+  return {
+    version: 2,
+    decision: trace.decision,
+    sufficient: !!ev.sufficient,
+    reason: ev.reason || "",
+    missing_information: ev.missing_information || "",
+    relevant_chunk_ids: Array.isArray(ev.relevant_chunk_ids) ? ev.relevant_chunk_ids : [],
+    conflict: !!ev.conflict,
+    method: ev.method || null,
+    retryOccurred: !!trace.retryOccurred,
+    recovered: !!trace.recovered,
+    refinedQuery: trace.refinedQuery || null,
+    initialCount: trace.initialCount ?? 0,
+    secondCount: trace.secondCount ?? 0,
+    finalCount: trace.finalCount ?? 0,
+    ragLatencyMs: trace.latencyMs ?? null,
+    supportingSignals: ev.supportingSignals || null,
+    refineError: trace.refineError || null,
+  };
+}
+
+function logRagTrace(sessionId, question, trace, extra = {}) {
+  try {
+    console.log("[rag-v2]", JSON.stringify({
+      sessionId,
+      q: String(question || "").slice(0, 120),
+      decision: trace ? trace.decision : extra.decision || "error",
+      retryOccurred: trace ? !!trace.retryOccurred : false,
+      recovered: trace ? !!trace.recovered : false,
+      refinedQuery: trace && trace.refinedQuery ? String(trace.refinedQuery).slice(0, 120) : null,
+      initialCount: trace ? trace.initialCount : null,
+      finalCount: trace ? trace.finalCount : null,
+      method: trace && trace.finalEvidence ? trace.finalEvidence.method : null,
+      ragLatencyMs: trace ? trace.latencyMs : null,
+      ...extra,
+    }));
+  } catch {}
+}
 
 function formatSourcesForApi(sources) {
   return sources.map((s) => {
@@ -22,6 +69,13 @@ function parseSourcesField(raw) {
 }
 
 // Split a stored row into clean answer + thinking.
+function parseEvidenceField(raw) {
+  if (!raw) return null;
+  try { const v = JSON.parse(raw); return v && typeof v === "object" ? v : null; }
+  catch { return null; }
+}
+
+// Split a stored row into clean answer + thinking.
 // New rows have a dedicated `thinking` column; legacy rows may still
 // carry <think>...</think> blocks inside `answer`, so extract on the fly.
 function withThinking(row) {
@@ -29,7 +83,7 @@ function withThinking(row) {
   const { thinking: tagThinking, answer: clean } = extractThinking(row.answer || "");
   const thinking = [storedThinking, tagThinking].filter(Boolean).join("\n\n").trim();
   const durationMs = row.duration_ms ?? row.durationMs ?? null;
-  return { ...row, answer: clean, thinking, sources: parseSourcesField(row.sources), durationMs };
+  return { ...row, answer: clean, thinking, sources: parseSourcesField(row.sources), durationMs, evidence: parseEvidenceField(row.evidence) };
 }
 
 function makeTitle(question) {
@@ -122,7 +176,18 @@ async function chat(req, res, next) {
       }
     }
 
-    const { results, filteredCount, where, topK: effectiveK } = await searchKnowledgeBase(question, k, { threshold: thr, filter: parsedFilter });
+    // --- Empty knowledge base: fail fast with actionable guidance instead of
+    // the generic abstain message. Each session is isolated, so a question
+    // asked in a chat with no uploads would otherwise always "find nothing".
+    let sessionDocCount = 0;
+    let sessionWebCount = 0;
+    try {
+      sessionDocCount = db.prepare("SELECT COUNT(*) as c FROM documents WHERE status='ready' AND session_id = ?").get(session.id).c;
+    } catch {}
+    try {
+      sessionWebCount = db.prepare("SELECT COUNT(*) as c FROM research_sources WHERE status='completed' AND session_id = ?").get(session.id).c;
+    } catch {}
+    const emptyKb = sessionDocCount === 0 && sessionWebCount === 0;
 
     res.status(200);
     res.setHeader("Content-Type", "application/x-ndjson; charset=utf-8");
@@ -131,26 +196,62 @@ async function chat(req, res, next) {
     res.flushHeaders();
 
     const sendEvent = (event) => res.write(`${JSON.stringify(event)}\n`);
+    const status = (step, message) => sendEvent({ type: "status", step, message });
     const nowIso = new Date().toISOString();
 
-    const saveMessage = (answerText, thinkingText, rawSources) => {
+    const saveMessage = (answerText, thinkingText, rawSources, evidenceObj) => {
       const durationMs = elapsedMs();
-      const info = db.prepare("INSERT INTO chat_history (question, answer, thinking, sources, created_at, session_id, duration_ms) VALUES (?,?,?,?,?,?,?)")
-        .run(question, answerText, thinkingText || "", JSON.stringify(rawSources), nowIso, session.id, durationMs);
+      let evidenceJson = null;
+      try { evidenceJson = evidenceObj ? JSON.stringify(evidenceObj) : null; } catch { evidenceJson = null; }
+      const info = db.prepare("INSERT INTO chat_history (question, answer, thinking, sources, created_at, session_id, duration_ms, evidence) VALUES (?,?,?,?,?,?,?,?)")
+        .run(question, answerText, thinkingText || "", JSON.stringify(rawSources), nowIso, session.id, durationMs, evidenceJson);
       const count = db.prepare("SELECT COUNT(*) as c FROM chat_history WHERE session_id = ?").get(session.id).c;
       touchSession(db, session.id, count <= 1 ? question : null);
       return { session: db.prepare("SELECT * FROM chat_sessions WHERE id = ?").get(session.id), durationMs, messageId: info.lastInsertRowid };
     };
 
-    if (results.length === 0) {
-      const { session: updatedSession, durationMs } = saveMessage(INSUFFICIENT_MSG, "", []);
-      sendEvent({ type: "done", success: true, answer: INSUFFICIENT_MSG, thinking: "", sources: [], topK: effectiveK, threshold: thr, where, filteredCount, insufficient: true, sessionId: session.id, session: updatedSession, durationMs, elapsedMs: durationMs });
+    if (emptyKb) {
+      const emptyEvidence = { version: 2, decision: "abstain", sufficient: false, reason: "Session knowledge base is empty: no ready documents or completed web sources.", missing_information: "Upload a PDF to this chat first.", relevant_chunk_ids: [], conflict: false, method: "rule", retryOccurred: false, recovered: false, refinedQuery: null, initialCount: 0, secondCount: 0, finalCount: 0, ragLatencyMs: elapsedMs() };
+      const { session: updatedSession, durationMs } = saveMessage(EMPTY_KB_MSG, "", [], emptyEvidence);
+      logRagTrace(session.id, question, null, { decision: "abstain-empty-kb" });
+      sendEvent({ type: "done", success: true, answer: EMPTY_KB_MSG, thinking: "", sources: [], topK: k, threshold: thr, where: null, filteredCount: 0, insufficient: true, abstained: true, emptyKnowledgeBase: true, sessionId: session.id, session: updatedSession, durationMs, elapsedMs: durationMs, evidence: emptyEvidence, retryOccurred: false, recovered: false, refinedQuery: null, decision: "abstain" });
+      return res.end();
+    }
+
+    // --- V2 Confidence-Aware RAG: retrieve → check → (refine + retry once) → decide ---
+    // Technical failures (embedding/Chroma/checker infra) propagate as ERRORS,
+    // never as abstentions. Headers are already sent, so report via error event.
+    let trace;
+    try {
+      status("retrieving", "Retrieving relevant information...");
+      trace = await runConfidenceAwareRetrieval(question, { topK: k, threshold: thr, filter: parsedFilter });
+    } catch (err) {
+      logRagTrace(session.id, question, null, { error: String(err.message).slice(0, 200) });
+      const msg = /chroma|embedding|ollama|timed out|ECONNREFUSED|fetch failed/i.test(String(err.message))
+        ? `Retrieval service unavailable: ${err.message}`
+        : err.message;
+      sendEvent({ type: "error", success: false, message: msg, sessionId: session.id, technical: true });
+      return res.end();
+    }
+    const { chunks: results, topK: effectiveK } = { chunks: trace.chunks, topK: trace.topK };
+    const where = trace.where;
+    const filteredCount = trace.filteredCount || 0;
+    const evidence = evidenceForApi(trace);
+    logRagTrace(session.id, question, trace);
+
+    if (trace.retryOccurred) status("retrying", trace.recovered ? "Refined search found supporting evidence." : "Refined search complete.");
+    else status("checking_evidence", trace.decision === "answer" ? "Evidence check passed." : "Checking evidence...");
+
+    if (trace.decision === "abstain" || results.length === 0) {
+      const { session: updatedSession, durationMs } = saveMessage(INSUFFICIENT_MSG, "", [], evidence);
+      sendEvent({ type: "done", success: true, answer: INSUFFICIENT_MSG, thinking: "", sources: [], topK: effectiveK, threshold: thr, where, filteredCount, insufficient: true, abstained: true, sessionId: session.id, session: updatedSession, durationMs, elapsedMs: durationMs, evidence, retryOccurred: trace.retryOccurred, recovered: trace.recovered, refinedQuery: trace.refinedQuery, decision: "abstain" });
       return res.end();
     }
 
     const sources = formatSourcesForApi(results);
-    sendEvent({ type: "meta", sources, topK: effectiveK, threshold: thr, where, filteredCount, sessionId: session.id });
+    sendEvent({ type: "meta", sources, topK: effectiveK, threshold: thr, where, filteredCount, sessionId: session.id, evidence, retryOccurred: trace.retryOccurred, recovered: trace.recovered, refinedQuery: trace.refinedQuery, decision: "answer" });
 
+    status("generating", "Generating an evidence-based answer...");
     let answer = "";
     let thinking = "";
     try {
@@ -170,16 +271,18 @@ async function chat(req, res, next) {
         thinking = (streamed.thinking || "").trim();
       }
     } catch (e) {
+      // Generation failure is technical — report as error, not abstention.
+      logRagTrace(session.id, question, trace, { error: String(e.message).slice(0, 200) });
       if (String(e.message).includes("Ollama")) {
-        sendEvent({ type: "error", success: false, message: "Ollama unavailable: " + e.message, sessionId: session.id });
+        sendEvent({ type: "error", success: false, message: "Ollama unavailable: " + e.message, sessionId: session.id, technical: true });
         return res.end();
       }
       throw e;
     }
     if (!answer) answer = INSUFFICIENT_MSG;
 
-    const { session: updatedSession, durationMs } = saveMessage(answer, thinking, results);
-    sendEvent({ type: "done", success: true, answer, thinking, sources, topK: effectiveK, threshold: thr, where, filteredCount, sessionId: session.id, session: updatedSession, durationMs, elapsedMs: durationMs });
+    const { session: updatedSession, durationMs } = saveMessage(answer, thinking, results, evidence);
+    sendEvent({ type: "done", success: true, answer, thinking, sources, topK: effectiveK, threshold: thr, where, filteredCount, sessionId: session.id, session: updatedSession, durationMs, elapsedMs: durationMs, evidence, retryOccurred: trace.retryOccurred, recovered: trace.recovered, refinedQuery: trace.refinedQuery, decision: trace.decision });
     res.end();
   } catch (err) {
     if (res.headersSent) {

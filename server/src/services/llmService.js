@@ -1,14 +1,17 @@
 const OLLAMA_URL = process.env.OLLAMA_URL || "http://localhost:11434";
 const LLM_MODEL = process.env.LLM_MODEL || "qwen3:4b";
 
-const SYSTEM_PROMPT = `You are a RAG assistant. Follow these rules strictly:
-1. Answer ONLY using the supplied CONTEXT.
-2. Do NOT invent facts not in CONTEXT.
-3. If CONTEXT is insufficient, say: "I could not find enough relevant information in the knowledge base to answer this question."
-4. Distinguish [DOCUMENT] vs [WEB] sources when citing.
-5. Give a thorough, informative answer the user will find satisfying: start with a direct answer, then explain the key points with relevant details and examples from CONTEXT. Use short paragraphs or bullet points for readability. Aim for a complete explanation, not a one-line reply.
-6. If sources disagree, state the disagreement explicitly.
-7. Base every factual claim on CONTEXT; do not add outside facts. Mention the relevant source filename or URL when possible.`;
+const SYSTEM_PROMPT = `You are a confidence-aware RAG assistant. The CONTEXT below is the ONLY source of truth. Follow these rules strictly:
+1. Answer the user's actual QUESTION using the supplied CONTEXT.
+2. Use ONLY facts stated in CONTEXT. Do NOT invent facts, figures, dates, names, citations, or document content not in CONTEXT.
+3. Distinguish explicit facts (directly stated) from reasonable interpretations (clearly label them as interpretations).
+4. If CONTEXT is insufficient, say: "I could not find enough relevant information in the knowledge base to answer this question."
+5. Distinguish [DOCUMENT] vs [WEB] sources when citing.
+6. Give a thorough, informative answer the user will find satisfying: start with a direct answer, then explain the key points with relevant details and examples from CONTEXT. Use short paragraphs or bullet points for readability. Aim for a complete explanation, not a one-line reply.
+7. If sources disagree, state the disagreement explicitly instead of confidently picking one side: name what each side says and which source it comes from.
+8. If some requested detail is missing from CONTEXT, say so explicitly rather than filling the gap.
+9. Base every factual claim on CONTEXT; do not add outside facts. Mention the relevant source filename or URL when possible.
+10. Output ONLY the final answer. Do NOT narrate your reasoning process, do NOT describe the context or the rules, and do NOT use meta-phrases such as "We are given", "Let's look", "Steps:", or "We must". Start directly with the answer to the QUESTION.`;
 
 function formatContext(chunks) {
   if (!chunks || chunks.length === 0) return "";
@@ -58,7 +61,44 @@ function buildPrompt(contextChunks, question, conversationHistory = []) {
   const ctx = formatContext(contextChunks);
   const convo = formatConversationHistory(conversationHistory);
   const convoBlock = convo ? `\n\nCONVERSATION HISTORY (previous turns in this session — use it to resolve follow-ups like "it", "that", "more"):\n${convo}\n` : "";
-  return `${SYSTEM_PROMPT}\n\nCONTEXT:\n${ctx}${convoBlock}\nQUESTION:\n${question}\n\nANSWER:`;
+  return `${SYSTEM_PROMPT}\n\nCONTEXT:\n${ctx}${convoBlock}\nQUESTION:\n${question}\n\nWrite the FINAL ANSWER below — start directly with the answer, no reasoning preamble, no meta-commentary:\nANSWER:`;
+}
+
+const EVIDENCE_TIMEOUT_MS = Number(process.env.EVIDENCE_TIMEOUT_MS) || 90000;
+
+// Low-temperature single-shot call for structured V2 helpers (evidence check,
+// query refinement). Returns raw model text. Never throws disguised errors.
+//
+// `format` defaults to "json" so reasoning models (qwen3) are constrained to
+// valid JSON instead of rambling prose that gets truncated into malformed
+// output (which the evidence checker fails SAFE toward abstention — the
+// "always says not enough information" bug). Pass { format: null } for plain
+// text callers such as query refinement.
+async function generateJson(prompt, { numPredict = 400, format = "json" } = {}) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), EVIDENCE_TIMEOUT_MS);
+  try {
+    const body = { model: LLM_MODEL, prompt, stream: false, think: false, options: { temperature: 0, num_predict: numPredict } };
+    if (format) body.format = format;
+    const res = await fetch(`${OLLAMA_URL}/api/generate`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+      signal: controller.signal,
+    });
+    if (!res.ok) {
+      const errText = await res.text();
+      throw new Error(`Ollama generate failed: ${res.status} ${errText}`);
+    }
+    const data = await res.json();
+    const { answer } = extractThinking(data.response || "");
+    return (answer || "").trim();
+  } catch (error) {
+    if (error.name === "AbortError") throw new Error(`Ollama evidence call timed out after ${EVIDENCE_TIMEOUT_MS}ms`);
+    throw error;
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 
 async function generateAnswer(question, contextChunks, conversationHistory = []) {
@@ -151,4 +191,4 @@ async function streamAnswer(question, contextChunks, onToken, conversationHistor
   return result;
 }
 
-module.exports = { generateAnswer, streamAnswer, LLM_MODEL, OLLAMA_URL, buildPrompt, formatContext, formatConversationHistory, extractThinking, SYSTEM_PROMPT };
+module.exports = { generateAnswer, generateJson, streamAnswer, LLM_MODEL, OLLAMA_URL, EVIDENCE_TIMEOUT_MS, buildPrompt, formatContext, formatConversationHistory, extractThinking, SYSTEM_PROMPT };
