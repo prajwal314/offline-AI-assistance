@@ -1,0 +1,168 @@
+- generic [ref=f1e3]:
+  - banner [ref=f1e4]:
+    - generic [ref=f1e5]:
+      - generic [ref=f1e6]:
+        - generic [ref=f1e7]: ◉
+        - generic [ref=f1e8]:
+          - generic [ref=f1e9]: AI Knowledge Assistant
+          - generic [ref=f1e10]: Offline RAG Knowledge Platform
+      - generic [ref=f1e11]: Qwen3 · Chroma · SQLite · ↔ drag dividers / corners to resize
+      - generic [ref=f1e12]:
+        - generic [ref=f1e13]:
+          - generic [ref=f1e14]:
+            - generic "Backend operational" [ref=f1e15]: API
+            - generic "Metadata DB ready" [ref=f1e19]: SQLite
+            - generic "48 vectors indexed" [ref=f1e23]: Chroma
+            - generic "LLM ready (qwen3:4b)" [ref=f1e27]: Ollama
+            - button "↻" [ref=f1e30] [cursor=pointer]
+          - generic "All local services online — Q&A ready" [ref=f1e32]: All Ready
+        - generic [ref=f1e34]: Local
+        - button "🌙" [ref=f1e36] [cursor=pointer]
+        - button "Reset" [ref=f1e37] [cursor=pointer]
+  - main [ref=f1e38]:
+    - generic [ref=f1e39]:
+      - generic [ref=f1e40]:
+        - generic [ref=f1e42]:
+          - generic [ref=f1e43]:
+            - heading "Knowledge Base" [level=2] [ref=f1e45]
+            - button "Refresh" [ref=f1e46] [cursor=pointer]
+          - generic [ref=f1e47]:
+            - generic [ref=f1e48]:
+              - generic [ref=f1e49]: Documents
+              - generic [ref=f1e50]: "1"
+              - generic [ref=f1e51]: 1 ready
+            - generic [ref=f1e52]:
+              - generic [ref=f1e53]: Ready
+              - generic [ref=f1e54]: "1"
+              - generic [ref=f1e55]: 0 failed
+            - generic [ref=f1e56]:
+              - generic [ref=f1e57]: Web Sources
+              - generic [ref=f1e58]: "0"
+              - generic [ref=f1e59]: 0 total
+            - generic [ref=f1e60]:
+              - generic [ref=f1e61]: Total Chunks
+              - generic [ref=f1e62]: "48"
+              - generic [ref=f1e63]: Knowledge
+            - generic [ref=f1e64]:
+              - generic [ref=f1e65]: Doc Chunks
+              - generic [ref=f1e66]: "48"
+              - generic [ref=f1e67]: From PDFs
+            - generic [ref=f1e68]:
+              - generic [ref=f1e69]: Web Chunks
+              - generic [ref=f1e70]: "0"
+              - generic [ref=f1e71]: From web
+        - generic "Drag corner to resize · double-click to reset" [ref=f1e72]
+      - generic "Drag to resize · double-click to reset" [ref=f1e75]
+      - generic [ref=f1e77]:
+        - generic [ref=f1e78]:
+          - generic [ref=f1e79]:
+            - generic [ref=f1e80]: 🌐
+            - generic [ref=f1e81]:
+              - heading "Internet Research" [level=2] [ref=f1e82]
+              - paragraph [ref=f1e83]: Web → local KB · Q&A stays offline
+          - generic [ref=f1e85]:
+            - generic [ref=f1e86]:
+              - generic [ref=f1e87]: Status
+              - generic [ref=f1e88]: idle
+              - generic [ref=f1e90]: idle
+            - generic [ref=f1e91]:
+              - generic [ref=f1e92]: Documents
+              - generic [ref=f1e93]: "1"
+              - generic [ref=f1e94]: Indexed
+            - generic [ref=f1e95]:
+              - generic [ref=f1e96]: Web Sources
+              - generic [ref=f1e97]: 0 / 0
+              - generic [ref=f1e98]: Collected
+            - generic [ref=f1e99]:
+              - generic [ref=f1e100]: Total Chunks
+              - generic [ref=f1e101]: "48"
+              - generic [ref=f1e102]: Embeddings
+            - generic [ref=f1e103]:
+              - generic [ref=f1e104]: Progress
+              - generic [ref=f1e105]: 0 / 0
+              - generic [ref=f1e106]: failed 0
+            - generic [ref=f1e107]:
+              - generic [ref=f1e108]: Chunks +
+              - generic [ref=f1e109]: "0"
+              - generic [ref=f1e110]: This run
+        - generic "Drag corner to resize · double-click to reset" [ref=f1e112]
+        - generic [ref=f1e115]: React → Express → SQLite / Chroma / Ollama → RAGQ&A offline · Web only for Research
+    - generic "Drag to resize · double-click to reset" [ref=f1e116]
+    - generic [ref=f1e118]:
+      - generic [ref=f1e119]:
+        - generic [ref=f1e121]:
+          - generic [ref=f1e122]:
+            - generic [ref=f1e123]:
+              - heading "Documents" [level=2] [ref=f1e124]
+              - paragraph [ref=f1e125]: 1 PDFs indexed
+            - generic [ref=f1e126] [cursor=pointer]:
+              - generic [ref=f1e127]: +
+              - text: Upload PDF
+            - button "Meta" [ref=f1e128] [cursor=pointer]
+          - list [ref=f1e130]:
+            - listitem [ref=f1e131]:
+              - generic [ref=f1e132]: PDF
+              - generic [ref=f1e133]:
+                - generic [ref=f1e134]: NIST.AI.100-1.pdf
+                - generic [ref=f1e135]:
+                  - generic [ref=f1e136]: ready
+                  - generic [ref=f1e137]: Processed
+              - button "×" [ref=f1e138] [cursor=pointer]
+        - generic "Drag corner to resize · double-click to reset" [ref=f1e139]
+      - generic "Drag to resize · double-click to reset" [ref=f1e142]
+      - button "Search Internet & Build Knowledge Base" [ref=f1e146] [cursor=pointer]
+      - generic [ref=f1e147]:
+        - generic [ref=f1e148]:
+          - generic [ref=f1e149]:
+            - generic [ref=f1e150]:
+              - heading "Research Sources" [level=3] [ref=f1e151]
+              - paragraph [ref=f1e152]: 0 sources
+            - button "Refresh" [ref=f1e153] [cursor=pointer]
+          - table [ref=f1e155]:
+            - rowgroup [ref=f1e156]:
+              - row [ref=f1e157]:
+                - columnheader "Source" [ref=f1e158]
+                - columnheader "Status" [ref=f1e159]
+                - columnheader "Open" [ref=f1e160]
+            - rowgroup [ref=f1e161]:
+              - row [ref=f1e162]:
+                - cell "No sources yet — run Internet Research." [ref=f1e163]
+        - generic "Drag corner to resize · double-click to reset" [ref=f1e164]
+    - generic "Drag to resize · double-click to reset" [ref=f1e167]
+    - generic [ref=f1e170]:
+      - generic [ref=f1e172]:
+        - heading "AI Knowledge Assistant" [level=2] [ref=f1e173]
+        - paragraph [ref=f1e174]: RAG answers with sources · context preserved
+      - generic [ref=f1e175]:
+        - complementary [ref=f1e176]:
+          - generic [ref=f1e177]:
+            - button "+ New chat" [disabled] [ref=f1e178]:
+              - generic [ref=f1e179]: +
+              - text: New chat
+            - textbox "Search chats..." [ref=f1e180]
+          - generic [ref=f1e181]: Sessions · 1
+          - generic [ref=f1e182]:
+            - button "New chat Start a fresh session" [ref=f1e183] [cursor=pointer]:
+              - generic [ref=f1e184]: New chat
+              - generic [ref=f1e185]: Start a fresh session
+            - generic "Who authored the AI RMF 1.0 publication?" [ref=f1e186] [cursor=pointer]:
+              - generic [ref=f1e189]:
+                - generic [ref=f1e190]: 2 msgs
+                - generic [ref=f1e191]: ·
+                - generic [ref=f1e192]: 10/15/2026, 11:12:46 PM
+              - generic [ref=f1e193]: What does the Manage function focus on?
+        - generic "Drag to resize sessions · double-click to reset" [ref=f1e194]
+        - generic [ref=f1e196]:
+          - generic [ref=f1e197]:
+            - generic [ref=f1e198]:
+              - generic [ref=f1e199]: New chat
+              - generic [ref=f1e200]: Context will be saved as a session once you send your first message
+            - button "Retrieval" [ref=f1e201] [cursor=pointer]
+          - generic [ref=f1e305]:
+            - generic [ref=f1e306]: What is the NIST AI Risk Management Framework?
+            - generic [ref=f1e308]: Assistant is answering…
+          - generic [ref=f1e293]:
+            - generic [ref=f1e294]:
+              - textbox "Ask something to start a new session..." [active] [ref=f1e304]
+              - button "↑" [disabled] [ref=f1e296]
+            - generic [ref=f1e298]: A new session will be created on send and appear on the left.

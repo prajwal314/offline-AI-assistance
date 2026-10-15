@@ -1,0 +1,571 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "tests/01_smoke.spec.js"
+    ],
+    "configFile": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\playwright.config.js",
+    "rootDir": "E:/Project/major pro/Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG/evaluation/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "E:/Project/major pro/Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG/evaluation/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "E:/Project/major pro/Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG/evaluation/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "chromium",
+        "testDir": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests",
+        "snapshotDir": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 180000,
+        "use": {
+          "baseURL": "http://localhost:5173",
+          "browserName": "chromium",
+          "headless": true,
+          "screenshot": "on",
+          "video": "off",
+          "trace": "retain-on-failure",
+          "actionTimeout": 120000,
+          "navigationTimeout": 30000,
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "screen": {
+            "width": 1920,
+            "height": 1080
+          },
+          "deviceScaleFactor": 1,
+          "isMobile": false,
+          "hasTouch": false,
+          "defaultBrowserType": "chromium"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "chromium"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "./playwright_report.json"
+        }
+      ],
+      [
+        "html",
+        {
+          "outputFolder": "./playwright_html_report",
+          "open": "never"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "01_smoke.spec.js",
+      "file": "01_smoke.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Application Smoke Tests (Playwright CLI)",
+          "file": "01_smoke.spec.js",
+          "line": 13,
+          "column": 6,
+          "specs": [
+            {
+              "title": "1. App loads and all services are green",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 2069,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=AI Knowledge Assistant')\nExpected: visible\nError: strict mode violation: locator('text=AI Knowledge Assistant') resolved to 2 elements:\n    1) <div class=\"text-[13px] font-semibold tracking-tight text-gray-900 dark:text-gray-100 truncate\">AI Knowledge Assistant</div> aka getByRole('banner').getByText('AI Knowledge Assistant')\n    2) <h2 class=\"text-[13px] font-semibold text-gray-900 dark:text-gray-100\">AI Knowledge Assistant</h2> aka getByRole('heading', { name: 'AI Knowledge Assistant' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('text=AI Knowledge Assistant') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=AI Knowledge Assistant')\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=AI Knowledge Assistant')\nExpected: visible\nError: strict mode violation: locator('text=AI Knowledge Assistant') resolved to 2 elements:\n    1) <div class=\"text-[13px] font-semibold tracking-tight text-gray-900 dark:text-gray-100 truncate\">AI Knowledge Assistant</div> aka getByRole('banner').getByText('AI Knowledge Assistant')\n    2) <h2 class=\"text-[13px] font-semibold text-gray-900 dark:text-gray-100\">AI Knowledge Assistant</h2> aka getByRole('heading', { name: 'AI Knowledge Assistant' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('text=AI Knowledge Assistant') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=AI Knowledge Assistant')\u001b[22m\n\n    at E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests\\01_smoke.spec.js:18:63",
+                        "location": {
+                          "file": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests\\01_smoke.spec.js",
+                          "column": 63,
+                          "line": 18
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 16 |\u001b[39m\n \u001b[90m 17 |\u001b[39m     \u001b[90m// Check title\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'text=AI Knowledge Assistant'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                               \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 19 |\u001b[39m     \n \u001b[90m 20 |\u001b[39m     \u001b[90m// Check service status indicators are \"All Ready\" or green\u001b[39m\n \u001b[90m 21 |\u001b[39m     \u001b[90m// The header shows API, SQLite, Chroma, Ollama status badges\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests\\01_smoke.spec.js",
+                            "column": 63,
+                            "line": 18
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=AI Knowledge Assistant')\nExpected: visible\nError: strict mode violation: locator('text=AI Knowledge Assistant') resolved to 2 elements:\n    1) <div class=\"text-[13px] font-semibold tracking-tight text-gray-900 dark:text-gray-100 truncate\">AI Knowledge Assistant</div> aka getByRole('banner').getByText('AI Knowledge Assistant')\n    2) <h2 class=\"text-[13px] font-semibold text-gray-900 dark:text-gray-100\">AI Knowledge Assistant</h2> aka getByRole('heading', { name: 'AI Knowledge Assistant' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('text=AI Knowledge Assistant') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=AI Knowledge Assistant')\u001b[22m\n\n\n  16 |\n  17 |     // Check title\n> 18 |     await expect(page.locator('text=AI Knowledge Assistant')).toBeVisible();\n     |                                                               ^\n  19 |     \n  20 |     // Check service status indicators are \"All Ready\" or green\n  21 |     // The header shows API, SQLite, Chroma, Ollama status badges\n    at E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests\\01_smoke.spec.js:18:63"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T18:23:47.173Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\test-results\\01_smoke-Application-Smoke-79d44--and-all-services-are-green-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\test-results\\01_smoke-Application-Smoke-79d44--and-all-services-are-green-chromium\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\test-results\\01_smoke-Application-Smoke-79d44--and-all-services-are-green-chromium\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests\\01_smoke.spec.js",
+                        "column": 63,
+                        "line": 18
+                      }
+                    },
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1773,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=AI Knowledge Assistant')\nExpected: visible\nError: strict mode violation: locator('text=AI Knowledge Assistant') resolved to 2 elements:\n    1) <div class=\"text-[13px] font-semibold tracking-tight text-gray-900 dark:text-gray-100 truncate\">AI Knowledge Assistant</div> aka getByRole('banner').getByText('AI Knowledge Assistant')\n    2) <h2 class=\"text-[13px] font-semibold text-gray-900 dark:text-gray-100\">AI Knowledge Assistant</h2> aka getByRole('heading', { name: 'AI Knowledge Assistant' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('text=AI Knowledge Assistant') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=AI Knowledge Assistant')\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=AI Knowledge Assistant')\nExpected: visible\nError: strict mode violation: locator('text=AI Knowledge Assistant') resolved to 2 elements:\n    1) <div class=\"text-[13px] font-semibold tracking-tight text-gray-900 dark:text-gray-100 truncate\">AI Knowledge Assistant</div> aka getByRole('banner').getByText('AI Knowledge Assistant')\n    2) <h2 class=\"text-[13px] font-semibold text-gray-900 dark:text-gray-100\">AI Knowledge Assistant</h2> aka getByRole('heading', { name: 'AI Knowledge Assistant' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('text=AI Knowledge Assistant') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=AI Knowledge Assistant')\u001b[22m\n\n    at E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests\\01_smoke.spec.js:18:63",
+                        "location": {
+                          "file": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests\\01_smoke.spec.js",
+                          "column": 63,
+                          "line": 18
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 16 |\u001b[39m\n \u001b[90m 17 |\u001b[39m     \u001b[90m// Check title\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'text=AI Knowledge Assistant'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                               \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 19 |\u001b[39m     \n \u001b[90m 20 |\u001b[39m     \u001b[90m// Check service status indicators are \"All Ready\" or green\u001b[39m\n \u001b[90m 21 |\u001b[39m     \u001b[90m// The header shows API, SQLite, Chroma, Ollama status badges\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests\\01_smoke.spec.js",
+                            "column": 63,
+                            "line": 18
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=AI Knowledge Assistant')\nExpected: visible\nError: strict mode violation: locator('text=AI Knowledge Assistant') resolved to 2 elements:\n    1) <div class=\"text-[13px] font-semibold tracking-tight text-gray-900 dark:text-gray-100 truncate\">AI Knowledge Assistant</div> aka getByRole('banner').getByText('AI Knowledge Assistant')\n    2) <h2 class=\"text-[13px] font-semibold text-gray-900 dark:text-gray-100\">AI Knowledge Assistant</h2> aka getByRole('heading', { name: 'AI Knowledge Assistant' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('text=AI Knowledge Assistant') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=AI Knowledge Assistant')\u001b[22m\n\n\n  16 |\n  17 |     // Check title\n> 18 |     await expect(page.locator('text=AI Knowledge Assistant')).toBeVisible();\n     |                                                               ^\n  19 |     \n  20 |     // Check service status indicators are \"All Ready\" or green\n  21 |     // The header shows API, SQLite, Chroma, Ollama status badges\n    at E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests\\01_smoke.spec.js:18:63"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-10-15T18:23:50.813Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\test-results\\01_smoke-Application-Smoke-79d44--and-all-services-are-green-chromium-retry1\\test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\test-results\\01_smoke-Application-Smoke-79d44--and-all-services-are-green-chromium-retry1\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\test-results\\01_smoke-Application-Smoke-79d44--and-all-services-are-green-chromium-retry1\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests\\01_smoke.spec.js",
+                        "column": 63,
+                        "line": 18
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ad0786c9178594252b08-fd3c44adaafc90a8aabc",
+              "file": "01_smoke.spec.js",
+              "line": 14,
+              "column": 3
+            },
+            {
+              "title": "2. Document list shows NIST AI 100-1 PDF indexed",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 2125,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=NIST.AI.100-1.pdf')\nExpected: visible\nError: strict mode violation: locator('text=NIST.AI.100-1.pdf') resolved to 10 elements:\n    1) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate pr-1\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').first()\n    2) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').nth(1)\n    3) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').nth(2)\n    4) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').nth(3)\n    5) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').nth(4)\n    6) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').nth(5)\n    7) <div class=\"text-sm leading-relaxed text-gray-800 dark:text-gray-200 whitespace-pre-wrap\">The Manage function in the NIST AI RMF 1.0 focuse…</div> aka getByText('The Manage function in the')\n    8) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka locator('div:nth-child(2) > .px-4.py-4 > .pt-3 > .grid > li > .flex.items-start > .flex-1 > .text-xs').first()\n    9) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka locator('div:nth-child(2) > .px-4.py-4 > .pt-3 > .grid > li:nth-child(2) > .flex.items-start > .flex-1 > .text-xs')\n    10) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka locator('div:nth-child(2) > .px-4.py-4 > .pt-3 > .grid > li:nth-child(3) > .flex.items-start > .flex-1 > .text-xs')\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('text=NIST.AI.100-1.pdf') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=NIST.AI.100-1.pdf')\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=NIST.AI.100-1.pdf')\nExpected: visible\nError: strict mode violation: locator('text=NIST.AI.100-1.pdf') resolved to 10 elements:\n    1) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate pr-1\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').first()\n    2) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').nth(1)\n    3) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').nth(2)\n    4) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').nth(3)\n    5) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').nth(4)\n    6) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').nth(5)\n    7) <div class=\"text-sm leading-relaxed text-gray-800 dark:text-gray-200 whitespace-pre-wrap\">The Manage function in the NIST AI RMF 1.0 focuse…</div> aka getByText('The Manage function in the')\n    8) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka locator('div:nth-child(2) > .px-4.py-4 > .pt-3 > .grid > li > .flex.items-start > .flex-1 > .text-xs').first()\n    9) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka locator('div:nth-child(2) > .px-4.py-4 > .pt-3 > .grid > li:nth-child(2) > .flex.items-start > .flex-1 > .text-xs')\n    10) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka locator('div:nth-child(2) > .px-4.py-4 > .pt-3 > .grid > li:nth-child(3) > .flex.items-start > .flex-1 > .text-xs')\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('text=NIST.AI.100-1.pdf') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=NIST.AI.100-1.pdf')\u001b[22m\n\n    at E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests\\01_smoke.spec.js:41:27",
+                        "location": {
+                          "file": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests\\01_smoke.spec.js",
+                          "column": 27,
+                          "line": 41
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 39 |\u001b[39m     \u001b[90m// Verify document is shown with \"ready\" status\u001b[39m\n \u001b[90m 40 |\u001b[39m     \u001b[36mconst\u001b[39m docItem \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'text=NIST.AI.100-1.pdf'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 41 |\u001b[39m     \u001b[36mawait\u001b[39m expect(docItem)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 42 |\u001b[39m     \n \u001b[90m 43 |\u001b[39m     \u001b[90m// Check chunk count is visible (should be 48)\u001b[39m\n \u001b[90m 44 |\u001b[39m     \u001b[36mconst\u001b[39m docsPanel \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'text=DOC CH...'\u001b[39m)\u001b[33m.\u001b[39mlocator(\u001b[32m'..'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests\\01_smoke.spec.js",
+                            "column": 27,
+                            "line": 41
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=NIST.AI.100-1.pdf')\nExpected: visible\nError: strict mode violation: locator('text=NIST.AI.100-1.pdf') resolved to 10 elements:\n    1) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate pr-1\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').first()\n    2) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').nth(1)\n    3) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').nth(2)\n    4) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').nth(3)\n    5) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').nth(4)\n    6) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').nth(5)\n    7) <div class=\"text-sm leading-relaxed text-gray-800 dark:text-gray-200 whitespace-pre-wrap\">The Manage function in the NIST AI RMF 1.0 focuse…</div> aka getByText('The Manage function in the')\n    8) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka locator('div:nth-child(2) > .px-4.py-4 > .pt-3 > .grid > li > .flex.items-start > .flex-1 > .text-xs').first()\n    9) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka locator('div:nth-child(2) > .px-4.py-4 > .pt-3 > .grid > li:nth-child(2) > .flex.items-start > .flex-1 > .text-xs')\n    10) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka locator('div:nth-child(2) > .px-4.py-4 > .pt-3 > .grid > li:nth-child(3) > .flex.items-start > .flex-1 > .text-xs')\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('text=NIST.AI.100-1.pdf') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=NIST.AI.100-1.pdf')\u001b[22m\n\n\n  39 |     // Verify document is shown with \"ready\" status\n  40 |     const docItem = page.locator('text=NIST.AI.100-1.pdf');\n> 41 |     await expect(docItem).toBeVisible();\n     |                           ^\n  42 |     \n  43 |     // Check chunk count is visible (should be 48)\n  44 |     const docsPanel = page.locator('text=DOC CH...').locator('..');\n    at E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests\\01_smoke.spec.js:41:27"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T18:23:54.030Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\test-results\\01_smoke-Application-Smoke-0d582-s-NIST-AI-100-1-PDF-indexed-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\test-results\\01_smoke-Application-Smoke-0d582-s-NIST-AI-100-1-PDF-indexed-chromium\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\test-results\\01_smoke-Application-Smoke-0d582-s-NIST-AI-100-1-PDF-indexed-chromium\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests\\01_smoke.spec.js",
+                        "column": 27,
+                        "line": 41
+                      }
+                    },
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1981,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=NIST.AI.100-1.pdf')\nExpected: visible\nError: strict mode violation: locator('text=NIST.AI.100-1.pdf') resolved to 10 elements:\n    1) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate pr-1\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').first()\n    2) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').nth(1)\n    3) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').nth(2)\n    4) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').nth(3)\n    5) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').nth(4)\n    6) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').nth(5)\n    7) <div class=\"text-sm leading-relaxed text-gray-800 dark:text-gray-200 whitespace-pre-wrap\">The Manage function in the NIST AI RMF 1.0 focuse…</div> aka getByText('The Manage function in the')\n    8) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka locator('div:nth-child(2) > .px-4.py-4 > .pt-3 > .grid > li > .flex.items-start > .flex-1 > .text-xs').first()\n    9) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka locator('div:nth-child(2) > .px-4.py-4 > .pt-3 > .grid > li:nth-child(2) > .flex.items-start > .flex-1 > .text-xs')\n    10) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka locator('div:nth-child(2) > .px-4.py-4 > .pt-3 > .grid > li:nth-child(3) > .flex.items-start > .flex-1 > .text-xs')\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('text=NIST.AI.100-1.pdf') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=NIST.AI.100-1.pdf')\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=NIST.AI.100-1.pdf')\nExpected: visible\nError: strict mode violation: locator('text=NIST.AI.100-1.pdf') resolved to 10 elements:\n    1) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate pr-1\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').first()\n    2) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').nth(1)\n    3) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').nth(2)\n    4) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').nth(3)\n    5) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').nth(4)\n    6) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').nth(5)\n    7) <div class=\"text-sm leading-relaxed text-gray-800 dark:text-gray-200 whitespace-pre-wrap\">The Manage function in the NIST AI RMF 1.0 focuse…</div> aka getByText('The Manage function in the')\n    8) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka locator('div:nth-child(2) > .px-4.py-4 > .pt-3 > .grid > li > .flex.items-start > .flex-1 > .text-xs').first()\n    9) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka locator('div:nth-child(2) > .px-4.py-4 > .pt-3 > .grid > li:nth-child(2) > .flex.items-start > .flex-1 > .text-xs')\n    10) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka locator('div:nth-child(2) > .px-4.py-4 > .pt-3 > .grid > li:nth-child(3) > .flex.items-start > .flex-1 > .text-xs')\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('text=NIST.AI.100-1.pdf') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=NIST.AI.100-1.pdf')\u001b[22m\n\n    at E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests\\01_smoke.spec.js:41:27",
+                        "location": {
+                          "file": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests\\01_smoke.spec.js",
+                          "column": 27,
+                          "line": 41
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 39 |\u001b[39m     \u001b[90m// Verify document is shown with \"ready\" status\u001b[39m\n \u001b[90m 40 |\u001b[39m     \u001b[36mconst\u001b[39m docItem \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'text=NIST.AI.100-1.pdf'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 41 |\u001b[39m     \u001b[36mawait\u001b[39m expect(docItem)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 42 |\u001b[39m     \n \u001b[90m 43 |\u001b[39m     \u001b[90m// Check chunk count is visible (should be 48)\u001b[39m\n \u001b[90m 44 |\u001b[39m     \u001b[36mconst\u001b[39m docsPanel \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'text=DOC CH...'\u001b[39m)\u001b[33m.\u001b[39mlocator(\u001b[32m'..'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests\\01_smoke.spec.js",
+                            "column": 27,
+                            "line": 41
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=NIST.AI.100-1.pdf')\nExpected: visible\nError: strict mode violation: locator('text=NIST.AI.100-1.pdf') resolved to 10 elements:\n    1) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate pr-1\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').first()\n    2) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').nth(1)\n    3) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').nth(2)\n    4) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').nth(3)\n    5) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').nth(4)\n    6) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka getByText('NIST.AI.100-1.pdf').nth(5)\n    7) <div class=\"text-sm leading-relaxed text-gray-800 dark:text-gray-200 whitespace-pre-wrap\">The Manage function in the NIST AI RMF 1.0 focuse…</div> aka getByText('The Manage function in the')\n    8) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka locator('div:nth-child(2) > .px-4.py-4 > .pt-3 > .grid > li > .flex.items-start > .flex-1 > .text-xs').first()\n    9) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka locator('div:nth-child(2) > .px-4.py-4 > .pt-3 > .grid > li:nth-child(2) > .flex.items-start > .flex-1 > .text-xs')\n    10) <div class=\"text-xs font-medium text-gray-900 dark:text-gray-100 truncate\">NIST.AI.100-1.pdf</div> aka locator('div:nth-child(2) > .px-4.py-4 > .pt-3 > .grid > li:nth-child(3) > .flex.items-start > .flex-1 > .text-xs')\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('text=NIST.AI.100-1.pdf') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=NIST.AI.100-1.pdf')\u001b[22m\n\n\n  39 |     // Verify document is shown with \"ready\" status\n  40 |     const docItem = page.locator('text=NIST.AI.100-1.pdf');\n> 41 |     await expect(docItem).toBeVisible();\n     |                           ^\n  42 |     \n  43 |     // Check chunk count is visible (should be 48)\n  44 |     const docsPanel = page.locator('text=DOC CH...').locator('..');\n    at E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests\\01_smoke.spec.js:41:27"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-10-15T18:23:57.575Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\test-results\\01_smoke-Application-Smoke-0d582-s-NIST-AI-100-1-PDF-indexed-chromium-retry1\\test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\test-results\\01_smoke-Application-Smoke-0d582-s-NIST-AI-100-1-PDF-indexed-chromium-retry1\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\test-results\\01_smoke-Application-Smoke-0d582-s-NIST-AI-100-1-PDF-indexed-chromium-retry1\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests\\01_smoke.spec.js",
+                        "column": 27,
+                        "line": 41
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ad0786c9178594252b08-6d1074a289d4ae0d15f2",
+              "file": "01_smoke.spec.js",
+              "line": 36,
+              "column": 3
+            },
+            {
+              "title": "3. New chat session creation works",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2762,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "✓ New chat created\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T18:24:01.132Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\test-results\\01_smoke-Application-Smoke-ccb4a-chat-session-creation-works-chromium\\test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ad0786c9178594252b08-c6cddd77caa919ec7688",
+              "file": "01_smoke.spec.js",
+              "line": 54,
+              "column": 3
+            },
+            {
+              "title": "4. Chat input accepts a question",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 12046,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('textarea').first()\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('textarea').first() with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('textarea').first()\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('textarea').first()\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('textarea').first() with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('textarea').first()\u001b[22m\n\n    at E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests\\01_smoke.spec.js:77:25",
+                        "location": {
+                          "file": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests\\01_smoke.spec.js",
+                          "column": 25,
+                          "line": 77
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 75 |\u001b[39m     \u001b[90m// Try to find the chat input box more specifically\u001b[39m\n \u001b[90m 76 |\u001b[39m     \u001b[36mconst\u001b[39m input \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'textarea'\u001b[39m)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 77 |\u001b[39m     \u001b[36mawait\u001b[39m expect(input)\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m10000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 78 |\u001b[39m     \n \u001b[90m 79 |\u001b[39m     \u001b[36mawait\u001b[39m input\u001b[33m.\u001b[39mfill(\u001b[32m'What is the NIST AI Risk Management Framework?'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 80 |\u001b[39m     \u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests\\01_smoke.spec.js",
+                            "column": 25,
+                            "line": 77
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('textarea').first()\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('textarea').first() with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('textarea').first()\u001b[22m\n\n\n  75 |     // Try to find the chat input box more specifically\n  76 |     const input = page.locator('textarea').first();\n> 77 |     await expect(input).toBeVisible({ timeout: 10000 });\n     |                         ^\n  78 |     \n  79 |     await input.fill('What is the NIST AI Risk Management Framework?');\n  80 |     \n    at E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests\\01_smoke.spec.js:77:25"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T18:24:04.043Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\test-results\\01_smoke-Application-Smoke-af8d5-at-input-accepts-a-question-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\test-results\\01_smoke-Application-Smoke-af8d5-at-input-accepts-a-question-chromium\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\test-results\\01_smoke-Application-Smoke-af8d5-at-input-accepts-a-question-chromium\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests\\01_smoke.spec.js",
+                        "column": 25,
+                        "line": 77
+                      }
+                    },
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 12400,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('textarea').first()\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('textarea').first() with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('textarea').first()\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('textarea').first()\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('textarea').first() with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('textarea').first()\u001b[22m\n\n    at E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests\\01_smoke.spec.js:77:25",
+                        "location": {
+                          "file": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests\\01_smoke.spec.js",
+                          "column": 25,
+                          "line": 77
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 75 |\u001b[39m     \u001b[90m// Try to find the chat input box more specifically\u001b[39m\n \u001b[90m 76 |\u001b[39m     \u001b[36mconst\u001b[39m input \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'textarea'\u001b[39m)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 77 |\u001b[39m     \u001b[36mawait\u001b[39m expect(input)\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m10000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 78 |\u001b[39m     \n \u001b[90m 79 |\u001b[39m     \u001b[36mawait\u001b[39m input\u001b[33m.\u001b[39mfill(\u001b[32m'What is the NIST AI Risk Management Framework?'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 80 |\u001b[39m     \u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests\\01_smoke.spec.js",
+                            "column": 25,
+                            "line": 77
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('textarea').first()\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('textarea').first() with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('textarea').first()\u001b[22m\n\n\n  75 |     // Try to find the chat input box more specifically\n  76 |     const input = page.locator('textarea').first();\n> 77 |     await expect(input).toBeVisible({ timeout: 10000 });\n     |                         ^\n  78 |     \n  79 |     await input.fill('What is the NIST AI Risk Management Framework?');\n  80 |     \n    at E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests\\01_smoke.spec.js:77:25"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-10-15T18:24:17.681Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\test-results\\01_smoke-Application-Smoke-af8d5-at-input-accepts-a-question-chromium-retry1\\test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\test-results\\01_smoke-Application-Smoke-af8d5-at-input-accepts-a-question-chromium-retry1\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\test-results\\01_smoke-Application-Smoke-af8d5-at-input-accepts-a-question-chromium-retry1\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "E:\\Project\\major pro\\Adaptive-Multi-Dimensional-Evidence-Scoring-for-Enterprise-RAG\\evaluation\\tests\\01_smoke.spec.js",
+                        "column": 25,
+                        "line": 77
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "ad0786c9178594252b08-90349a3d1280d1b06f53",
+              "file": "01_smoke.spec.js",
+              "line": 69,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-15T18:23:46.516Z",
+    "duration": 45268.044,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 3,
+    "flaky": 0
+  }
+}

@@ -1,0 +1,1314 @@
+[
+  {
+    "id": "Q01",
+    "query": "What is the full title and publication number of the NIST AI Risk Management Framework?",
+    "question_type": "exact_id_lookup",
+    "split": "test",
+    "expected_answer": "NIST AI 100-1, Artificial Intelligence Risk Management Framework (AI RMF 1.0).",
+    "required_facts": [
+      "Publication number is NIST AI 100-1",
+      "Full title is Artificial Intelligence Risk Management Framework (AI RMF 1.0)"
+    ],
+    "relevant_chunk_ids": [
+      "1_0",
+      "1_1"
+    ],
+    "relevance_grades": {
+      "1_0": 3,
+      "1_1": 3,
+      "1_3": 1
+    },
+    "requires_multiple_chunks": false,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q02",
+    "query": "Who authored and issued the NIST AI RMF 1.0 publication?",
+    "question_type": "simple_factual",
+    "split": "test",
+    "expected_answer": "The National Institute of Standards and Technology (NIST), an agency of the U.S. Department of Commerce.",
+    "required_facts": [
+      "Authored by NIST",
+      "U.S. Department of Commerce"
+    ],
+    "relevant_chunk_ids": [
+      "1_0",
+      "1_1"
+    ],
+    "relevance_grades": {
+      "1_0": 2,
+      "1_1": 3
+    },
+    "requires_multiple_chunks": false,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q03",
+    "query": "What is the publication date and DOI URL of NIST AI 100-1?",
+    "question_type": "exact_id_lookup",
+    "split": "test",
+    "expected_answer": "Published in January 2023 with DOI URL https://doi.org/10.6028/NIST.AI.100-1.",
+    "required_facts": [
+      "Published January 2023",
+      "DOI: https://doi.org/10.6028/NIST.AI.100-1"
+    ],
+    "relevant_chunk_ids": [
+      "1_1",
+      "1_47"
+    ],
+    "relevance_grades": {
+      "1_1": 3,
+      "1_47": 3
+    },
+    "requires_multiple_chunks": false,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q04",
+    "query": "What is the primary purpose and intended outcome of the NIST AI RMF?",
+    "question_type": "simple_factual",
+    "split": "test",
+    "expected_answer": "To offer a resource to organizations designing, developing, deploying, or using AI systems to help manage the many risks of AI and promote trustworthy and responsible AI development and use.",
+    "required_facts": [
+      "Help organizations manage AI risks",
+      "Promote trustworthy and responsible AI development and use",
+      "Voluntary and resource-efficient"
+    ],
+    "relevant_chunk_ids": [
+      "1_0",
+      "1_6",
+      "1_7"
+    ],
+    "relevance_grades": {
+      "1_6": 3,
+      "1_7": 2,
+      "1_0": 1
+    },
+    "requires_multiple_chunks": false,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q05",
+    "query": "Is the NIST AI Risk Management Framework mandatory or voluntary for organizations?",
+    "question_type": "simple_factual",
+    "split": "test",
+    "expected_answer": "The NIST AI RMF is expressly voluntary, non-prescriptive, and rights-preserving.",
+    "required_facts": [
+      "Framework is voluntary",
+      "Non-prescriptive"
+    ],
+    "relevant_chunk_ids": [
+      "1_6",
+      "1_46"
+    ],
+    "relevance_grades": {
+      "1_6": 3,
+      "1_46": 3
+    },
+    "requires_multiple_chunks": false,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q06",
+    "query": "What are the two main parts into which the NIST AI RMF document is divided?",
+    "question_type": "simple_factual",
+    "split": "test",
+    "expected_answer": "Part 1: Foundational Information (framing risk, trustworthiness, audience) and Part 2: Core and Profiles (the four functions: GOVERN, MAP, MEASURE, MANAGE).",
+    "required_facts": [
+      "Part 1 covers Foundational Information",
+      "Part 2 covers Core and Profiles"
+    ],
+    "relevant_chunk_ids": [
+      "1_3",
+      "1_7",
+      "1_8"
+    ],
+    "relevance_grades": {
+      "1_3": 3,
+      "1_7": 3,
+      "1_8": 2
+    },
+    "requires_multiple_chunks": false,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q07",
+    "query": "How does NIST define AI risk in the framework?",
+    "question_type": "simple_factual",
+    "split": "test",
+    "expected_answer": "AI risk is framed as the composite measure of the probability of harm occurrence and the severity or magnitude of the negative impacts resulting from AI systems.",
+    "required_facts": [
+      "Composite measure of probability of harm",
+      "Severity and magnitude of negative impacts"
+    ],
+    "relevant_chunk_ids": [
+      "1_7",
+      "1_8"
+    ],
+    "relevance_grades": {
+      "1_8": 3,
+      "1_7": 2
+    },
+    "requires_multiple_chunks": false,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q08",
+    "query": "What is negative residual risk according to the AI RMF?",
+    "question_type": "simple_factual",
+    "split": "test",
+    "expected_answer": "Negative residual risk is the risk that remains after risk treatments and mitigations have been applied to an AI system.",
+    "required_facts": [
+      "Risk remaining after risk treatments have been applied"
+    ],
+    "relevant_chunk_ids": [
+      "1_11",
+      "1_36"
+    ],
+    "relevance_grades": {
+      "1_11": 3,
+      "1_36": 2
+    },
+    "requires_multiple_chunks": false,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q09",
+    "query": "What are the four core functions of the AI RMF Core?",
+    "question_type": "simple_factual",
+    "split": "test",
+    "expected_answer": "GOVERN, MAP, MEASURE, and MANAGE.",
+    "required_facts": [
+      "GOVERN",
+      "MAP",
+      "MEASURE",
+      "MANAGE"
+    ],
+    "relevant_chunk_ids": [
+      "1_6",
+      "1_24",
+      "1_25"
+    ],
+    "relevance_grades": {
+      "1_24": 3,
+      "1_25": 3,
+      "1_6": 2
+    },
+    "requires_multiple_chunks": false,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q10",
+    "query": "How does the GOVERN function operate in relation to the other three functions?",
+    "question_type": "simple_factual",
+    "split": "test",
+    "expected_answer": "GOVERN is a cross-cutting function that applies to and infuses all other functions (MAP, MEASURE, MANAGE) throughout the AI lifecycle, establishing organizational risk governance policies, culture, and accountability.",
+    "required_facts": [
+      "GOVERN applies across all other functions",
+      "Cross-cutting function",
+      "Establishes culture and accountability"
+    ],
+    "relevant_chunk_ids": [
+      "1_25",
+      "1_26"
+    ],
+    "relevance_grades": {
+      "1_25": 3,
+      "1_26": 3
+    },
+    "requires_multiple_chunks": false,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q11",
+    "query": "What are all seven characteristics of trustworthy AI systems listed in Section 1.3?",
+    "question_type": "multi_chunk",
+    "split": "test",
+    "expected_answer": "The seven characteristics are: 1) Valid and Reliable, 2) Safe, 3) Secure and Resilient, 4) Accountable and Transparent, 5) Explainable and Interpretable, 6) Privacy-Enhanced, and 7) Fair with Harmful Bias Managed.",
+    "required_facts": [
+      "Valid and Reliable",
+      "Safe",
+      "Secure and Resilient",
+      "Accountable and Transparent",
+      "Explainable and Interpretable",
+      "Privacy-Enhanced",
+      "Fair with Harmful Bias Managed"
+    ],
+    "relevant_chunk_ids": [
+      "1_13",
+      "1_14",
+      "1_15",
+      "1_16",
+      "1_17"
+    ],
+    "relevance_grades": {
+      "1_13": 3,
+      "1_14": 3,
+      "1_15": 2,
+      "1_16": 2,
+      "1_17": 2
+    },
+    "requires_multiple_chunks": true,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q12",
+    "query": "How does the framework distinguish between Explainability and Interpretability?",
+    "question_type": "multi_chunk",
+    "split": "test",
+    "expected_answer": "Explainability refers to the ability to represent the mechanisms underlying AI system operations and outputs in terms that are understandable to human users. Interpretability refers to the degree to which a human can understand the internal logic, causality, or mathematical mechanics of how an input is mapped to an output.",
+    "required_facts": [
+      "Explainability provides human-understandable reasons for outputs",
+      "Interpretability refers to internal logic and causality of the model"
+    ],
+    "relevant_chunk_ids": [
+      "1_16",
+      "1_17"
+    ],
+    "relevance_grades": {
+      "1_16": 3,
+      "1_17": 3
+    },
+    "requires_multiple_chunks": true,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q13",
+    "query": "What are the three major categories of bias described in the NIST AI RMF?",
+    "question_type": "multi_chunk",
+    "split": "test",
+    "expected_answer": "The three categories are: 1) Systemic bias (institutional and societal norms), 2) Computational and statistical bias (stemming from data errors, sampling limitations, and algorithmic design), and 3) Human-cognitive bias (individual and group cognitive heuristics and assumptions).",
+    "required_facts": [
+      "Systemic bias",
+      "Computational and statistical bias",
+      "Human-cognitive bias"
+    ],
+    "relevant_chunk_ids": [
+      "1_17",
+      "1_18"
+    ],
+    "relevance_grades": {
+      "1_17": 3,
+      "1_18": 3
+    },
+    "requires_multiple_chunks": true,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q14",
+    "query": "What types of harms can AI systems cause as outlined in Figure 1 and Section 1?",
+    "question_type": "multi_chunk",
+    "split": "test",
+    "expected_answer": "Harms can be categorized into: 1) Harm to people (individual liberty, rights, safety, discrimination), 2) Harm to an organization (security breaches, reputational, financial, business disruption), and 3) Harm to an ecosystem or society (democratic processes, environmental impact, workforce displacement).",
+    "required_facts": [
+      "Harm to people",
+      "Harm to organizations",
+      "Harm to ecosystems and society"
+    ],
+    "relevant_chunk_ids": [
+      "1_4",
+      "1_8",
+      "1_9"
+    ],
+    "relevance_grades": {
+      "1_4": 3,
+      "1_8": 3,
+      "1_9": 2
+    },
+    "requires_multiple_chunks": true,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q15",
+    "query": "What specific activities are conducted under the MAP function?",
+    "question_type": "multi_chunk",
+    "split": "test",
+    "expected_answer": "The MAP function contextualizes AI risks through: MAP 1 (intended purpose, environment, and deployment context), MAP 2 (interdisciplinary perspectives and stakeholder input), MAP 3 (AI system capabilities and limitations), MAP 4 (societal values and risk boundaries), and MAP 5 (impacts to individuals and groups).",
+    "required_facts": [
+      "MAP 1 intended purpose and context",
+      "MAP 2 interdisciplinary and stakeholder input",
+      "MAP 3 system capabilities and limitations",
+      "MAP 4 societal values",
+      "MAP 5 impact assessment"
+    ],
+    "relevant_chunk_ids": [
+      "1_29",
+      "1_30",
+      "1_31"
+    ],
+    "relevance_grades": {
+      "1_29": 3,
+      "1_30": 3,
+      "1_31": 3
+    },
+    "requires_multiple_chunks": true,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q16",
+    "query": "What activities are conducted under the MEASURE function?",
+    "question_type": "multi_chunk",
+    "split": "test",
+    "expected_answer": "The MEASURE function employs quantitative, qualitative, or hybrid methods to: MEASURE 1 (evaluate appropriate metrics for trustworthiness), MEASURE 2 (assess and track system performance and failure modes), MEASURE 3 (conduct independent feedback and testing), and MEASURE 4 (document measurement results to inform risk treatment).",
+    "required_facts": [
+      "MEASURE 1 metrics for trustworthiness",
+      "MEASURE 2 performance and failure mode tracking",
+      "MEASURE 3 independent testing",
+      "MEASURE 4 documenting results"
+    ],
+    "relevant_chunk_ids": [
+      "1_32",
+      "1_33",
+      "1_34"
+    ],
+    "relevance_grades": {
+      "1_32": 3,
+      "1_33": 3,
+      "1_34": 3
+    },
+    "requires_multiple_chunks": true,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q17",
+    "query": "What activities are conducted under the MANAGE function?",
+    "question_type": "multi_chunk",
+    "split": "test",
+    "expected_answer": "The MANAGE function entails: MANAGE 1 (prioritizing risks and developing response plans), MANAGE 2 (executing risk treatment strategies to maximize benefits and minimize negative impacts), MANAGE 3 (managing third-party AI risks), and MANAGE 4 (monitoring risk controls, post-deployment incident response, and decommissioning).",
+    "required_facts": [
+      "MANAGE 1 risk prioritization and response plans",
+      "MANAGE 2 risk treatment execution",
+      "MANAGE 3 third-party risk management",
+      "MANAGE 4 monitoring and incident response"
+    ],
+    "relevant_chunk_ids": [
+      "1_35",
+      "1_36",
+      "1_37"
+    ],
+    "relevance_grades": {
+      "1_35": 3,
+      "1_36": 3,
+      "1_37": 3
+    },
+    "requires_multiple_chunks": true,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q18",
+    "query": "What is an AI RMF Profile and how do organizations use it?",
+    "question_type": "multi_chunk",
+    "split": "test",
+    "expected_answer": "An AI RMF Profile is the adaptation of the AI RMF functions, categories, and subcategories to a specific sector, use case, organization, or technology domain. Profiles help organizations prioritize risk activities and align them with sector-specific legal, regulatory, and business requirements.",
+    "required_facts": [
+      "Customization of RMF functions to a specific use case or sector",
+      "Helps prioritize risk management activities",
+      "Aligns with sector-specific regulations and requirements"
+    ],
+    "relevant_chunk_ids": [
+      "1_22",
+      "1_23"
+    ],
+    "relevance_grades": {
+      "1_22": 3,
+      "1_23": 3
+    },
+    "requires_multiple_chunks": true,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q19",
+    "query": "What challenges in measuring AI risk are highlighted in Section 1.2?",
+    "question_type": "multi_chunk",
+    "split": "test",
+    "expected_answer": "Challenges include: lack of standardized metrics, difficulty measuring social and emergent impacts, opaque or black-box models, lack of testing in real-world contexts, and subjectivity in qualitative risk evaluations.",
+    "required_facts": [
+      "Lack of standardized metrics",
+      "Difficulty measuring social impacts",
+      "Model opacity",
+      "Lack of real-world testing environments"
+    ],
+    "relevant_chunk_ids": [
+      "1_10",
+      "1_11"
+    ],
+    "relevance_grades": {
+      "1_10": 3,
+      "1_11": 3
+    },
+    "requires_multiple_chunks": true,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q20",
+    "query": "How does the framework address third-party AI technologies and pre-trained foundation models?",
+    "question_type": "multi_chunk",
+    "split": "test",
+    "expected_answer": "The framework explicitly addresses third-party AI under MANAGE 3 and Section 1, requiring organizations to evaluate risks from third-party data, pre-trained models, transfer learning, and off-label usage where AI systems operate outside an organization security and governance controls.",
+    "required_facts": [
+      "Evaluates risks from third-party data and pre-trained models",
+      "Addresses transfer learning and off-label usage",
+      "Deals with systems outside organizational security controls"
+    ],
+    "relevant_chunk_ids": [
+      "1_10",
+      "1_36",
+      "1_43"
+    ],
+    "relevance_grades": {
+      "1_36": 3,
+      "1_43": 3,
+      "1_10": 2
+    },
+    "requires_multiple_chunks": true,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q21",
+    "query": "What are the main issues identified in Appendix C regarding human-AI interaction?",
+    "question_type": "multi_chunk",
+    "split": "test",
+    "expected_answer": "Appendix C identifies four key issues: 1) Defining human roles and responsibilities in oversight and decision-making, 2) Cognitive and systemic biases introduced by human actors across the lifecycle, 3) Amplification of human bias in perceptual judgment tasks, and 4) The complexity of presenting AI system outputs and explanations to diverse humans.",
+    "required_facts": [
+      "Human roles and oversight responsibilities",
+      "Cognitive and systemic biases across lifecycle",
+      "AI amplifying human bias in judgment tasks",
+      "Complexity of presenting explanations"
+    ],
+    "relevant_chunk_ids": [
+      "1_43",
+      "1_44",
+      "1_45"
+    ],
+    "relevance_grades": {
+      "1_43": 3,
+      "1_44": 3,
+      "1_45": 3
+    },
+    "requires_multiple_chunks": true,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q22",
+    "query": "What is the role of interdisciplinary and demographically diverse teams in the AI RMF?",
+    "question_type": "multi_chunk",
+    "split": "test",
+    "expected_answer": "The AI RMF stresses that interdisciplinary teams (technical experts, ethicists, social scientists, end users) and demographic diversity are essential in GOVERN and MAP functions to identify blind spots, mitigate systemic biases, and align systems with societal norms.",
+    "required_facts": [
+      "Interdisciplinary teams needed to identify blind spots",
+      "Demographic diversity mitigates systemic bias",
+      "Incorporates diverse societal values"
+    ],
+    "relevant_chunk_ids": [
+      "1_26",
+      "1_29",
+      "1_44"
+    ],
+    "relevance_grades": {
+      "1_26": 2,
+      "1_29": 3,
+      "1_44": 3
+    },
+    "requires_multiple_chunks": true,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q23",
+    "query": "What are the key attributes and design principles of the AI RMF detailed in Appendix D?",
+    "question_type": "multi_chunk",
+    "split": "test",
+    "expected_answer": "The 10 attributes are: 1) Risk-based and voluntary, 2) Consensus-driven, 3) Clear plain language, 4) Common taxonomy and terminology, 5) Easily usable and integrated with other risk management, 6) Universally applicable across sectors, 7) Outcome-focused and non-prescriptive, 8) Fosters awareness of standards, 9) Law and regulation agnostic, and 10) A living document.",
+    "required_facts": [
+      "Voluntary and consensus-driven",
+      "Clear plain language",
+      "Outcome-focused and non-prescriptive",
+      "Law and regulation agnostic",
+      "Living document"
+    ],
+    "relevant_chunk_ids": [
+      "1_45",
+      "1_46"
+    ],
+    "relevance_grades": {
+      "1_45": 3,
+      "1_46": 3
+    },
+    "requires_multiple_chunks": true,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q24",
+    "query": "What are the categories under the GOVERN function?",
+    "question_type": "multi_chunk",
+    "split": "test",
+    "expected_answer": "The GOVERN categories are: GOVERN 1 (policies and processes), GOVERN 2 (accountability structures and leadership), GOVERN 3 (workforce diversity and culture), GOVERN 4 (organizational commitment to stakeholder engagement), GOVERN 5 (third-party risk management policies), and GOVERN 6 (post-deployment monitoring policies).",
+    "required_facts": [
+      "GOVERN 1 policies and processes",
+      "GOVERN 2 accountability structures",
+      "GOVERN 3 workforce and culture",
+      "GOVERN 4 stakeholder engagement",
+      "GOVERN 5 third-party policies",
+      "GOVERN 6 post-deployment policies"
+    ],
+    "relevant_chunk_ids": [
+      "1_26",
+      "1_27",
+      "1_28"
+    ],
+    "relevance_grades": {
+      "1_26": 3,
+      "1_27": 3,
+      "1_28": 3
+    },
+    "requires_multiple_chunks": true,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q25",
+    "query": "What is meant by Secure and Resilient AI in Section 1.3?",
+    "question_type": "simple_factual",
+    "split": "test",
+    "expected_answer": "Secure and resilient AI systems are able to withstand unexpected adverse inputs, cyberattacks (such as adversarial data poisoning or evasion attacks), and environmental changes, maintaining intended functionality and degrading gracefully under failure conditions.",
+    "required_facts": [
+      "Withstand unexpected inputs and cyberattacks",
+      "Resist data poisoning and evasion",
+      "Maintain functionality and degrade gracefully"
+    ],
+    "relevant_chunk_ids": [
+      "1_15",
+      "1_16"
+    ],
+    "relevance_grades": {
+      "1_15": 3,
+      "1_16": 2
+    },
+    "requires_multiple_chunks": false,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q26",
+    "query": "What is meant by Valid and Reliable AI in the framework?",
+    "question_type": "simple_factual",
+    "split": "test",
+    "expected_answer": "Validity is the confirmation that an AI system performs its intended function accurately and appropriately according to requirements. Reliability refers to the consistency and dependability of system performance across expected operating conditions.",
+    "required_facts": [
+      "Validity confirms system meets intended requirements",
+      "Reliability is consistent performance across conditions"
+    ],
+    "relevant_chunk_ids": [
+      "1_14",
+      "1_15"
+    ],
+    "relevance_grades": {
+      "1_14": 3,
+      "1_15": 2
+    },
+    "requires_multiple_chunks": false,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q27",
+    "query": "How does the framework define Safe AI systems?",
+    "question_type": "simple_factual",
+    "split": "test",
+    "expected_answer": "Safe AI systems are defined as those that do not cause unreasonable physical, psychological, or bodily harm to humans, damage to property, or endanger human life or health under expected and unexpected operating conditions.",
+    "required_facts": [
+      "Do not cause unreasonable physical or psychological harm",
+      "Protect human life, health, and property"
+    ],
+    "relevant_chunk_ids": [
+      "1_14",
+      "1_15"
+    ],
+    "relevance_grades": {
+      "1_14": 2,
+      "1_15": 3
+    },
+    "requires_multiple_chunks": false,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q28",
+    "query": "What is the role of continuous monitoring and incident response in the MANAGE function?",
+    "question_type": "simple_factual",
+    "split": "test",
+    "expected_answer": "Under MANAGE 4, organizations must continuously monitor deployed systems for drift, novel failure modes, and security vulnerabilities, and maintain tested incident response protocols to remediate, roll back, or decommission malfunctioning AI systems.",
+    "required_facts": [
+      "Monitor for drift and novel failure modes",
+      "Maintain tested incident response protocols",
+      "Capability to remediate or decommission systems"
+    ],
+    "relevant_chunk_ids": [
+      "1_36",
+      "1_37"
+    ],
+    "relevance_grades": {
+      "1_36": 2,
+      "1_37": 3
+    },
+    "requires_multiple_chunks": false,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q29",
+    "query": "How does the AI RMF relate to the NIST Cybersecurity Framework (CSF)?",
+    "question_type": "simple_factual",
+    "split": "test",
+    "expected_answer": "The AI RMF is designed to complement the NIST CSF and Privacy Framework, using a similar functional structure (Govern, Map/Identify, Measure/Detect, Manage/Protect) so organizations can integrate AI risk management into enterprise risk management.",
+    "required_facts": [
+      "Complements NIST CSF and Privacy Framework",
+      "Similar functional structure",
+      "Integrates into enterprise risk management"
+    ],
+    "relevant_chunk_ids": [
+      "1_6",
+      "1_22",
+      "1_46"
+    ],
+    "relevance_grades": {
+      "1_6": 2,
+      "1_22": 3,
+      "1_46": 2
+    },
+    "requires_multiple_chunks": false,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q30",
+    "query": "What does the AI RMF say about the relationship between risk tolerance and risk prioritization?",
+    "question_type": "simple_factual",
+    "split": "test",
+    "expected_answer": "Organizations establish their risk tolerance based on legal obligations, societal norms, and business goals, and use this tolerance to prioritize which AI risks require immediate mitigation versus those that can be accepted as residual risk.",
+    "required_facts": [
+      "Risk tolerance based on legal obligations and norms",
+      "Used to prioritize which risks require mitigation"
+    ],
+    "relevant_chunk_ids": [
+      "1_11",
+      "1_12"
+    ],
+    "relevance_grades": {
+      "1_11": 3,
+      "1_12": 3
+    },
+    "requires_multiple_chunks": false,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q31",
+    "query": "What is the recommended approach when AI system autonomy conflicts with human oversight requirements?",
+    "question_type": "conflicting_evidence",
+    "split": "test",
+    "expected_answer": "The framework states that human-AI configurations span from fully autonomous to fully manual. While some low-risk applications (like video compression) may operate autonomously, high-stakes systems require human oversight, and the GOVERN and MAP functions require explicit definition of human override authority and challenge mechanisms.",
+    "required_facts": [
+      "Human-AI configurations span autonomous to manual",
+      "Low-risk systems can be autonomous",
+      "High-stakes systems require explicit human oversight and override mechanisms"
+    ],
+    "relevant_chunk_ids": [
+      "1_43",
+      "1_44"
+    ],
+    "relevance_grades": {
+      "1_43": 3,
+      "1_44": 3
+    },
+    "requires_multiple_chunks": true,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": true,
+    "expected_source_type": "document",
+    "expectedConflict": "present",
+    "expectedPreferredChunk": "1_44",
+    "conflicting_details": {
+      "conflictType": "autonomy_vs_oversight",
+      "preferredChunk": "1_44",
+      "summary": "Tension between autonomous efficiency vs human-in-the-loop oversight"
+    }
+  },
+  {
+    "id": "Q32",
+    "query": "Is explainability always preferred over accuracy when there is a trade-off?",
+    "question_type": "conflicting_evidence",
+    "split": "test",
+    "expected_answer": "No, the framework notes that trustworthy AI characteristics can conflict with each other (such as explainability versus predictive accuracy in complex deep learning models). The framework does not mandate sacrificing accuracy, but requires organizations to document the trade-offs in the MAP and MEASURE functions based on context and risk tolerance.",
+    "required_facts": [
+      "Trustworthy AI characteristics can conflict with each other",
+      "Trade-offs between explainability and predictive accuracy",
+      "Trade-offs must be documented based on context and risk tolerance"
+    ],
+    "relevant_chunk_ids": [
+      "1_13",
+      "1_16"
+    ],
+    "relevance_grades": {
+      "1_13": 3,
+      "1_16": 3
+    },
+    "requires_multiple_chunks": true,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": true,
+    "expected_source_type": "document",
+    "expectedConflict": "present",
+    "expectedPreferredChunk": "1_13",
+    "conflicting_details": {
+      "conflictType": "accuracy_vs_explainability_tradeoff",
+      "preferredChunk": "1_13",
+      "summary": "Trade-off between model accuracy and model interpretability"
+    }
+  },
+  {
+    "id": "Q33",
+    "query": "Does the AI RMF prescribe specific quantitative thresholds for acceptable bias in AI models?",
+    "question_type": "conflicting_evidence",
+    "split": "test",
+    "expected_answer": "No. While the MEASURE function emphasizes quantitative metrics for bias, Section 1 and Appendix D explicitly state that the AI RMF is non-prescriptive and outcome-focused, meaning it does not set universal numerical thresholds, leaving organizations to define thresholds appropriate to their specific context and sector.",
+    "required_facts": [
+      "Framework is non-prescriptive and does not set universal numerical thresholds",
+      "Organizations must determine thresholds appropriate to context"
+    ],
+    "relevant_chunk_ids": [
+      "1_32",
+      "1_46"
+    ],
+    "relevance_grades": {
+      "1_32": 3,
+      "1_46": 3
+    },
+    "requires_multiple_chunks": true,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": true,
+    "expected_source_type": "document",
+    "expectedConflict": "present",
+    "expectedPreferredChunk": "1_46",
+    "conflicting_details": {
+      "conflictType": "quantitative_measurement_vs_non_prescriptive_principle",
+      "preferredChunk": "1_46",
+      "summary": "Measurement emphasis vs non-prescriptive design principle"
+    }
+  },
+  {
+    "id": "Q34",
+    "query": "Can AI systems be deployed if not all seven trustworthiness characteristics are fully achieved?",
+    "question_type": "conflicting_evidence",
+    "split": "test",
+    "expected_answer": "Yes. The framework acknowledges that achieving all seven characteristics simultaneously is challenging due to trade-offs (e.g. privacy vs transparency, explainability vs accuracy). Organizations must manage residual risks, document trade-offs, and deploy systems only when residual risk is within documented organizational risk tolerance.",
+    "required_facts": [
+      "Achieving all characteristics simultaneously involves trade-offs",
+      "Organizations must document trade-offs and manage residual risk",
+      "Deployment allowed when residual risk is within risk tolerance"
+    ],
+    "relevant_chunk_ids": [
+      "1_11",
+      "1_13",
+      "1_36"
+    ],
+    "relevance_grades": {
+      "1_13": 3,
+      "1_11": 2,
+      "1_36": 2
+    },
+    "requires_multiple_chunks": true,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": true,
+    "expected_source_type": "document",
+    "expectedConflict": "present",
+    "expectedPreferredChunk": "1_13",
+    "conflicting_details": {
+      "conflictType": "full_trustworthiness_vs_tradeoffs",
+      "preferredChunk": "1_13",
+      "summary": "Requirement for trustworthiness vs practical necessity of trade-offs"
+    }
+  },
+  {
+    "id": "Q35",
+    "query": "How should organizations resolve conflicts between privacy preservation and system transparency?",
+    "question_type": "conflicting_evidence",
+    "split": "test",
+    "expected_answer": "Privacy-enhancement (data minimization, protecting personal data) can directly conflict with transparency and auditability (disclosing training data or model internals). The AI RMF advises that such trade-offs must be evaluated under GOVERN and MEASURE using privacy-preserving techniques (such as differential privacy) while providing appropriate disclosure without compromising confidentiality.",
+    "required_facts": [
+      "Privacy directly conflicts with transparency and auditing",
+      "Must be evaluated in GOVERN and MEASURE",
+      "Use privacy-preserving techniques to satisfy both where possible"
+    ],
+    "relevant_chunk_ids": [
+      "1_16",
+      "1_17",
+      "1_18"
+    ],
+    "relevance_grades": {
+      "1_16": 2,
+      "1_17": 3,
+      "1_18": 3
+    },
+    "requires_multiple_chunks": true,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": true,
+    "expected_source_type": "document",
+    "expectedConflict": "present",
+    "expectedPreferredChunk": "1_17",
+    "conflicting_details": {
+      "conflictType": "privacy_vs_transparency",
+      "preferredChunk": "1_17",
+      "summary": "Tension between data privacy and model transparency"
+    }
+  },
+  {
+    "id": "Q36",
+    "query": "When was the public release of the initial AI RMF 1.0 document?",
+    "question_type": "date_sensitive",
+    "split": "test",
+    "expected_answer": "January 2023.",
+    "required_facts": [
+      "Released in January 2023"
+    ],
+    "relevant_chunk_ids": [
+      "1_1"
+    ],
+    "relevance_grades": {
+      "1_1": 3
+    },
+    "requires_multiple_chunks": false,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q37",
+    "query": "What executive order or legislation mandated NIST to develop the AI RMF?",
+    "question_type": "date_sensitive",
+    "split": "test",
+    "expected_answer": "The National Artificial Intelligence Initiative Act of 2020 (NIIA, Division E of P.L. 116-283).",
+    "required_facts": [
+      "National Artificial Intelligence Initiative Act of 2020",
+      "P.L. 116-283"
+    ],
+    "relevant_chunk_ids": [
+      "1_1",
+      "1_2"
+    ],
+    "relevance_grades": {
+      "1_1": 3,
+      "1_2": 2
+    },
+    "requires_multiple_chunks": false,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q38",
+    "query": "What is the publication series name under which AI RMF 1.0 is published?",
+    "question_type": "exact_id_lookup",
+    "split": "test",
+    "expected_answer": "NIST AI (NIST Artificial Intelligence) series, specifically NIST AI 100-1.",
+    "required_facts": [
+      "NIST AI Series",
+      "NIST AI 100-1"
+    ],
+    "relevant_chunk_ids": [
+      "1_0",
+      "1_1"
+    ],
+    "relevance_grades": {
+      "1_0": 3,
+      "1_1": 3
+    },
+    "requires_multiple_chunks": false,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q39",
+    "query": "What is the exact URL provided in the document for free public access to the AI RMF publication?",
+    "question_type": "exact_id_lookup",
+    "split": "test",
+    "expected_answer": "https://doi.org/10.6028/NIST.AI.100-1",
+    "required_facts": [
+      "https://doi.org/10.6028/NIST.AI.100-1"
+    ],
+    "relevant_chunk_ids": [
+      "1_1",
+      "1_47"
+    ],
+    "relevance_grades": {
+      "1_1": 3,
+      "1_47": 3
+    },
+    "requires_multiple_chunks": false,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q40",
+    "query": "How many total numbered pages are in the official publication NIST AI 100-1?",
+    "question_type": "exact_id_lookup",
+    "split": "test",
+    "expected_answer": "48 total pages (with page 42 being the last content page, plus publication notices and cover pages totaling 48).",
+    "required_facts": [
+      "48 total pages"
+    ],
+    "relevant_chunk_ids": [
+      "1_47"
+    ],
+    "relevance_grades": {
+      "1_47": 3
+    },
+    "requires_multiple_chunks": false,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q41",
+    "query": "What does Section 1.4 of the framework discuss regarding the effectiveness of AI risk management?",
+    "question_type": "simple_factual",
+    "split": "test",
+    "expected_answer": "Section 1.4 discusses how risk management should be integrated into organizational culture, policies, and practices rather than treated as a compliance checklist, ensuring regular evaluation and agility.",
+    "required_facts": [
+      "Integrated into culture, policies, and practices",
+      "Not a mere compliance checklist",
+      "Requires regular evaluation and agility"
+    ],
+    "relevant_chunk_ids": [
+      "1_19"
+    ],
+    "relevance_grades": {
+      "1_19": 3
+    },
+    "requires_multiple_chunks": false,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q42",
+    "query": "What is the primary focus of Appendix A in the NIST AI RMF publication?",
+    "question_type": "exact_id_lookup",
+    "split": "test",
+    "expected_answer": "Appendix A provides a glossary of terms, definitions, and acronyms used throughout the document.",
+    "required_facts": [
+      "Glossary of terms and definitions"
+    ],
+    "relevant_chunk_ids": [
+      "1_3",
+      "1_38"
+    ],
+    "relevance_grades": {
+      "1_3": 3,
+      "1_38": 3
+    },
+    "requires_multiple_chunks": false,
+    "answer_unavailable_in_corpus": false,
+    "conflicting_evidence": false,
+    "expected_source_type": "document",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q43",
+    "query": "What is the current population of the colony on Mars in 2026?",
+    "question_type": "unanswerable",
+    "split": "test",
+    "expected_answer": "I could not find enough relevant information in the knowledge base to answer this question.",
+    "required_facts": [],
+    "relevant_chunk_ids": [],
+    "relevance_grades": {},
+    "requires_multiple_chunks": false,
+    "answer_unavailable_in_corpus": true,
+    "conflicting_evidence": false,
+    "expected_source_type": "none",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q44",
+    "query": "What is the proprietary secret formula and chemical composition of Coca-Cola?",
+    "question_type": "unanswerable",
+    "split": "test",
+    "expected_answer": "I could not find enough relevant information in the knowledge base to answer this question.",
+    "required_facts": [],
+    "relevant_chunk_ids": [],
+    "relevance_grades": {},
+    "requires_multiple_chunks": false,
+    "answer_unavailable_in_corpus": true,
+    "conflicting_evidence": false,
+    "expected_source_type": "none",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q45",
+    "query": "Who won the 2026 FIFA World Cup final and what was the exact final score?",
+    "question_type": "unanswerable",
+    "split": "test",
+    "expected_answer": "I could not find enough relevant information in the knowledge base to answer this question.",
+    "required_facts": [],
+    "relevant_chunk_ids": [],
+    "relevance_grades": {},
+    "requires_multiple_chunks": false,
+    "answer_unavailable_in_corpus": true,
+    "conflicting_evidence": false,
+    "expected_source_type": "none",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q46",
+    "query": "What is the internal API key and database password stored on the server environment?",
+    "question_type": "unanswerable",
+    "split": "test",
+    "expected_answer": "I could not find enough relevant information in the knowledge base to answer this question.",
+    "required_facts": [],
+    "relevant_chunk_ids": [],
+    "relevance_grades": {},
+    "requires_multiple_chunks": false,
+    "answer_unavailable_in_corpus": true,
+    "conflicting_evidence": false,
+    "expected_source_type": "none",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q47",
+    "query": "What was the exact financial revenue of OpenAI in the fourth quarter of 2025?",
+    "question_type": "unanswerable",
+    "split": "test",
+    "expected_answer": "I could not find enough relevant information in the knowledge base to answer this question.",
+    "required_facts": [],
+    "relevant_chunk_ids": [],
+    "relevance_grades": {},
+    "requires_multiple_chunks": false,
+    "answer_unavailable_in_corpus": true,
+    "conflicting_evidence": false,
+    "expected_source_type": "none",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q48",
+    "query": "What is the optimal hyperparameter learning rate for training LLaMA-4 on 10,000 GPUs?",
+    "question_type": "unanswerable",
+    "split": "test",
+    "expected_answer": "I could not find enough relevant information in the knowledge base to answer this question.",
+    "required_facts": [],
+    "relevant_chunk_ids": [],
+    "relevance_grades": {},
+    "requires_multiple_chunks": false,
+    "answer_unavailable_in_corpus": true,
+    "conflicting_evidence": false,
+    "expected_source_type": "none",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q49",
+    "query": "What are the technical hardware specifications of the quantum computer in Area 51?",
+    "question_type": "unanswerable",
+    "split": "test",
+    "expected_answer": "I could not find enough relevant information in the knowledge base to answer this question.",
+    "required_facts": [],
+    "relevant_chunk_ids": [],
+    "relevance_grades": {},
+    "requires_multiple_chunks": false,
+    "answer_unavailable_in_corpus": true,
+    "conflicting_evidence": false,
+    "expected_source_type": "none",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  },
+  {
+    "id": "Q50",
+    "query": "How many kilograms did the largest asteroid impact on the Moon weigh during the year 1842?",
+    "question_type": "unanswerable",
+    "split": "test",
+    "expected_answer": "I could not find enough relevant information in the knowledge base to answer this question.",
+    "required_facts": [],
+    "relevant_chunk_ids": [],
+    "relevance_grades": {},
+    "requires_multiple_chunks": false,
+    "answer_unavailable_in_corpus": true,
+    "conflicting_evidence": false,
+    "expected_source_type": "none",
+    "expectedConflict": null,
+    "expectedPreferredChunk": null,
+    "conflicting_details": null
+  }
+]

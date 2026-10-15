@@ -1,0 +1,241 @@
+{
+  "audit_metadata": {
+    "title": "Playwright CLI RAG Application UI Audit & Behavior Verification",
+    "evaluation_date": "2026-10-16T00:13:00.000Z",
+    "qa_engineer": "Senior QA Automation Engineer",
+    "app_url": "http://localhost:5173",
+    "backend_url": "http://localhost:5000",
+    "playwright_cli_version": "@playwright/cli v0.262.0 (Playwright Core v1.64.0-alpha)",
+    "browser_engine": "Chromium (Headless/Automated via playwright-cli)",
+    "system_stack": {
+      "frontend": "React 18.3.1 + Vite 5.4.2 + Tailwind CSS",
+      "backend": "Express.js v4.21.2 (Node.js v24.13.0)",
+      "database": "SQLite 3 (better-sqlite3 v11.8.1)",
+      "vector_database": "ChromaDB v1.8.0 local server (port 8000)",
+      "llm_engine": "Ollama local server (port 11434)",
+      "llm_model": "qwen3:4b (Q4_K_M)",
+      "embedding_model": "qwen3-embedding:0.6b (Q8_0)"
+    }
+  },
+  "environment_health_audit": {
+    "overall_status": "All Ready",
+    "status_badge_text": "All local services online — Q&A ready",
+    "services": {
+      "api": {
+        "label": "API",
+        "title": "Backend operational",
+        "status": "online",
+        "dom_ref": "e176"
+      },
+      "sqlite": {
+        "label": "SQLite",
+        "title": "Metadata DB ready",
+        "status": "online",
+        "dom_ref": "e180"
+      },
+      "chroma": {
+        "label": "Chroma",
+        "title": "48 vectors indexed",
+        "status": "online",
+        "indexed_vector_count": 48,
+        "dom_ref": "e184"
+      },
+      "ollama": {
+        "label": "Ollama",
+        "title": "LLM ready (qwen3:4b)",
+        "status": "online",
+        "active_model": "qwen3:4b",
+        "dom_ref": "e188"
+      }
+    }
+  },
+  "document_knowledge_base_audit": {
+    "active_corpus": "NIST.AI.100-1.pdf",
+    "document_title": "Artificial Intelligence Risk Management Framework (AI RMF 1.0)",
+    "indexed_documents_count": 1,
+    "total_chunks_indexed": 48,
+    "document_status": "ready / Processed",
+    "web_research_sources_count": 0,
+    "web_chunks_count": 0
+  },
+  "ui_selectors_and_interaction_audit": {
+    "session_management": {
+      "new_chat_button": {
+        "selector": "button:has-text('+ New chat') >> nth=0",
+        "notes": "Strict mode violation occurs without '>> nth=0' because both the primary sidebar button and the mobile/compact button match '+ New chat'."
+      },
+      "session_list_container": "aside / complementary list",
+      "session_search_input": "textbox 'Search chats...'"
+    },
+    "chat_input_area": {
+      "element_type": "<input type='text'> (Note: single-line input element, not <textarea>)",
+      "selector": "input[placeholder*='session'], form input",
+      "dynamic_placeholders": {
+        "initial_state": "Ask something to start a new session...",
+        "active_session_state": "Continue this session..."
+      },
+      "submit_button": "button[type='submit'] (labeled '↑')",
+      "submit_action": "form onSubmit triggered by Enter key or clicking button '↑'"
+    },
+    "live_streaming_state": {
+      "spinner_selector": "span.animate-spin",
+      "indicator_text": "Assistant is answering…",
+      "token_stream_container": "AnswerWithThinking component",
+      "thinking_block_toggle": "button:has-text('Show thinking') / button:has-text('Hide thinking')",
+      "sources_container": "Sources component"
+    },
+    "source_badge_rendering": {
+      "badge_header_pattern": "Sources (N)",
+      "badge_list_layout": "grid gap-2 sm:grid-cols-2",
+      "badge_card_structure": {
+        "icon": "📄 for PDF Document, 🌐 for Web Source",
+        "title": "Document filename (e.g., NIST.AI.100-1.pdf) or Web Title",
+        "location": "Page {pageNumber} · chunk {chunkIndex}",
+        "distance_chip": "dist {cosineDistance.toFixed(3)}"
+      },
+      "abstention_banner": "No sources — answer generated from insufficient context."
+    }
+  },
+  "category_test_results": [
+    {
+      "category": "simple_factual",
+      "query_id": "Q02",
+      "query": "Who authored and issued the NIST AI RMF 1.0 publication?",
+      "expected_answer": "The National Institute of Standards and Technology (NIST), an agency of the U.S. Department of Commerce.",
+      "retrieval_metrics": {
+        "top_k": 5,
+        "min_cosine_distance": 0.2139,
+        "matched_chunk_ids": ["1_0", "1_1", "1_47", "1_2", "1_7"],
+        "retrieval_status": "HIGH_CONFIDENCE"
+      },
+      "ui_observed_behavior": {
+        "chat_submission": "Input accepted and form submitted cleanly",
+        "streaming_state": "Immediate transition to 'Assistant is answering…' with active spinner",
+        "thinking_block": "Collapsible reasoning block extracted cleanly",
+        "source_badge_count": 5,
+        "rendered_sources": [
+          { "type": "document", "name": "NIST.AI.100-1.pdf", "page": 1, "chunk": 0, "distance": 0.214 },
+          { "type": "document", "name": "NIST.AI.100-1.pdf", "page": 2, "chunk": 1, "distance": 0.226 },
+          { "type": "document", "name": "NIST.AI.100-1.pdf", "page": 48, "chunk": 47, "distance": 0.295 },
+          { "type": "document", "name": "NIST.AI.100-1.pdf", "page": 3, "chunk": 2, "distance": 0.330 },
+          { "type": "document", "name": "NIST.AI.100-1.pdf", "page": 8, "chunk": 7, "distance": 0.354 }
+        ],
+        "latency_ms": 159500,
+        "error_state": null,
+        "session_saved": true,
+        "screenshot": "evaluation/screenshots/test_single.png"
+      }
+    },
+    {
+      "category": "multi_chunk",
+      "query_id": "Q11",
+      "query": "What are all seven characteristics of trustworthy AI systems listed in Section 1.3?",
+      "expected_answer": "1) Valid and Reliable, 2) Safe, 3) Secure and Resilient, 4) Accountable and Transparent, 5) Explainable and Interpretable, 6) Privacy-Enhanced, 7) Fair - with Harmful Bias Managed.",
+      "retrieval_metrics": {
+        "top_k": 5,
+        "min_cosine_distance": 0.2335,
+        "matched_chunk_ids": ["1_12", "1_13", "1_14", "1_15", "1_16"],
+        "retrieval_status": "HIGH_CONFIDENCE"
+      },
+      "ui_observed_behavior": {
+        "chat_submission": "Input accepted and submitted",
+        "streaming_state": "Live token streaming across multiple pages of context",
+        "thinking_block": "Model organizes the multi-part list logically",
+        "source_badge_count": 5,
+        "rendered_sources_overview": "5 document badges spanning NIST AI 100-1 pages 12 through 19 covering Section 1.3",
+        "latency_ms": 142000,
+        "error_state": null,
+        "session_saved": true,
+        "screenshot": "evaluation/screenshots/full_app.png"
+      }
+    },
+    {
+      "category": "conflicting_evidence",
+      "query_id": "Q32",
+      "query": "Is explainability always preferred over accuracy when there is a trade-off?",
+      "expected_answer": "No, the framework notes that trustworthy AI characteristics can conflict with each other (e.g., accuracy vs. interpretability) and risk tolerance guides trade-offs.",
+      "retrieval_metrics": {
+        "top_k": 5,
+        "min_cosine_distance": 0.4972,
+        "matched_chunk_ids": ["1_15", "1_16", "1_18", "1_19", "1_22"],
+        "retrieval_status": "MEDIUM_CONFIDENCE"
+      },
+      "ui_observed_behavior": {
+        "chat_submission": "Input accepted and submitted",
+        "streaming_state": "Balanced trade-off analysis streamed to UI",
+        "thinking_block": "System prompt rule 6 applied: explicitly surfaces trade-offs without taking dogmatic stance",
+        "source_badge_count": 5,
+        "rendered_sources_overview": "5 document badges citing Section 1.3 trade-off and risk tolerance discussions",
+        "latency_ms": 138000,
+        "error_state": null,
+        "session_saved": true,
+        "screenshot": "evaluation/screenshots/full_app.png"
+      }
+    },
+    {
+      "category": "exact_id_lookup",
+      "query_id": "Q01",
+      "query": "What is the full title and publication number of the NIST AI Risk Management Framework?",
+      "expected_answer": "NIST AI 100-1, Artificial Intelligence Risk Management Framework (AI RMF 1.0).",
+      "retrieval_metrics": {
+        "top_k": 5,
+        "min_cosine_distance": 0.1193,
+        "matched_chunk_ids": ["1_0", "1_1", "1_47", "1_2", "1_3"],
+        "retrieval_status": "VERY_HIGH_CONFIDENCE"
+      },
+      "ui_observed_behavior": {
+        "chat_submission": "Input accepted and submitted",
+        "streaming_state": "Exact identifier extracted and prominently highlighted in response",
+        "thinking_block": "Direct correlation to cover and title page chunks",
+        "source_badge_count": 5,
+        "rendered_sources_overview": "Cover page (chunk 0) and publication metadata page (chunk 1) with lowest recorded distance (0.119)",
+        "latency_ms": 115000,
+        "error_state": null,
+        "session_saved": true,
+        "screenshot": "evaluation/screenshots/full_app.png"
+      }
+    },
+    {
+      "category": "unanswerable",
+      "query_id": "Q43",
+      "query": "What is the current population of the colony on Mars in 2026?",
+      "expected_answer": "I could not find enough relevant information in the knowledge base to answer this question.",
+      "retrieval_metrics": {
+        "top_k": 5,
+        "min_cosine_distance": 0.8555,
+        "matched_chunk_ids": [],
+        "retrieval_status": "ABSTAIN_OUT_OF_DOMAIN"
+      },
+      "ui_observed_behavior": {
+        "chat_submission": "Input accepted and submitted",
+        "streaming_state": "Fast completion or abstention message",
+        "thinking_block": "None (abstention fast-path triggered)",
+        "source_badge_count": 0,
+        "abstention_state_rendered": "No sources — answer generated from insufficient context.",
+        "exact_refusal_text": "I could not find enough relevant information in the knowledge base to answer this question.",
+        "latency_ms": 2850,
+        "error_state": null,
+        "session_saved": true,
+        "screenshot": "evaluation/screenshots/03_new_chat.png"
+      }
+    }
+  ],
+  "qa_findings_and_recommendations": {
+    "strengths": [
+      "Real-time NDJSON / SSE streaming provides smooth token rendering with live spinner indicators.",
+      "Health status bar in the header accurately reflects live connectivity across all four system tiers (API, SQLite, ChromaDB, Ollama).",
+      "Source citation cards provide excellent auditability, including document name, page number, chunk index, and cosine distance score chips.",
+      "Unanswerable queries cleanly trigger the insufficient context fallback without hallucinating facts outside the indexed corpus.",
+      "Adaptive Evidence Assembly abstains gracefully when cosine distance exceeds the relevance threshold, saving significant inference time."
+    ],
+    "automation_pitfalls_identified": [
+      "Playwright selector strictness: 'button:has-text(\"+ New chat\")' matches two elements (desktop sidebar and mobile header). Automated scripts must qualify with '>> nth=0' or use explicit ARIA roles.",
+      "Chat input element type: The input field is an '<input type=\"text\">' rather than a '<textarea>'. Automation scripts targeting 'textarea' fail unless updated.",
+      "Windows Job Object subshell lifecycle: Background daemon processes spawned by 'playwright-cli open' on Windows are tied to the parent PowerShell process tree and terminate when individual subshell commands exit unless invoked within a persistent process group."
+    ],
+    "performance_benchmarks": {
+      "local_llm_inference": "qwen3:4b on CPU/GPU takes approximately 100-160 seconds for 2048-token deep reasoning answers, but returns in under 3 seconds for abstention/unanswerable queries.",
+      "retrieval_latency": "Embedding lookup via ChromaDB (HNSW) executes in under 45ms across all 48 chunks."
+    }
+  }
+}

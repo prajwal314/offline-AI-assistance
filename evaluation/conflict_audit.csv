@@ -1,0 +1,6 @@
+conflict_id,question,conflict_type,both_sides_retrieved,system_detected_conflict,answer_acknowledged_conflict,handling_verdict
+Q31,"What is the recommended approach when AI system autonomy conflicts with human ov",trade-off,1,1,1,PASS
+Q32,"Is explainability always preferred over accuracy when there is a trade-off?",trade-off,1,1,1,PASS
+Q33,"Does the AI RMF prescribe specific quantitative thresholds for acceptable bias i",trade-off,1,1,1,PASS
+Q34,"Can AI systems be deployed if not all seven trustworthiness characteristics are ",trade-off,1,1,1,PASS
+Q35,"How should organizations resolve conflicts between privacy preservation and syst",trade-off,1,1,1,PASS

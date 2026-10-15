@@ -1,0 +1,20 @@
+metric,k,macro_average,description
+Precision,1,0.3000,Top-1 Precision (Grade >= 2)
+Precision,3,0.2333,Top-3 Precision (Grade >= 2)
+Precision,5,0.1840,Top-5 Precision (Grade >= 2)
+Precision,10,0.1245,Top-10 Precision (Grade >= 2)
+Recall,1,0.2840,Top-1 Recall over candidate corpus
+Recall,3,0.4807,Top-3 Recall over candidate corpus
+Recall,5,0.5740,Top-5 Recall over candidate corpus
+Recall,10,0.6980,Top-10 Recall over candidate corpus
+MRR,N/A,0.4415,Mean Reciprocal Rank
+NDCG,1,0.2771,Normalized Discounted Cumulative Gain @ 1
+NDCG,3,0.2913,Normalized Discounted Cumulative Gain @ 3
+NDCG,5,0.3357,Normalized Discounted Cumulative Gain @ 5
+NDCG,10,0.3875,Normalized Discounted Cumulative Gain @ 10
+EvidenceCoverage,Macro,0.9533,Macro-averaged query fact coverage
+EvidenceCoverage,Micro,0.9748,Micro-averaged fact coverage
+RedundancyRate,N/A,0.0000,Mean pairwise chunk Jaccard redundancy
+AnswerFaithfulness,N/A,0.6650,Entailed claims / assessable claims
+CitationAccuracy,N/A,1.0000,Valid citations / total citations
+CitationCoverage,N/A,0.2863,Claims with citations / total claims

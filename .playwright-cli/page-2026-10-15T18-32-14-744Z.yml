@@ -1,0 +1,147 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - generic [ref=e7]: ◉
+        - generic [ref=e8]:
+          - generic [ref=e9]: AI Knowledge Assistant
+          - generic [ref=e10]: Offline RAG Knowledge Platform
+      - generic [ref=e11]: Qwen3 · Chroma · SQLite · ↔ drag dividers / corners to resize
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - generic [ref=e14]:
+            - generic "Backend operational" [ref=e15]: API
+            - generic "Metadata DB ready" [ref=e19]: SQLite
+            - generic "ChromaDB unavailable" [ref=e23]: Chroma
+            - generic "Ollama unavailable" [ref=e27]: Ollama
+            - button "↻" [ref=e30] [cursor=pointer]
+          - generic "Some services offline — Q&A still local" [ref=e32]: Degraded
+        - generic [ref=e34]: Local
+        - button "🌙" [ref=e36] [cursor=pointer]
+        - button "Reset" [ref=e37] [cursor=pointer]
+  - main [ref=e38]:
+    - generic [ref=e39]:
+      - generic [ref=e40]:
+        - generic [ref=e41]: Loading knowledge base…
+        - generic "Drag corner to resize · double-click to reset" [ref=e44]
+      - generic "Drag to resize · double-click to reset" [ref=e47]
+      - generic [ref=e49]:
+        - generic [ref=e50]:
+          - generic [ref=e51]:
+            - generic [ref=e52]: 🌐
+            - generic [ref=e53]:
+              - heading "Internet Research" [level=2] [ref=e54]
+              - paragraph [ref=e55]: Web → local KB · Q&A stays offline
+          - generic [ref=e57]:
+            - generic [ref=e58]:
+              - generic [ref=e59]: Status
+              - generic [ref=e60]: idle
+              - generic [ref=e62]: idle
+            - generic [ref=e63]:
+              - generic [ref=e64]: Documents
+              - generic [ref=e65]: "1"
+              - generic [ref=e66]: Indexed
+            - generic [ref=e67]:
+              - generic [ref=e68]: Web Sources
+              - generic [ref=e69]: 0 / 0
+              - generic [ref=e70]: Collected
+            - generic [ref=e71]:
+              - generic [ref=e72]: Total Chunks
+              - generic [ref=e73]: "48"
+              - generic [ref=e74]: Embeddings
+            - generic [ref=e75]:
+              - generic [ref=e76]: Progress
+              - generic [ref=e77]: 0 / 0
+              - generic [ref=e78]: failed 0
+            - generic [ref=e79]:
+              - generic [ref=e80]: Chunks +
+              - generic [ref=e81]: "0"
+              - generic [ref=e82]: This run
+        - generic "Drag corner to resize · double-click to reset" [ref=e84]
+        - generic [ref=e87]: React → Express → SQLite / Chroma / Ollama → RAGQ&A offline · Web only for Research
+    - generic "Drag to resize · double-click to reset" [ref=e88]
+    - generic [ref=e90]:
+      - generic [ref=e91]:
+        - generic [ref=e93]:
+          - generic [ref=e94]:
+            - generic [ref=e95]:
+              - heading "Documents" [level=2] [ref=e96]
+              - paragraph [ref=e97]: 1 PDFs indexed
+            - generic [ref=e98] [cursor=pointer]:
+              - generic [ref=e99]: +
+              - text: Upload PDF
+            - button "Meta" [ref=e100] [cursor=pointer]
+          - list [ref=e102]:
+            - listitem [ref=e103]:
+              - generic [ref=e104]: PDF
+              - generic [ref=e105]:
+                - generic [ref=e106]: NIST.AI.100-1.pdf
+                - generic [ref=e107]:
+                  - generic [ref=e108]: ready
+                  - generic [ref=e109]: Processed
+              - button "×" [ref=e110] [cursor=pointer]
+        - generic "Drag corner to resize · double-click to reset" [ref=e111]
+      - generic "Drag to resize · double-click to reset" [ref=e114]
+      - button "Search Internet & Build Knowledge Base" [ref=e118] [cursor=pointer]
+      - generic [ref=e119]:
+        - generic [ref=e120]:
+          - generic [ref=e121]:
+            - generic [ref=e122]:
+              - heading "Research Sources" [level=3] [ref=e123]
+              - paragraph [ref=e124]: 0 sources
+            - button "Refresh" [ref=e125] [cursor=pointer]
+          - table [ref=e127]:
+            - rowgroup [ref=e128]:
+              - row [ref=e129]:
+                - columnheader "Source" [ref=e130]
+                - columnheader "Status" [ref=e131]
+                - columnheader "Open" [ref=e132]
+            - rowgroup [ref=e133]:
+              - row [ref=e134]:
+                - cell "No sources yet — run Internet Research." [ref=e135]
+        - generic "Drag corner to resize · double-click to reset" [ref=e136]
+    - generic "Drag to resize · double-click to reset" [ref=e139]
+    - generic [ref=e142]:
+      - generic [ref=e144]:
+        - heading "AI Knowledge Assistant" [level=2] [ref=e145]
+        - paragraph [ref=e146]: RAG answers with sources · context preserved
+      - generic [ref=e147]:
+        - complementary [ref=e148]:
+          - generic [ref=e149]:
+            - button "+ New chat" [ref=e150] [cursor=pointer]:
+              - generic [ref=e151]: +
+              - text: New chat
+            - textbox "Search chats..." [ref=e152]
+          - generic [ref=e153]: Sessions · 2
+          - generic [ref=e154]:
+            - button "New chat Start a fresh session" [ref=e155] [cursor=pointer]:
+              - generic [ref=e156]: New chat
+              - generic [ref=e157]: Start a fresh session
+            - generic "What is the NIST AI Risk Management Framework?" [ref=e158] [cursor=pointer]:
+              - generic [ref=e161]:
+                - generic [ref=e162]: 0 msgs
+                - generic [ref=e163]: ·
+                - generic [ref=e164]: 10/15/2026, 11:57:14 PM
+            - generic "Who authored the AI RMF 1.0 publication?" [ref=e165] [cursor=pointer]:
+              - generic [ref=e168]:
+                - generic [ref=e169]: 2 msgs
+                - generic [ref=e170]: ·
+                - generic [ref=e171]: 10/15/2026, 11:12:46 PM
+              - generic [ref=e172]: What does the Manage function focus on?
+        - generic "Drag to resize sessions · double-click to reset" [ref=e173]
+        - generic [ref=e175]:
+          - generic [ref=e176]:
+            - generic [ref=e177]:
+              - generic [ref=e178]: What is the NIST AI Risk Management Framework?
+              - generic [ref=e179]: 0 messages in this session · context preserved
+            - button "Retrieval" [ref=e180] [cursor=pointer]
+          - generic [ref=e182]:
+            - generic [ref=e183]: ✦
+            - generic [ref=e184]: Continue this session
+            - generic [ref=e185]: Ask questions about your uploaded PDFs or researched web knowledge. Follow-ups stay in this session — the assistant remembers previous turns.
+            - generic [ref=e186]: “What are the main points in this document?”
+          - generic [ref=e187]:
+            - generic [ref=e188]:
+              - textbox "Continue this session..." [ref=e189]
+              - button "↑" [disabled] [ref=e190]
+            - generic [ref=e192]: Chatting in this session — history is used as context.

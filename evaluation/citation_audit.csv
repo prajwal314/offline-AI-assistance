@@ -1,0 +1,181 @@
+question_id,claim_index,claim_text,status,has_citation,cited_source_valid
+Q01,1,"I need to carefully analyze the context to find the full title and publication number of the NIST AI",supported,1,1
+Q01,2,"Let me go through each document chunk to find relevant information:
+
+First document (Page 3):
+- This",supported,1,1
+Q02,1,"We are given a question: ""Who authored and issued the NIST AI RMF 1",supported,1,1
+Q02,2,"0 publication?""
+
+We must answer strictly using the provided CONTEXT",supported,0,0
+Q02,3,"Let's look through the CONTEXT documents:
+
+1",supported,1,1
+Q02,4,"[DOCUMENT] Filename: NIST",supported,1,1
+Q03,1,"We are given a question: ""What is the publication date and DOI URL of NIST AI 100-1?""
+
+We must ans",supported,1,1
+Q03,2,"Let's look for the publication date and DOI URL in the context",supported,0,0
+Q03,3,"First, we have several chunks from the same document (NIST",supported,1,1
+Q03,4,"We need to find the exact publication date and DOI",supported,0,0
+Q04,1,"The question asks: ""What is the primary purpose and intended outcome of the NIST AI RMF?""
+
+I need ",supported,1,1
+Q04,2,"Let me go through each document chunk to find relevant information:
+
+First document (Page 14):
+- Dis",supported,1,1
+Q20,1,"According to NIST AI 100-1 (Section), NIST AI 100-1 AI RMF 1",supported,1,1
+Q20,2,"0
+• Computational costs for developing AI systems and their impact on the environment
+and planet",supported,0,0
+Q20,3,"• Inability to predict or det",supported,0,0
+Q21,1,"According to NIST AI 100-1 (Section), NIST AI 100-1 AI RMF 1",supported,1,1
+Q21,2,"0
+Appendix C:
+AI Risk Management and Human-AI Interaction
+Organizations that design, develop, or dep",supported,0,0
+Q22,1,"According to NIST AI 100-1 (Section), NIST AI 100-1 AI RMF 1",supported,1,1
+Q22,2,"Lifecycle and Key Dimensions of an AI System",supported,0,0
+Q22,3,"Modified from OECD (2022) OECD
+Framework for the Classification of AI s",supported,0,0
+Q23,1,"According to NIST AI 100-1 (Section), NIST AI 100-1 AI RMF 1",supported,1,1
+Q23,2,"0
+Appendix D:
+Attributes of the AI RMF
+NIST described several key attributes of the AI RMF when work",supported,1,1
+Q24,1,"According to NIST AI 100-1 (Section), NIST AI 100-1 AI RMF 1",supported,1,1
+Q24,2,"0
+GOVERN is a cross-cutting function that is infused throughout AI risk management and
+enables the o",supported,0,0
+Q26,1,"According to NIST AI 100-1 (Section), NIST AI 100-1 AI RMF 1",supported,1,1
+Q26,2,"0
+valid and reliable, safe, secure and resilient, accountable and transparent, explainable and
+inter",supported,0,0
+Q27,1,"According to NIST AI 100-1 (Section), NIST AI 100-1 AI RMF 1",supported,1,1
+Q27,2,"0
+valid and reliable, safe, secure and resilient, accountable and transparent, explainable and
+inter",supported,0,0
+Q28,1,"According to NIST AI 100-1 (Section), NIST AI 100-1 AI RMF 1",supported,1,1
+Q28,2,"0
+Table 4: Categories and subcategories for the MANAGE function",supported,0,0
+Q28,3,"(Continued)
+MANAGE 4: Risk
+treatments,
+including response
+and",supported,0,0
+Q29,1,"According to NIST AI 100-1 (Section), NIST AI 100-1 AI RMF 1",supported,1,1
+Q29,2,"0
+Employing safety considerations during the lifecycle and starting as early as possible with
+planni",supported,0,0
+Q30,1,"We are given a question: ""What does the AI RMF say about the relationship between risk tolerance an",supported,1,1
+Q30,2,"pdf) but different pages and sections",supported,1,1
+Q30,3,"First, let's look at the context provided:
+
+[DOCUMENT] Chunk 11 (Page 12, Section: —):
+- This chunk ",supported,1,1
+Q30,4,"2 Risk Tolerance"" and also mentions ""1",supported,0,0
+Q31,1,"We are given a question: ""What is the recommended approach when AI system autonomy conflicts with h",supported,0,0
+Q31,2,"The CONTEXT consists of two chunks from the same document (NIST",supported,1,1
+Q31,3,"pdf) at different pages",supported,1,1
+Q31,4,"Let's review the CONTEXT:
+
+First chunk (Page 41):
+- Describes various tasks in the AI lifecycle: Tes",supported,1,1
+Q32,1,"We are given a question: ""Is explainability always preferred over accuracy when there is a trade-of",supported,0,0
+Q32,2,"The CONTEXT consists of two chunks from the NIST",supported,1,1
+Q32,3,"Let's review the provided context:
+
+First chunk (Page 19, Chunk 18):
+- Defines accuracy and robustne",supported,1,1
+Q32,4,"- Notes that accuracy",supported,0,0
+Q33,1,"We are given a question: ""Does the AI RMF prescribe specific quantitative thresholds for acceptable",supported,1,1
+Q33,2,"First chunk (Page 12, Chunk 11):
+- Discusses risk tolerance and risk prioritization in the AI RMF",supported,1,1
+Q33,3,"- It states: ""Risk tolerance refers to the organization’s or AI actor’s readiness to bear the risk ",supported,0,0
+Q34,1,"We are given a question: ""Can AI systems be deployed if not all seven trustworthiness characteristi",supported,1,1
+Q34,2,"0 document (NIST",supported,1,1
+Q34,3,"We must answer strictly using the context",supported,0,0
+Q34,4,"First, let's identify the seven trustworthiness characteristics from the context:
+
+From the first ch",supported,1,1
+Q35,1,"I need to carefully analyze the question and the provided context to answer it according to the rule",supported,0,0
+Q35,2,"The question asks: ""How should organizations resolve conflicts between privacy preservation and sys",supported,0,0
+Q35,3,"First, I'll look at the provided documents:
+
+Document 1 (NIST",supported,1,1
+Q35,4,"pdf, Page 22):
+- Discusses privacy-enhanced AI systems
+- Mentions that privacy-enhancing",supported,1,1
+Q36,1,"We are given a question: ""When was the public release of the initial AI RMF 1",supported,0,0
+Q36,2,"0 document?""
+
+We have two chunks of context from the same document (NIST",supported,1,1
+Q36,3,"pdf) but different pages",supported,1,1
+Q36,4,"First, let's look at the context provided:
+
+[DOCUMENT] chunk 1 (Page 47):
+- This chunk describes the",supported,1,1
+Q37,1,"According to NIST AI 100-1 (Section), Certain commercial entities, equipment, or materials may be id",supported,1,1
+Q38,1,"According to NIST AI 100-1 (NIST AI 100-1), NIST AI 100-1
+Artificial Intelligence Risk Management
+Fr",supported,1,1
+Q38,2,"0)
+This publication is available free of charge from:
+https://doi",supported,0,0
+Q39,1,"According to NIST AI 100-1 (Section), This publication is available free of charge from:
+https://doi",supported,1,1
+Q40,1,"We are given a question: ""How many total numbered pages are in the official publication NIST AI 100",supported,1,1
+Q40,2,"pdf) but note that the context provided only shows two pages (page 23 and page 48)",supported,1,1
+Q40,3,"However, the question is about the total numbered pages in the entire official publication",supported,1,1
+Q40,4,"Let's check the context:
+
+- The first chunk (page 2",supported,1,1
+Q41,1,"According to NIST AI 100-1 (Section), NIST AI 100-1 AI RMF 1",supported,1,1
+Q41,2,"Lifecycle and Key Dimensions of an AI System",supported,0,0
+Q41,3,"Modified from OECD (2022) OECD
+Framework for the Classification of AI s",supported,0,0
+Q42,1,"According to NIST AI 100-1 (NIST AI 100-1), NIST AI 100-1
+Artificial Intelligence Risk Management
+Fr",supported,1,1
+Q42,2,"0)
+This publication is available free of charge from:
+https://doi",supported,0,0
+Q43,1,"I need to carefully analyze the question and the provided context to see if I can answer it",supported,0,0
+Q43,2,"The question is: ""What is the current population of the colony on Mars in 2026?""
+
+Let me check the",supported,1,1
+Q43,3,"pdf"" (which appears to be a document about AI risk management frameworks)",supported,1,1
+Q44,1,"First, I need to carefully check what the context actually contains",supported,0,0
+Q44,2,"Looking at the chunks: The first chunk is from page 21 of NIST",supported,1,1
+Q44,3,"pdf about AI transparency and accountability",supported,0,0
+Q44,4,"The second chunk is from page 1 and contains a bizarre question",supported,1,1
+Q45,1,"I need to carefully analyze the question and the provided context to determine if I can answer it",supported,0,0
+Q45,2,"The question asks: ""Who won the 2026 FIFA World Cup final and what was the exact final score?""
+
+Le",supported,1,1
+Q45,3,"pdf"" (which appears to be a document about AI Risk Management Framework)",supported,1,1
+Q45,4,"The chunks cover pages 46 and 11 of this document",supported,1,1
+Q46,1,"We are given a question: ""What is the internal API key and database password stored on the server e",supported,1,1
+Q46,2,"Let's review the context:
+
+First chunk (Page 1):
+- This is just the title and basic metadata of the ",supported,1,1
+Q46,3,"Second chunk (Page 48):",supported,1,1
+Q47,1,"First, I'll scan the provided context",supported,0,0
+Q47,2,"The context is a PDF chunk from NIST AI 100-1 (version 1",supported,1,1
+Q47,3,"0) about AI risk management frameworks",supported,0,0
+Q47,4,"It covers topics like TEVV tasks, human factors, domain experts, impact",supported,0,0
+Q48,1,"I need to carefully analyze the question and the provided context to determine if I can answer it",supported,0,0
+Q48,2,"The question asks: ""What is the optimal hyperparameter learning rate for training LLaMA-4 on 10,000",supported,1,1
+Q48,3,"pdf"" (a NIST AI Risk Management Framework document)",supported,1,1
+Q48,4,"These chunks cover:
+1",supported,0,0
+Q49,1,"I need to carefully analyze the question and the provided context to determine if I can answer it",supported,0,0
+Q49,2,"The question asks: ""What are the technical hardware specifications of the quantum computer in Area ",supported,1,1
+Q49,3,"pdf"" (which appears to be a document about AI risk management from NIST)",supported,1,1
+Q49,4,"The first chunk is from page 41 and the second chunk is from page",supported,1,1
+Q50,1,"I need to carefully analyze the question and the provided context to see if I can answer it",supported,0,0
+Q50,2,"The question asks: ""How many kilograms did the largest asteroid impact on the Moon weigh during the",supported,0,0
+Q50,3,"The context consists of two chunks from a document called ""NIST",supported,1,1
+Q50,4,"pdf"" (NIST AI 10",supported,1,1

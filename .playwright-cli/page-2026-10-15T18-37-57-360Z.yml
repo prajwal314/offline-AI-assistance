@@ -1,0 +1,173 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - generic [ref=e7]: ◉
+        - generic [ref=e8]:
+          - generic [ref=e9]: AI Knowledge Assistant
+          - generic [ref=e10]: Offline RAG Knowledge Platform
+      - generic [ref=e11]: Qwen3 · Chroma · SQLite · ↔ drag dividers / corners to resize
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - generic [ref=e220]:
+            - generic "Backend operational" [ref=e221]: API
+            - generic "Metadata DB ready" [ref=e225]: SQLite
+            - generic "48 vectors indexed" [ref=e229]: Chroma
+            - generic "LLM ready (qwen3:4b)" [ref=e233]: Ollama
+            - button "↻" [ref=e236] [cursor=pointer]
+          - generic "All local services online — Q&A ready" [ref=e238]: All Ready
+        - generic [ref=e16]: Local
+        - button "🌙" [ref=e18] [cursor=pointer]
+        - button "Reset" [ref=e19] [cursor=pointer]
+  - main [ref=e20]:
+    - generic [ref=e21]:
+      - generic [ref=e22]:
+        - generic [ref=e240]:
+          - generic [ref=e241]:
+            - heading "Knowledge Base" [level=2] [ref=e243]
+            - button "Refresh" [ref=e244] [cursor=pointer]
+          - generic [ref=e245]:
+            - generic [ref=e246]:
+              - generic [ref=e247]: Documents
+              - generic [ref=e248]: "1"
+              - generic [ref=e249]: 1 ready
+            - generic [ref=e250]:
+              - generic [ref=e251]: Ready
+              - generic [ref=e252]: "1"
+              - generic [ref=e253]: 0 failed
+            - generic [ref=e254]:
+              - generic [ref=e255]: Web Sources
+              - generic [ref=e256]: "0"
+              - generic [ref=e257]: 0 total
+            - generic [ref=e258]:
+              - generic [ref=e259]: Total Chunks
+              - generic [ref=e260]: "48"
+              - generic [ref=e261]: Knowledge
+            - generic [ref=e262]:
+              - generic [ref=e263]: Doc Chunks
+              - generic [ref=e264]: "48"
+              - generic [ref=e265]: From PDFs
+            - generic [ref=e266]:
+              - generic [ref=e267]: Web Chunks
+              - generic [ref=e268]: "0"
+              - generic [ref=e269]: From web
+        - generic "Drag corner to resize · double-click to reset" [ref=e26]
+      - generic "Drag to resize · double-click to reset" [ref=e29]
+      - generic [ref=e31]:
+        - generic [ref=e32]:
+          - generic [ref=e33]:
+            - generic [ref=e34]: 🌐
+            - generic [ref=e35]:
+              - heading "Internet Research" [level=2] [ref=e36]
+              - paragraph [ref=e37]: Web → local KB · Q&A stays offline
+          - generic [ref=e39]:
+            - generic [ref=e40]:
+              - generic [ref=e41]: Status
+              - generic [ref=e42]: idle
+              - generic [ref=e44]: idle
+            - generic [ref=e45]:
+              - generic [ref=e46]: Documents
+              - generic [ref=e47]: "1"
+              - generic [ref=e48]: Indexed
+            - generic [ref=e49]:
+              - generic [ref=e50]: Web Sources
+              - generic [ref=e51]: 0 / 0
+              - generic [ref=e52]: Collected
+            - generic [ref=e53]:
+              - generic [ref=e54]: Total Chunks
+              - generic [ref=e55]: "48"
+              - generic [ref=e56]: Embeddings
+            - generic [ref=e57]:
+              - generic [ref=e58]: Progress
+              - generic [ref=e59]: 0 / 0
+              - generic [ref=e60]: failed 0
+            - generic [ref=e61]:
+              - generic [ref=e62]: Chunks +
+              - generic [ref=e63]: "0"
+              - generic [ref=e64]: This run
+        - generic "Drag corner to resize · double-click to reset" [ref=e66]
+        - generic [ref=e69]: React → Express → SQLite / Chroma / Ollama → RAGQ&A offline · Web only for Research
+    - generic "Drag to resize · double-click to reset" [ref=e70]
+    - generic [ref=e72]:
+      - generic [ref=e73]:
+        - generic [ref=e75]:
+          - generic [ref=e76]:
+            - generic [ref=e77]:
+              - heading "Documents" [level=2] [ref=e78]
+              - paragraph [ref=e79]: 1 PDFs indexed
+            - generic [ref=e80] [cursor=pointer]:
+              - generic [ref=e81]: +
+              - text: Upload PDF
+            - button "Meta" [ref=e82] [cursor=pointer]
+          - list [ref=e84]:
+            - listitem [ref=e85]:
+              - generic [ref=e86]: PDF
+              - generic [ref=e87]:
+                - generic [ref=e88]: NIST.AI.100-1.pdf
+                - generic [ref=e89]:
+                  - generic [ref=e90]: ready
+                  - generic [ref=e91]: Processed
+              - button "×" [ref=e92] [cursor=pointer]
+        - generic "Drag corner to resize · double-click to reset" [ref=e93]
+      - generic "Drag to resize · double-click to reset" [ref=e96]
+      - button "Search Internet & Build Knowledge Base" [ref=e100] [cursor=pointer]
+      - generic [ref=e101]:
+        - generic [ref=e102]:
+          - generic [ref=e103]:
+            - generic [ref=e104]:
+              - heading "Research Sources" [level=3] [ref=e105]
+              - paragraph [ref=e106]: 0 sources
+            - button "Refresh" [ref=e107] [cursor=pointer]
+          - table [ref=e109]:
+            - rowgroup [ref=e110]:
+              - row [ref=e111]:
+                - columnheader "Source" [ref=e112]
+                - columnheader "Status" [ref=e113]
+                - columnheader "Open" [ref=e114]
+            - rowgroup [ref=e115]:
+              - row [ref=e116]:
+                - cell "No sources yet — run Internet Research." [ref=e117]
+        - generic "Drag corner to resize · double-click to reset" [ref=e118]
+    - generic "Drag to resize · double-click to reset" [ref=e121]
+    - generic [ref=e124]:
+      - generic [ref=e126]:
+        - heading "AI Knowledge Assistant" [level=2] [ref=e127]
+        - paragraph [ref=e128]: RAG answers with sources · context preserved
+      - generic [ref=e129]:
+        - complementary [ref=e130]:
+          - generic [ref=e131]:
+            - button "+ New chat" [disabled] [ref=e132]:
+              - generic [ref=e133]: +
+              - text: New chat
+            - textbox "Search chats..." [ref=e134]
+          - generic [ref=e135]: Sessions · 2
+          - generic [ref=e136]:
+            - button "New chat Start a fresh session" [ref=e137] [cursor=pointer]:
+              - generic [ref=e138]: New chat
+              - generic [ref=e139]: Start a fresh session
+            - generic "What is the NIST AI Risk Management Framework?" [ref=e140] [cursor=pointer]:
+              - generic [ref=e143]:
+                - generic [ref=e144]: 1 msgs
+                - generic [ref=e145]: ·
+                - generic [ref=e146]: 10/16/2026, 12:05:18 AM
+            - generic "Who authored the AI RMF 1.0 publication?" [ref=e148] [cursor=pointer]:
+              - generic [ref=e151]:
+                - generic [ref=e152]: 2 msgs
+                - generic [ref=e153]: ·
+                - generic [ref=e154]: 10/15/2026, 11:12:46 PM
+              - generic [ref=e155]: What does the Manage function focus on?
+        - generic "Drag to resize sessions · double-click to reset" [ref=e156]
+        - generic [ref=e158]:
+          - generic [ref=e159]:
+            - generic [ref=e160]:
+              - generic [ref=e161]: New chat
+              - generic [ref=e162]: Context will be saved as a session once you send your first message
+            - button "Retrieval" [ref=e163] [cursor=pointer]
+          - generic [ref=e276]:
+            - generic [ref=e277]: Who authored and issued the NIST AI RMF 1.0 publication?
+            - generic [ref=e279]: Assistant is answering…
+          - generic [ref=e214]:
+            - generic [ref=e215]:
+              - textbox "Ask something to start a new session..." [active] [ref=e275]
+              - button "↑" [disabled] [ref=e217]
+            - generic [ref=e219]: A new session will be created on send and appear on the left.

@@ -1,0 +1,12 @@
+[
+  { "query": "What is the application fee?", "expected_answer": "500 rupees (illustrative)", "required_evidence_ids": ["1_0"], "question_type": "simple_factual", "split": "test" },
+  { "query": "Which department handles refunds?", "expected_answer": "Finance (illustrative)", "required_evidence_ids": ["1_1"], "question_type": "simple_factual", "split": "test" },
+  { "query": "What is applicant 26084285's category?", "expected_answer": "NC-OBC (illustrative)", "required_evidence_ids": ["1_0"], "question_type": "exact_id_lookup", "split": "test" },
+  { "query": "What is the CAT-2026 cutoff for the general category?", "expected_answer": "98 percentile (illustrative)", "required_evidence_ids": ["2_1"], "question_type": "exact_id_lookup", "split": "test" },
+  { "query": "What is the application fee, and what is the deadline for applying?", "expected_answer": "500 rupees; 30 September (illustrative)", "required_evidence_ids": ["1_0", "1_2"], "question_type": "multi_chunk", "split": "test" },
+  { "query": "What documents are needed, and where should they be submitted?", "expected_answer": "ID proof at the regional office (illustrative)", "required_evidence_ids": ["1_3", "1_4"], "question_type": "multi_chunk", "split": "test" },
+  { "query": "What was the fee as of 2023-06-01?", "expected_answer": "400 rupees under v1.0 (illustrative)", "required_evidence_ids": ["1_5"], "question_type": "date_sensitive", "split": "test" },
+  { "query": "Which policy version was effective on 2024-01-15?", "expected_answer": "v2.0 (illustrative)", "required_evidence_ids": ["2_0"], "question_type": "date_sensitive", "split": "test" },
+  { "query": "What is the current application fee?", "expected_answer": "500 rupees per active v2.0; v1.0 said 400 (illustrative)", "required_evidence_ids": ["1_0", "1_5"], "question_type": "conflicting_evidence", "split": "test", "expectedConflict": "present", "expectedPreferredChunk": "1_0" },
+  { "query": "What is the CAT-2026 age limit?", "expected_answer": "No limit per active policy; older draft said 30 (illustrative)", "required_evidence_ids": ["2_1", "2_2"], "question_type": "conflicting_evidence", "split": "test", "expectedConflict": "present", "expectedPreferredChunk": "2_1" }
+]

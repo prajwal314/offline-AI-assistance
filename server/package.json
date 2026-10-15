@@ -1,0 +1,31 @@
+{
+  "name": "server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "reingest": "node scripts/reingestDocuments.js",
+    "verify:chunks": "node scripts/verifyChunkMetadata.js",
+    "test": "node --test tests/retrieval.test.js tests/rerank.test.js tests/scoring.test.js tests/evidence.test.js tests/evaluation.test.js tests/tuning.test.js tests/llm.test.js",
+    "evaluate": "node scripts/evaluate.js",
+    "tune": "node scripts/tune-weights.js",
+    "ablate": "node scripts/ablate.js",
+    "report": "node scripts/report.js",
+    "review": "node scripts/review.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.11.1",
+    "chromadb": "^1.8.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.0",
+    "express": "^4.19.0",
+    "multer": "^1.4.5-lts.1",
+    "pdf-parse": "^2.4.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.0",
+    "pdfkit": "^0.20.2"
+  }
+}

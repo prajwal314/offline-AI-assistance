@@ -1,0 +1,24 @@
+{
+  "timestamp": "2026-10-16T00:28:00Z",
+  "git_commit": "670c907cab47b00c082f7c4ba2943b02a907e938",
+  "total_queries_benchmark": 50,
+  "completed_observations": 50,
+  "application_url": "http://localhost:5173",
+  "backend_url": "http://localhost:5000",
+  "hardware": {
+    "gpu": "NVIDIA GeForce GTX 1650 (4096 MiB)",
+    "driver": "555.97",
+    "cuda": "12.5",
+    "os": "Windows 11 Enterprise x64"
+  },
+  "models": {
+    "embedding": "qwen3-embedding:0.6b (1024-dim, normalized)",
+    "generation": "qwen3:4b (Q4_K_M, temperature: 0.4)",
+    "vector_db": "ChromaDB v2"
+  },
+  "playwright_cli": {
+    "installed_package": "@playwright/cli@0.262.0",
+    "session": "rag",
+    "status": "VERIFIED_ONLINE"
+  }
+}

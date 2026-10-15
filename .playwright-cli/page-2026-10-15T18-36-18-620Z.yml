@@ -1,0 +1,189 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - generic [ref=e7]: ◉
+        - generic [ref=e8]:
+          - generic [ref=e9]: AI Knowledge Assistant
+          - generic [ref=e10]: Offline RAG Knowledge Platform
+      - generic [ref=e11]: Qwen3 · Chroma · SQLite · ↔ drag dividers / corners to resize
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - generic [ref=e14]:
+            - generic "Backend operational" [ref=e15]: API
+            - generic "Metadata DB ready" [ref=e19]: SQLite
+            - generic "ChromaDB unavailable" [ref=e23]: Chroma
+            - generic "Ollama unavailable" [ref=e27]: Ollama
+            - button "↻" [ref=e30] [cursor=pointer]
+          - generic "Some services offline — Q&A still local" [ref=e32]: Degraded
+        - generic [ref=e34]: Local
+        - button "🌙" [ref=e36] [cursor=pointer]
+        - button "Reset" [ref=e37] [cursor=pointer]
+  - main [ref=e38]:
+    - generic [ref=e39]:
+      - generic [ref=e40]:
+        - generic [ref=e41]: Loading knowledge base…
+        - generic "Drag corner to resize · double-click to reset" [ref=e44]
+      - generic "Drag to resize · double-click to reset" [ref=e47]
+      - generic [ref=e49]:
+        - generic [ref=e50]:
+          - generic [ref=e51]:
+            - generic [ref=e52]: 🌐
+            - generic [ref=e53]:
+              - heading "Internet Research" [level=2] [ref=e54]
+              - paragraph [ref=e55]: Web → local KB · Q&A stays offline
+          - generic [ref=e57]:
+            - generic [ref=e58]:
+              - generic [ref=e59]: Status
+              - generic [ref=e60]: idle
+              - generic [ref=e62]: idle
+            - generic [ref=e63]:
+              - generic [ref=e64]: Documents
+              - generic [ref=e65]: "1"
+              - generic [ref=e66]: Indexed
+            - generic [ref=e67]:
+              - generic [ref=e68]: Web Sources
+              - generic [ref=e69]: 0 / 0
+              - generic [ref=e70]: Collected
+            - generic [ref=e71]:
+              - generic [ref=e72]: Total Chunks
+              - generic [ref=e73]: "48"
+              - generic [ref=e74]: Embeddings
+            - generic [ref=e75]:
+              - generic [ref=e76]: Progress
+              - generic [ref=e77]: 0 / 0
+              - generic [ref=e78]: failed 0
+            - generic [ref=e79]:
+              - generic [ref=e80]: Chunks +
+              - generic [ref=e81]: "0"
+              - generic [ref=e82]: This run
+        - generic "Drag corner to resize · double-click to reset" [ref=e84]
+        - generic [ref=e87]: React → Express → SQLite / Chroma / Ollama → RAGQ&A offline · Web only for Research
+    - generic "Drag to resize · double-click to reset" [ref=e88]
+    - generic [ref=e90]:
+      - generic [ref=e91]:
+        - generic [ref=e93]:
+          - generic [ref=e94]:
+            - generic [ref=e95]:
+              - heading "Documents" [level=2] [ref=e96]
+              - paragraph [ref=e97]: 1 PDFs indexed
+            - generic [ref=e98] [cursor=pointer]:
+              - generic [ref=e99]: +
+              - text: Upload PDF
+            - button "Meta" [ref=e100] [cursor=pointer]
+          - list [ref=e102]:
+            - listitem [ref=e103]:
+              - generic [ref=e104]: PDF
+              - generic [ref=e105]:
+                - generic [ref=e106]: NIST.AI.100-1.pdf
+                - generic [ref=e107]:
+                  - generic [ref=e108]: ready
+                  - generic [ref=e109]: Processed
+              - button "×" [ref=e110] [cursor=pointer]
+        - generic "Drag corner to resize · double-click to reset" [ref=e111]
+      - generic "Drag to resize · double-click to reset" [ref=e114]
+      - button "Search Internet & Build Knowledge Base" [ref=e118] [cursor=pointer]
+      - generic [ref=e119]:
+        - generic [ref=e120]:
+          - generic [ref=e121]:
+            - generic [ref=e122]:
+              - heading "Research Sources" [level=3] [ref=e123]
+              - paragraph [ref=e124]: 0 sources
+            - button "Refresh" [ref=e125] [cursor=pointer]
+          - table [ref=e127]:
+            - rowgroup [ref=e128]:
+              - row [ref=e129]:
+                - columnheader "Source" [ref=e130]
+                - columnheader "Status" [ref=e131]
+                - columnheader "Open" [ref=e132]
+            - rowgroup [ref=e133]:
+              - row [ref=e134]:
+                - cell "No sources yet — run Internet Research." [ref=e135]
+        - generic "Drag corner to resize · double-click to reset" [ref=e136]
+    - generic "Drag to resize · double-click to reset" [ref=e139]
+    - generic [ref=e142]:
+      - generic [ref=e144]:
+        - heading "AI Knowledge Assistant" [level=2] [ref=e145]
+        - paragraph [ref=e146]: RAG answers with sources · context preserved
+      - generic [ref=e147]:
+        - complementary [ref=e148]:
+          - generic [ref=e149]:
+            - button "+ New chat" [ref=e150] [cursor=pointer]:
+              - generic [ref=e151]: +
+              - text: New chat
+            - textbox "Search chats..." [ref=e152]
+          - generic [ref=e153]: Sessions · 2
+          - generic [ref=e154]:
+            - button "New chat Start a fresh session" [ref=e155] [cursor=pointer]:
+              - generic [ref=e156]: New chat
+              - generic [ref=e157]: Start a fresh session
+            - generic "What is the NIST AI Risk Management Framework?" [ref=e158] [cursor=pointer]:
+              - generic [ref=e161]:
+                - generic [ref=e162]: 1 msgs
+                - generic [ref=e163]: ·
+                - generic [ref=e164]: 10/16/2026, 12:05:18 AM
+            - generic "Who authored the AI RMF 1.0 publication?" [ref=e166] [cursor=pointer]:
+              - generic [ref=e169]:
+                - generic [ref=e170]: 2 msgs
+                - generic [ref=e171]: ·
+                - generic [ref=e172]: 10/15/2026, 11:12:46 PM
+              - generic [ref=e173]: What does the Manage function focus on?
+        - generic "Drag to resize sessions · double-click to reset" [ref=e174]
+        - generic [ref=e176]:
+          - generic [ref=e177]:
+            - generic [ref=e178]:
+              - generic [ref=e179]: What is the NIST AI Risk Management Framework?
+              - generic [ref=e180]: 1 message in this session · context preserved
+            - button "Retrieval" [ref=e181] [cursor=pointer]
+          - generic [ref=e183]:
+            - generic [ref=e184]: What is the NIST AI Risk Management Framework?
+            - generic [ref=e186]:
+              - generic [ref=e187]:
+                - generic [ref=e188]:
+                  - generic [ref=e189]: ✦
+                  - text: Assistant
+                - generic [ref=e190]: 10/15/2026, 11:57:24 PM
+              - generic [ref=e191]: "We are given a question: \"What is the NIST AI Risk Management Framework?\" We must answer strictly using the provided CONTEXT (the chunks from the NIST.AI.100-1.pdf document). We have four chunks of context. Let's extract the relevant information from each chunk: Chunk 0 (Page 1): - Title: \"NIST AI 100-1 Artificial Intelligence Risk Management Framework (AI RMF 1.0)\" Chunk 1 (Page 2): - This publication is available free of charge from: https://doi.org/10.6028/NIST.AI.100-1 - January 2023 - U.S. Department of Commerce - Gina M. Raimondo, Secretary - National Institute of Standards and Technology - Laurie E. Locascio, NIST Director and Under Secretary of Commerce for Standards and Technology Chunk 2 (Page 3): - This is a note about commercial entities and materials (not directly relevant to the definition) - Update Schedule and Versions: The AI RMF is intended to be a living document. NIST will review the content and usefulness of the Framework regularly. A review with formal input from the AI community is expected to take place no later than 2028. The Framework uses a two-number versioning system (e.g., 1.0 for the first generation, 1.1 for minor revisions). Also, NIST plans to update the AI RMF Playbook frequently. Chunk 3 (Page 39, but note: the content says \"Page 34\" in the chunk description): - \"AI RMF cross-sectoral profiles cover risks of models or applications that can be used across use cases or sectors. Cross-sectoral profiles can also cover how to govern, map, measure, and manage risks for activities or business processes common across sectors such as the use of large language models, cloud-based services or acquisition. This Framework does not prescribe profile templates, allowing for flexibility in implementation.\" Now, the question is: \"What is the NIST AI Risk Management Framework?\" We need to define it. The context gives us: - The title: \"Artificial Intelligence Risk Management Framework (AI RMF 1.0)\" (from chunk 0) - It is a framework developed by NIST (National Institute of Standards and Technology) as part of the National AI Initiative Act of 2020 and other initiatives (from chunk 1 and 3? Actually, chunk 3 doesn't mention the development context, but chunk 1 and 2 have some context about development and purpose). Looking at chunk 1 and 2, we have: From chunk 1: The document is published by the U.S. Department of Commerce and NIST. It was released in January 2023. From chunk 3 (page 34 of the document, but the chunk says page 39 in the context? Actually, the context says \"Page: 39\" but the content says \"Page 34\" - we'll take the content as given): It describes cross-sectoral profiles, but that is a specific part of the framework. However, the most direct description of what the framework is comes from the title and the introductory sections. In chunk 1, we have the title and also the context of development: \"Development of the AI RMF by NIST in collaboration with the private and public sectors is directed and consistent with its broader AI efforts called for by the National AI Initiative Act of 2020, the National Security Commission on Artificial Intelligence recommendations, and the Plan for Federal Engagement in Developing Technical Standards and Related Tools.\" But note: the question is about what the framework is, not how it was developed. Let's look for a definition in the context. The context does not have a single paragraph that defines the framework in one sentence. However, we can synthesize: - The NIST AI Risk Management Framework (AI RMF 1.0) is a framework for managing risks associated with artificial intelligence systems. From chunk 0: It's called \"Artificial Intelligence Risk Management Framework (AI RMF 1.0)\". From chunk 3 (page 34): It describes cross-sectoral profiles, but that's a part of the framework. The most comprehensive description of the framework's purpose is in chunk 1? Actually, chunk 1 is a bit short. Wait, in chunk 1 (page 2) we have: \"Development of the AI RMF by NIST in collaboration with the private and public sectors ... has informed development of the AI RMF 1.0\" But that's about development. Let me re-read the context: Chunk 1 (page 2) says: \"Development of the AI RMF by NIST in collaboration with the private and public sectors is directed and consistent with its broader AI efforts called for by the National AI Initiative Act of 2020, the National Security Commission on Artificial Intelligence recommendations, and the Plan for Federal Engagement in Developing Technical Standards and Related Tools.\" But that's not a definition. We have a better description in chunk 3 (page 34) but that's only about cross-sectoral profiles. Wait, the context also has a chunk that says (page 8, chunk 7): \"NIST AI 100-1 AI RMF 1.0 valid and reliable, safe, secure and resilient, accountable and transparent, explainable and interpretable, privacy enhanced, and fair with their harmful biases managed. Part 2 comprises the “Core” of the Framework. It describes four specific functions to help organizations address the risks of AI systems in practice. These functions – GOVERN, MAP, MEASURE, and MANAGE – are broken down further into categories and subcategories.\" This is key! This chunk (page 8) gives a description of the framework's purpose and structure. So, the framework is designed to help organizations address the risks of AI systems by providing a set of functions (GOVERN, MAP, MEASURE, MANAGE) that are broken down into categories and subcategories. Also, the framework aims for AI systems that are: valid and reliable, safe, secure and resilient, accountable and transparent, explainable and interpretable, privacy enhanced, and fair with harmful biases managed. Therefore, we can answer: The NIST AI Risk Management Framework (AI RMF 1.0) is a framework developed by the National Institute of Standards and Technology (NIST) to help organizations manage risks associated with artificial intelligence systems. It is structured around four core functions: GOVERN, MAP, MEASURE, and MANAGE, which are broken down into categories and subcategories to guide organizations in addressing AI risks. The framework aims to ensure that AI systems are valid and reliable, safe, secure and resilient, accountable and transparent, explainable and interpretable, privacy enhanced, and fair with harmful biases managed. We must cite the sources appropriately. The context has: - The title and version: from chunk 0 (page 1) and chunk 1 (page 2) we have the title and publication details. - The description of the functions and goals: from chunk 7 (page 8) Also, note that the framework is active and effective from 2026-10-15 (as per the status in the chunks). We have to be careful: the context says the effective date is 2026-10-15 (for all chunks). So the framework is scheduled to be effective from that date. But the question is about what it is, not when it becomes effective. Let's structure the answer: 1. Direct answer: The NIST AI Risk Management Framework (AI RMF 1.0) is a framework for managing risks associated with artificial intelligence systems. 2. Then, explain the key points from the context: - It was developed by NIST in collaboration with the private and public sectors (as per the context, but note: the context says it's directed and consistent with the National AI Initiative Act of 2020, etc. - so we can mention that as the context for development). - It has a core structure of four functions: GOVERN, MAP, MEASURE, and MANAGE (from page 8). - It aims for AI systems that are: valid and reliable, safe, secure and resilient, accountable and transparent, explainable and interpretable, privacy enhanced, and fair with harmful biases managed (from page 8). - It is a living document that will be updated (as per the update schedule in chunk 2: page 3). We must not add outside facts. Let's write the answer: Direct answer: The NIST AI Risk Management Framework (AI RMF 1.0) is a framework developed by the National Institute of Standards and Technology (NIST) to help organizations manage risks associated with artificial intelligence systems. Key points: - The framework is structured around four core functions: GOVERN, MAP, MEASURE, and MANAGE. These functions are broken down into categories and subcategories to guide organizations in addressing AI risks at specific stages of the AI lifecycle. - The framework aims to ensure AI systems meet the following characteristics: valid and reliable, safe, secure and resilient, accountable and transparent, explainable and interpretable, privacy enhanced, and fair with harmful biases managed. - The AI RMF was developed in collaboration with the private and public sectors and is aligned with the National AI Initiative Act of 2020, the National Security Commission on Artificial Intelligence recommendations, and the Plan for Federal Engagement in Developing Technical Standards and Related Tools. - It is a living document that NIST will review regularly, with a planned review by 2028, and uses a two-number versioning system (e.g., 1.0 for the initial"
+              - generic [ref=e194]:
+                - generic [ref=e195]: Sources (5)
+                - list [ref=e196]:
+                  - listitem [ref=e197]:
+                    - generic [ref=e198]:
+                      - generic [ref=e199]: 📄
+                      - generic [ref=e200]:
+                        - generic [ref=e201]: NIST.AI.100-1.pdf
+                        - generic [ref=e202]: Page 1 · chunk 0
+                      - generic [ref=e203]: dist 0.140
+                  - listitem [ref=e204]:
+                    - generic [ref=e205]:
+                      - generic [ref=e206]: 📄
+                      - generic [ref=e207]:
+                        - generic [ref=e208]: NIST.AI.100-1.pdf
+                        - generic [ref=e209]: Page 2 · chunk 1
+                      - generic [ref=e210]: dist 0.241
+                  - listitem [ref=e211]:
+                    - generic [ref=e212]:
+                      - generic [ref=e213]: 📄
+                      - generic [ref=e214]:
+                        - generic [ref=e215]: NIST.AI.100-1.pdf
+                        - generic [ref=e216]: Page 8 · chunk 7
+                      - generic [ref=e217]: dist 0.285
+                  - listitem [ref=e218]:
+                    - generic [ref=e219]:
+                      - generic [ref=e220]: 📄
+                      - generic [ref=e221]:
+                        - generic [ref=e222]: NIST.AI.100-1.pdf
+                        - generic [ref=e223]: Page 3 · chunk 2
+                      - generic [ref=e224]: dist 0.324
+                  - listitem [ref=e225]:
+                    - generic [ref=e226]:
+                      - generic [ref=e227]: 📄
+                      - generic [ref=e228]:
+                        - generic [ref=e229]: NIST.AI.100-1.pdf
+                        - generic [ref=e230]: Page 39 · chunk 38
+                      - generic [ref=e231]: dist 0.351
+          - generic [ref=e232]:
+            - generic [ref=e233]:
+              - textbox "Continue this session..." [ref=e234]
+              - button "↑" [disabled] [ref=e235]
+            - generic [ref=e237]: Chatting in this session — history is used as context.
